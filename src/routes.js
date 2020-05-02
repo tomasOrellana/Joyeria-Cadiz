@@ -27,7 +27,8 @@ import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
-import TableList from "views/TableList/TableList.js";
+import TableListInventario from "views/TableList/TableListInventario.js";
+import TableListEmpleados from "views/TableList/TableListEmpleados.js";
 import Typography from "views/Typography/Typography.js";
 import Icons from "views/Icons/Icons.js";
 import Maps from "views/Maps/Maps.js";
@@ -50,7 +51,7 @@ const dashboardRoutes = [
     name: "Inventario",
     rtlName: "لوحة القيادة",
     icon: "content_paste",
-    component: TableList,
+    component: TableListInventario,
     layout: "/admin"
   },
   {
@@ -58,7 +59,7 @@ const dashboardRoutes = [
     name: "Empleados",
     rtlName: "لوحة القيادة",
     icon: "person_pin",
-    component: TableList,
+    component: TableListEmpleados,
     layout: "/admin"
   },
   {
