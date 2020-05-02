@@ -50,7 +50,7 @@ const dashboardRoutes = [
     name: "Inventario",
     rtlName: "لوحة القيادة",
     icon: "content_paste",
-    component: DashboardPage,
+    component: TableList,
     layout: "/admin"
   },
   {
@@ -58,7 +58,7 @@ const dashboardRoutes = [
     name: "Empleados",
     rtlName: "لوحة القيادة",
     icon: "person_pin",
-    component: DashboardPage,
+    component: TableList,
     layout: "/admin"
   },
   {
@@ -66,7 +66,7 @@ const dashboardRoutes = [
     name: "Tiendas",
     rtlName: "لوحة القيادة",
     icon: "store",
-    component: DashboardPage,
+    component: Maps,
     layout: "/admin"
   },
   {
@@ -74,7 +74,7 @@ const dashboardRoutes = [
     name: "Ventas",
     rtlName: "لوحة القيادة",
     icon: "shop",
-    component: DashboardPage,
+    component: Typography,
     layout: "/admin"
   },
   {
@@ -82,7 +82,7 @@ const dashboardRoutes = [
     name: "Taller",
     rtlName: "لوحة القيادة",
     icon: "palette",
-    component: DashboardPage,
+    component: Icons,
     layout: "/admin"
   },
   /*{
