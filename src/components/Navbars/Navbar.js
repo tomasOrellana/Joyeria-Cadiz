@@ -56,7 +56,7 @@ export default function Header(props) {
           </IconButton>
         </Hidden>
       </Toolbar>
-    </AppBar>
+        </AppBar>
   );
 }
 
