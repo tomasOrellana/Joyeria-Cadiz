@@ -56,9 +56,9 @@ export default function TableList() {
           <CardBody>
             <Table
               tableHeaderColor="primary"
-              tableHead={["Código", "Producto", "Material", "Foto", "Precio"]}
+              tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto", "Cantidad","Precio"]}
               tableData={[
-                ["1565228", "Anillo de compromiso", "Adamantium", "A_C_Adam.png","$36.738"]
+                ["1565228", "Anillo de compromiso", "Adamantium", "Diamante","A_C_Adam.png","300","$36.738"]
               ]}
             />
           </CardBody>
