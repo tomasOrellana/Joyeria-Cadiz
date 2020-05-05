@@ -30,7 +30,7 @@ import UserProfile from "views/UserProfile/UserProfile.js";
 import TableListInventario from "views/TableList/TableListInventario.js";
 import TableListEmpleados from "views/TableList/TableListEmpleados.js";
 import Typography from "views/Typography/Typography.js";
-import Icons from "views/Icons/Icons.js";
+import Pedidos from "views/UserProfile/Pedidos.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
@@ -83,7 +83,7 @@ const dashboardRoutes = [
     name: "Taller",
     rtlName: "لوحة القيادة",
     icon: "palette",
-    component: Icons,
+    component: Pedidos,
     layout: "/admin"
   },
   /*{
