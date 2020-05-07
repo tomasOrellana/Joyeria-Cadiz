@@ -34,52 +34,34 @@ const styles = {
   }
 };
 
-const useStyles = makeStyles(styles);
-
-export default function UserProfile() {
+export default function Login() {
   const classes = useStyles();
   return (
-    <div>
-      <GridContainer
-  direction="column"
-  justify="center"
-  alignItems="center">
-        <GridItem xs={12} >
-          <Card>
-            <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Iniciar Seseón</h4>
-              <p className={classes.cardCategoryWhite}>Ingrese su rut y contraseña.</p>
-            </CardHeader>
-            <CardBody>
-              <GridContainer>
-                <GridItem xs={12} >
-                  <CustomInput
-                    labelText="Rut"
-                    id="rut"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} >
-                  <CustomInput
-                    labelText="Contraseña"
-                    id="contraseña"
-                    type="password"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
-              </GridContainer>
+    <GridContainer>
+      <GridItem xs={12} sm={12} md={12}>
+        <Card>
+          <CardBody>
+            <form action="/signup" method="post">
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" class="form-control">
+              </div>
+              <input type="submit" class="btn btn-dark btn-lg">
+            </form>
+
+            <hr>
+            <div class="text-center">
+              <p>Already have an account? <a href="/login">Login</a></p>
+              <p>Or go <a href="/">home</a>.</p>
+            </div>
             </CardBody>
-            <CardFooter>
-              <Button color="primary">Inicir Sesión</Button>
-            </CardFooter>
           </Card>
         </GridItem>
-
       </GridContainer>
-    </div>
+
   );
-}
+  }

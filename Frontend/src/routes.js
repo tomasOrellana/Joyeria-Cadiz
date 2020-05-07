@@ -26,18 +26,29 @@ import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
+import Icons from "views/Icons/Icons.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import TableListInventario from "views/TableList/TableListInventario.js";
 import TableListEmpleados from "views/TableList/TableListEmpleados.js";
+import TableListPedidos from "views/TableList/TableListPedidos.js";
 import Typography from "views/Typography/Typography.js";
 import Pedidos from "views/UserProfile/Pedidos.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
 // core components/views for RTL layout
+//import Login from "views/Init/Init.js";
 import RTLPage from "views/RTLPage/RTLPage.js";
 
-const dashboardRoutes = [
+const dashboardRoutes = [/*
+  {
+    path: "/inicio",
+    name: "Login",
+    rtlName: "لوحة القيادة",
+    icon: Dashboard,
+    component: Login,
+    layout: "/admin"
+  },*/
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -86,20 +97,20 @@ const dashboardRoutes = [
     component: Pedidos,
     layout: "/admin"
   },
-  /*{
+  {
+    path: "/pedidos",
+    name: "Pedidos",
+    rtlName: "لوحة القيادة",
+    icon: "list_alt",
+    component: TableListPedidos,
+    layout: "/admin"
+  },
+  {
     path: "/user",
     name: "User Profile",
     rtlName: "ملف تعريفي للمستخدم",
     icon: Person,
     component: UserProfile,
-    layout: "/admin"
-  },
-  {
-    path: "/table",
-    name: "Table List",
-    rtlName: "قائمة الجدول",
-    icon: "content_paste",
-    component: TableList,
     layout: "/admin"
   },
   {
@@ -133,23 +144,7 @@ const dashboardRoutes = [
     icon: Notifications,
     component: NotificationsPage,
     layout: "/admin"
-  },
-  {
-    path: "/rtl-page",
-    name: "RTL Support",
-    rtlName: "پشتیبانی از راست به چپ",
-    icon: Language,
-    component: RTLPage,
-    layout: "/rtl"
-  },
-  {
-    path: "/upgrade-to-pro",
-    name: "Upgrade To PRO",
-    rtlName: "التطور للاحترافية",
-    icon: Unarchive,
-    component: UpgradeToPro,
-    layout: "/admin"
-  }*/
+  }
 ];
 
 export default dashboardRoutes;
