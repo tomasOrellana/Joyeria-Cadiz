@@ -40,15 +40,7 @@ import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
 //import Login from "views/Init/Init.js";
 import RTLPage from "views/RTLPage/RTLPage.js";
 
-const dashboardRoutes = [/*
-  {
-    path: "/inicio",
-    name: "Login",
-    rtlName: "لوحة القيادة",
-    icon: Dashboard,
-    component: Login,
-    layout: "/admin"
-  },*/
+const dashboardRoutes = [
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -145,6 +137,17 @@ const dashboardRoutes = [/*
     component: NotificationsPage,
     layout: "/admin"
   }
+];
+
+const dashboardRoutesInit = [
+  {
+    path: "/notifications",
+    name: "Notifications",
+    rtlName: "إخطارات",
+    icon: Notifications,
+    component: NotificationsPage,
+    layout: "/admin"
+  },
 ];
 
 export default dashboardRoutes;

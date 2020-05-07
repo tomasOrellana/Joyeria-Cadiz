@@ -55,14 +55,6 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/empleados",
-    name: "Empleados",
-    rtlName: "لوحة القيادة",
-    icon: "person_pin",
-    component: TableListEmpleados,
-    layout: "/admin"
-  },
-  {
     path: "/tiendas",
     name: "Tiendas",
     rtlName: "لوحة القيادة",
