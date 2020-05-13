@@ -104,7 +104,7 @@ const dashboardRoutes = [
     icon: "list_alt",
     component: TableListPedidos,
     layout: "/admin"
-  },
+  } /*
   {
     path: "/typography",
     name: "Typography",
@@ -136,7 +136,7 @@ const dashboardRoutes = [
     icon: Notifications,
     component: NotificationsPage,
     layout: "/admin"
-  }
+  }*/
 ];
 
 const dashboardRoutesInit = [
