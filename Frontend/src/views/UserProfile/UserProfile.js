@@ -55,7 +55,7 @@ export default function UserProfile() {
                 <GridItem xs={12} sm={12} md={8}>
                   <CustomInput
                     labelText="Nombre Usuario"
-                    id="username"
+                    id="nombre"
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -64,7 +64,7 @@ export default function UserProfile() {
                 <GridItem xs={12} sm={12} md={4}>
                   <CustomInput
                     labelText="Rut"
-                    id="Rut"
+                    id="rut"
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -84,13 +84,48 @@ export default function UserProfile() {
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
                     labelText="Email"
-                    id="Email"
+                    id="email"
                     formControlProps={{
                       fullWidth: true
                     }}
                   />
                 </GridItem>
-              </GridContainer>  
+              </GridContainer>
+              <GridContainer>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Edad"
+                    id="edad"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Salario"
+                    id="salario"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      disabled: true
+                    }}
+                  />
+                </GridItem>
+                <GridItem xs={12} sm={12} md={4}>
+                  <CustomInput
+                    labelText="Sucursal"
+                    id="sucursal"
+                    formControlProps={{
+                      fullWidth: true
+                    }}
+                    inputProps={{
+                      disabled: true
+                    }}
+                  />
+                </GridItem>
+              </GridContainer>
             </CardBody>
             <CardFooter>
               <Button color="primary">Actualizar</Button>
