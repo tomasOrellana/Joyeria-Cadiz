@@ -12,7 +12,7 @@ import UserProfile from "views/UserProfile/UserProfile.js";
 import TableListInventario from "views/TableList/TableListInventario.js";
 import TableListEmpleados from "views/TableList/TableListEmpleados.js";
 import Typography from "views/Typography/Typography.js";
-import Pedidos from "views/UserProfile/Pedidos.js";
+import Pedidos from "views/Pedidos/Pedidos.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
