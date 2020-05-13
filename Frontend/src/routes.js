@@ -32,7 +32,7 @@ import InventarioTableList from "views/Inventario/InventarioTableList.js";
 import TableListEmpleados from "views/TableList/TableListEmpleados.js";
 import TableListPedidos from "views/TableList/TableListPedidos.js";
 import Typography from "views/Typography/Typography.js";
-import Pedidos from "views/UserProfile/Pedidos.js";
+import Pedidos from "views/Pedidos/Pedidos.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
@@ -104,7 +104,7 @@ const dashboardRoutes = [
     icon: "list_alt",
     component: TableListPedidos,
     layout: "/admin"
-  },
+  } /*
   {
     path: "/typography",
     name: "Typography",
@@ -136,7 +136,7 @@ const dashboardRoutes = [
     icon: Notifications,
     component: NotificationsPage,
     layout: "/admin"
-  }
+  }*/
 ];
 
 const dashboardRoutesInit = [

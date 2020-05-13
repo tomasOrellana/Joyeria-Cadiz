@@ -1,21 +1,3 @@
-/*!
-
-=========================================================
-* Material Dashboard React - v1.8.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/material-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-// @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
@@ -30,7 +12,7 @@ import UserProfile from "views/UserProfile/UserProfile.js";
 import TableListInventario from "views/TableList/TableListInventario.js";
 import TableListEmpleados from "views/TableList/TableListEmpleados.js";
 import Typography from "views/Typography/Typography.js";
-import Pedidos from "views/UserProfile/Pedidos.js";
+import Pedidos from "views/Pedidos/Pedidos.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
@@ -40,7 +22,7 @@ import RTLPage from "views/RTLPage/RTLPage.js";
 const dashboardRoutes = [
   {
     path: "/dashboard",
-    name: "Dashboard",
+    name: "Inicio",
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: DashboardPage,

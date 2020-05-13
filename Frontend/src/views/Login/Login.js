@@ -13,12 +13,12 @@ import CardAvatar from "components/Card/CardAvatar.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 
-import avatar from "assets/img/faces/marc.jpg";
+import styles from "assets/jss/material-dashboard-react/layouts/adminStyle.js";
 
 const styles = {
   cardCategoryWhite: {
     color: "rgba(255,255,255,.62)",
-    margin: "auto",
+    margin: "0",
     fontSize: "14px",
     marginTop: "0",
     marginBottom: "0"
@@ -31,8 +31,12 @@ const styles = {
     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
     marginBottom: "3px",
     textDecoration: "none"
+  },
+  cardTitle: {
+
   }
 };
+const useStyles = makeStyles(styles);
 
 export default function Login() {
   const classes = useStyles();
@@ -41,23 +45,7 @@ export default function Login() {
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardBody>
-            <form action="/signup" method="post">
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" name="email" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" class="form-control">
-              </div>
-              <input type="submit" class="btn btn-dark btn-lg">
-            </form>
-
-            <hr>
-            <div class="text-center">
-              <p>Already have an account? <a href="/login">Login</a></p>
-              <p>Or go <a href="/">home</a>.</p>
-            </div>
+            <h1>Prueba</h1>
             </CardBody>
           </Card>
         </GridItem>

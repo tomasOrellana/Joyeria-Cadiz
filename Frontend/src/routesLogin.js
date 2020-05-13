@@ -7,7 +7,7 @@ import Notifications from "@material-ui/icons/Notifications";
 import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
-import Init from "views/Init/Init.js";
+import Login from "views/Login/Login.js";
 
 
 const dashboardRoutes = [
@@ -16,7 +16,7 @@ const dashboardRoutes = [
     name: "Iniciar Sesión",
     rtlName: "لوحة القيادة",
     icon: "account_circle",
-    component: Init,
+    component: Login,
     layout: "/admin"
   },
 
