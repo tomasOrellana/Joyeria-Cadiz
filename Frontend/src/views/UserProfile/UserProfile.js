@@ -44,8 +44,8 @@ export default function UserProfile() {
         <GridItem xs={12} sm={12} md={8}>
           <Card>
             <CardHeader color="primary">
-              <h4 className={classes.cardTitleWhite}>Edit Profile</h4>
-              <p className={classes.cardCategoryWhite}>Complete your profile</p>
+              <h4 className={classes.cardTitleWhite}>Editar perfil</h4>
+              <p className={classes.cardCategoryWhite}>Completa la siguiente informacion para editar tu usuario</p>
             </CardHeader>
             <CardBody>
               <GridContainer>

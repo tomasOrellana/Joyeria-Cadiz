@@ -28,7 +28,7 @@ import Language from "@material-ui/icons/Language";
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import Icons from "views/Icons/Icons.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
-import TableListInventario from "views/TableList/TableListInventario.js";
+import InventarioTableList from "views/Inventario/InventarioTableList.js";
 import TableListEmpleados from "views/TableList/TableListEmpleados.js";
 import TableListPedidos from "views/TableList/TableListPedidos.js";
 import Typography from "views/Typography/Typography.js";
@@ -43,10 +43,18 @@ import RTLPage from "views/RTLPage/RTLPage.js";
 const dashboardRoutes = [
   {
     path: "/dashboard",
-    name: "Dashboard",
+    name: "Inicio",
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: DashboardPage,
+    layout: "/admin"
+  },
+  {
+    path: "/user",
+    name: "Perfil de usuario",
+    rtlName: "ملف تعريفي للمستخدم",
+    icon: Person,
+    component: UserProfile,
     layout: "/admin"
   },
   {
@@ -54,7 +62,7 @@ const dashboardRoutes = [
     name: "Inventario",
     rtlName: "لوحة القيادة",
     icon: "content_paste",
-    component: TableListInventario,
+    component: InventarioTableList,
     layout: "/admin"
   },
   {
@@ -95,14 +103,6 @@ const dashboardRoutes = [
     rtlName: "لوحة القيادة",
     icon: "list_alt",
     component: TableListPedidos,
-    layout: "/admin"
-  },
-  {
-    path: "/user",
-    name: "User Profile",
-    rtlName: "ملف تعريفي للمستخدم",
-    icon: Person,
-    component: UserProfile,
     layout: "/admin"
   },
   {
