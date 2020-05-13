@@ -107,7 +107,7 @@ export default function UserProfile() {
             <CardBody profile>
               <h3 className={classes.cardTitle}>@Usuario.nombre</h3>
               <h6 >@Usuario.rol - @usuario.sucursal</h6>
-              <p >
+              <p>
                 @usuario.email - @usuario.telefono
               </p>
             </CardBody>
