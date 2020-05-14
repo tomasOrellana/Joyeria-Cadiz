@@ -45,11 +45,11 @@ const styles = {
     }
   },
   picker: {
-    height: 60
+    height: 50
   },
   formControl: {
-    margin: 10,
-    minWidth: 120,
+    marginHorizontal: 10,
+    minWidth: 160,
   },
   selectEmpty: {
     marginTop: 20,
@@ -89,9 +89,9 @@ export default function TableList() {
             }}
           >
             <option aria-label="None" value="" />
-            <option value={10}>LO CASTILLO</option>
-            <option value={20}>APUMANQUE</option>
-            <option value={30}>VITACURA</option>
+            <option value={1}>LO CASTILLO</option>
+            <option value={2}>APUMANQUE</option>
+            <option value={3}>VITACURA</option>
           </Select>
         </FormControl>
       </Container>
