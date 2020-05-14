@@ -19,11 +19,11 @@ export default function Icons() {
   return (
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
-        <Card plain>
+        <Card>
           <CardHeader plain color="primary">
-            <h4 className={classes.cardTitleWhite}>Material Design Icons</h4>
+            <h4 className={classes.cardTitleWhite}>Mapa de las tiendas.</h4>
             <p className={classes.cardCategoryWhite}>
-              Handcrafted by our friends from{" "}
+              Los mapas son extraidos de{" "}
               <a
                 href="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6661.681712593749!2d-70.5933666!3d-33.4013159!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662cf36c2bbc915%3A0x91ccfad3b405c76a!2sCentro%20Comercial%20Lo%20Castillo!5e0!3m2!1ses!2scl!4v1589416978616!5m2!1ses!2scl"
                 target="_blank"
@@ -35,27 +35,25 @@ export default function Icons() {
           <CardBody>
             <Hidden only={["sm", "xs"]}>
               <iframe
-                className={classes.iframe}
                 src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6661.681712593749!2d-70.5933666!3d-33.4013159!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662cf36c2bbc915%3A0x91ccfad3b405c76a!2sCentro%20Comercial%20Lo%20Castillo!5e0!3m2!1ses!2scl!4v1589416978616!5m2!1ses!2scl"
                 title="Icons iframe"
+                width="600"
+                height="450"
+                frameborder="0"
               >
-                <p>Your browser does not support iframes.</p>
+                <p>Su buscador no es compatible con el mapa.</p>
               </iframe>
             </Hidden>
-            <Hidden only={["lg", "md"]}>
-              <GridItem xs={12} sm={12} md={6}>
-                <h5>
-                  The icons are visible on Desktop mode inside an iframe. Since
-                  the iframe is not working on Mobile and Tablets please visit
-                  the icons on their original page on Google. Check the
-                  <a
-                    href="https://design.google.com/icons/?ref=creativetime"
-                    target="_blank"
-                  >
-                    Material Icons
-                  </a>
-                </h5>
-              </GridItem>
+           <Hidden only={["lg", "md"]}>
+           <iframe
+             src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6661.681712593749!2d-70.5933666!3d-33.4013159!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662cf36c2bbc915%3A0x91ccfad3b405c76a!2sCentro%20Comercial%20Lo%20Castillo!5e0!3m2!1ses!2scl!4v1589416978616!5m2!1ses!2scl"
+             title="Icons iframe"
+             width="200"
+             height="150"
+             frameborder="0"
+           >
+             <p>Su buscador no es compatible con el mapa.</p>
+           </iframe>
             </Hidden>
           </CardBody>
         </Card>
@@ -63,12 +61,4 @@ export default function Icons() {
     </GridContainer>
   );
 }
-/*<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6661.681712593749!2d-70.5933666!3d-33.4013159!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662cf36c2bbc915%3A0x91ccfad3b405c76a!2sCentro%20Comercial%20Lo%20Castillo!5e0!3m2!1ses!2scl!4v1589416978616!5m2!1ses!2scl"
-width="600"
-height="450"
-frameborder="0"
-style="border:0;"
-allowfullscreen=""
-aria-hidden="false"
- tabindex="0">
-</iframe>*/
+/*<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d6661.681712593749!2d-70.5933666!3d-33.4013159!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662cf36c2bbc915%3A0x91ccfad3b405c76a!2sCentro%20Comercial%20Lo%20Castillo!5e0!3m2!1ses!2scl!4v1589416978616!5m2!1ses!2scl" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>*/
