@@ -1,0 +1,99 @@
+#Iniciar servidor
+mongod
+
+#Shell de mongo en otra consola
+mongo
+
+#Crear Base de datos"
+use joyeria
+
+#Crear Collecciones (tablas)
+db.createCollection("Cliente")
+db.createCollection("Detalle_pedido")
+db.createCollection("Detalle_producto")
+db.createCollection("Detalle_venta")
+db.createCollection("Inventario")
+db.createCollection("Orden_de_compra")
+db.createCollection("Pedido_a_taller")
+db.createCollection("Producto")
+db.createCollection("Sucursales")
+db.createCollection("Usuario")
+db.createCollection("Ventas")
+
+#Insertar Documentos (datos en collecciones)
+db.Usuario.insert({
+    "RUT": "12345678-9",
+    "Nombre": "Pollo John",
+    "Email": "pacomer@enelauto.john",
+    "Nacimiento": new Date("10/10/1980"),
+    "Telefono": "98765432",
+    "Rol": "JT",
+    "Sucursal": "Central",
+    "Contraseña": "password123"
+}
+)
+
+#Insertar Datos en Documentos 
+
+db.Orden_de_compra.insert({
+    "Codigo_orden": 0,
+    "Codigo_producto": 0
+}
+)
+
+db.Sucursales.insert({
+    "Nombre": "Casa Central",
+    "Dir": "fake street 123"
+})
+
+db.Inventario.insert({
+    "Codigo_producto":0,
+    "Cantidad":11,
+    "Precio":99990
+})
+
+db.Producto.insert({
+    codigo:0,
+    codigo_detalle:0
+})
+
+db.Detalle_producto.insert({
+    "Codigo_detalle":0,
+    "Tipo":"anillo",
+    "Material": "oro",
+    "Piedra_preciosa": "diamante"
+})
+
+db.Ventas.insert({
+    "Codigo_Venta":0,
+    "Fecha": new Date(2/1/2020),
+    "Cliente": "Leorio",
+    "Metodo_pago": "Credito",
+    "Descuento": 0,
+    "Total": 99990
+})
+
+db.Detalle_venta.insert({
+    "Codigo_venta":0,
+    "Producto": "Anillo",
+    "Cantidad": 1
+})
+
+db.Pedido_a_taller.insert({
+    "Codigo_pedido":0,
+    "Fecha_de_recibo": new Date(20/4/2020),
+    "Cliente": "Felipe Avello",
+    "Estado": "En taller",
+    "Total": 499990
+})
+
+db.Detalle_pedido.insert({
+    "Codigo_pedido": 0,
+    "Descripción": "Anillo a medida talla 20 bañado oro"
+})
+
+db.Cliente.insert({
+    "Nombre": "Luis",
+    "Apellido": "Jara",
+    "Telefono": "98765432"
+})
