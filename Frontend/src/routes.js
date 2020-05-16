@@ -30,7 +30,7 @@ import Icons from "views/Icons/Icons.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
 import InventarioTableList from "views/Inventario/InventarioTableList.js";
 import TableListEmpleados from "views/TableList/TableListEmpleados.js";
-import TableListPedidos from "views/TableList/TableListPedidos.js";
+import TableListPedidos from "views/TablaPedidos/TableListPedidos.js";
 import Typography from "views/Typography/Typography.js";
 import Pedidos from "views/Pedidos/Pedidos.js";
 import Maps from "views/Maps/Maps.js";

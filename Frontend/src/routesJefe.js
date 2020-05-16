@@ -9,7 +9,7 @@ import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
 import DashboardPage from "views/Dashboard/Dashboard.js";
 import UserProfile from "views/UserProfile/UserProfile.js";
-import TableListInventario from "views/TableList/TableListInventario.js";
+import InventarioTableList from "views/Inventario/InventarioTableList.js";
 import TableListEmpleados from "views/TableList/TableListEmpleados.js";
 import Typography from "views/Typography/Typography.js";
 import Pedidos from "views/Pedidos/Pedidos.js";
@@ -17,6 +17,7 @@ import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
 // core components/views for RTL layout
+import TableListPedidos from "views/TablaPedidos/TableListPedidos.js";
 import RTLPage from "views/RTLPage/RTLPage.js";
 
 const dashboardRoutes = [
@@ -33,7 +34,7 @@ const dashboardRoutes = [
     name: "Inventario",
     rtlName: "لوحة القيادة",
     icon: "content_paste",
-    component: TableListInventario,
+    component: InventarioTableList,
     layout: "/admin"
   },
   {
@@ -68,6 +69,14 @@ const dashboardRoutes = [
     component: Pedidos,
     layout: "/admin"
   },
+  {
+    path: "/pedidos",
+    name: "Pedidos",
+    rtlName: "لوحة القيادة",
+    icon: "list_alt",
+    component: TableListPedidos,
+    layout: "/admin"
+  }
   /*{
     path: "/user",
     name: "User Profile",
