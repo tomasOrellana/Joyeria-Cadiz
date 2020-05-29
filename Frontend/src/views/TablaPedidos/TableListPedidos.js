@@ -128,8 +128,8 @@ export default function SimpleTabs() {
 
           ]}
         />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
+      </TabPanel>
+      <TabPanel value={value} index={1}>
         <Table
           tableHeaderColor="primary"
           tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
@@ -139,8 +139,8 @@ export default function SimpleTabs() {
 
           ]}
         />
-        </TabPanel>
-        <TabPanel value={value} index={2}>
+      </TabPanel>
+      <TabPanel value={value} index={2}>
         <Table
           tableHeaderColor="primary"
           tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
@@ -151,10 +151,6 @@ export default function SimpleTabs() {
           ]}
         />
       </TabPanel>
-      </CardBody>
-      </Card>
-    </GridItem>
-
-  </GridContainer>
+    </div>
   );
 }
