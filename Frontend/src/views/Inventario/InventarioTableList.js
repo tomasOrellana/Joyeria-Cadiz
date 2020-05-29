@@ -106,12 +106,6 @@ export default function SimpleTabs() {
     <GridContainer>
       <GridItem xs={12} sm={12} md={12}>
         <Card>
-          <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>Inventario</h4>
-          <p className={classes.cardCategoryWhite}>
-            Seleccione la sucursal:
-          </p>
-          </CardHeader>
           <CardBody>
       <AppBar position="static" >
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" >

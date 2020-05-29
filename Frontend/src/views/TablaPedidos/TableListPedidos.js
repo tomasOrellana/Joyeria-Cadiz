@@ -11,7 +11,6 @@ import TextField from '@material-ui/core/TextField';
 
 import Table from "components/Table/Table.js";
 import Button from "components/CustomButtons/Button.js";
-
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -106,7 +105,10 @@ export default function SimpleTabs() {
   };
 
   return (
-    <div className={classes.root}>
+    <GridContainer>
+      <GridItem xs={12} sm={12} md={12}>
+        <Card>
+          <CardBody>
       <AppBar position="static" color="primary" className={classes.Barrita}>
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab label="Lo Castillo" {...a11yProps(0)} />
@@ -160,6 +162,9 @@ export default function SimpleTabs() {
           ]}
         />
       </TabPanel>
-    </div>
+      </CardBody>
+      </Card>
+    </GridItem>
+  </GridContainer>
   );
 }
