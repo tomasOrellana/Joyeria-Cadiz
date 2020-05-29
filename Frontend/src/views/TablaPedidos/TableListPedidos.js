@@ -6,12 +6,10 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
 import Table from "components/Table/Table.js";
-import Card from "components/Card/Card.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 
 const styles = {
@@ -56,11 +54,12 @@ const styles = {
     flexGrow: 1,
     backgroundColor: "#FFFFFF",
   },
-  buscador: {
-    marginHorizontal: "10px"
-  },
   boton: {
     marginLeft: "20px"
+  },
+  buscador: {
+    justifyContent:'center', 
+    alignItems:'center'
   }
 };
 
@@ -116,15 +115,17 @@ export default function SimpleTabs() {
         </Tabs>
       </AppBar>
 
-      <GridContainer className={classes.buscador} direction="row" justify>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Numero" id="numero" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Tipo" id="tipo" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Material" id="material" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Contacto" id="contacto" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Salario" id="salario" formControlProps={{ fullWidth: true }} /></GridItem>
+      <div style={{ paddingLeft: 40, paddingTop: 20 }}>
+        <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
+          <Grid  xs={2} sm={2} md={2}><TextField id="numero" label="numero" placeholder="numero" /></Grid>
+          <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="tipo" placeholder="tipo"/></Grid>
+          <Grid  xs={2} sm={2} md={2}><TextField id="material" label="material" placeholder="material"/></Grid>
+          <Grid  xs={2} sm={2} md={2}><TextField id="contacto" label="contacto" placeholder="contacto"/></Grid>
+          <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="salario" placeholder="salario"/></Grid>
 
-        <GridItem xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Actualizar</Button></GridItem>
-      </GridContainer>
+          <Grid xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Actualizar</Button></Grid>
+        </Grid>
+      </div>
 
       <TabPanel value={value} index={0}>
         <Table
