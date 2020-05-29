@@ -109,7 +109,6 @@ export default function SimpleTabs() {
   return (
     <div className={classes.root}>
       <Card>
-        <CardBody>
           <AppBar position="static" color="primary" className={classes.Barrita}>
             <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
               <Tab label="Lo Castillo" {...a11yProps(0)} />
@@ -117,7 +116,7 @@ export default function SimpleTabs() {
               <Tab label="Vitacura" {...a11yProps(2)} />
             </Tabs>
           </AppBar>
-
+        <CardBody>
           <div style={{ paddingLeft: 40, paddingTop: 20 }}>
             <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
               <Grid  xs={2} sm={2} md={2}><TextField id="codigo" label="Codigo" placeholder="codigo" /></Grid>
