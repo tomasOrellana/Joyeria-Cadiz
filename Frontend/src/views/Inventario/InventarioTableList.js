@@ -6,15 +6,12 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
 import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
-import { container } from "assets/jss/material-dashboard-react";
-import { Container } from "@material-ui/core";
-import MenuItem from '@material-ui/core/MenuItem';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Button from "components/CustomButtons/Button.js";
 
 const styles = {
   cardCategoryWhite: {
@@ -103,49 +100,58 @@ export default function SimpleTabs() {
   };
 
   return (
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
+    <div className={classes.root}>
         <Card>
           <CardBody>
-      <AppBar position="static" >
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" >
-          <Tab label="Lo Castillo" {...a11yProps(0)} />
-          <Tab label="Apumanque" {...a11yProps(1)} />
-          <Tab label="Vitacura" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
+            <AppBar position="static" >
+              <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" >
+                <Tab label="Lo Castillo" {...a11yProps(0)} />
+                <Tab label="Apumanque" {...a11yProps(1)} />
+                <Tab label="Vitacura" {...a11yProps(2)} />
+              </Tabs>
+            </AppBar>
 
-      <TabPanel value={value} index={0}>
-      <Table
-        tableHeaderColor="primary"
-        tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto", "Cantidad","Precio"]}
-        tableData={[
-          ["1565228", "Anillo de compromiso", "Adamantium", "Diamante","A_C_Adam.png","300","$36.738"]
-        ]}
-      />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-      <Table
-        tableHeaderColor="primary"
-        tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto", "Cantidad","Precio"]}
-        tableData={[
-          ["1565228", "Anillo de compromiso", "Adamantium", "Diamante","A_C_Adam.png","300","$36.738"]
-        ]}
-      />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-      <Table
-        tableHeaderColor="primary"
-        tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto", "Cantidad","Precio"]}
-        tableData={[
-          ["1565228", "Anillo de compromiso", "Adamantium", "Diamante","A_C_Adam.png","300","$36.738"]
-        ]}
-      />
-      </TabPanel>
-      </CardBody>
-      </Card>
-    </GridItem>
+            <div style={{ paddingLeft: 40, paddingTop: 20 }}>
+              <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
+                <Grid  xs={2} sm={2} md={2}><TextField id="codigo" label="Codigo" placeholder="codigo" /></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="producto" label="Producto" placeholder="producto"/></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="material" label="Material" placeholder="material"/></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="piedra" label="Piedra" placeholder="piedra"/></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="precio" label="Precio" placeholder="precio"/></Grid>
 
-  </GridContainer>
+                <Grid xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Buscar</Button></Grid>
+              </Grid>
+            </div>
+
+            <TabPanel value={value} index={0}>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto", "Cantidad","Precio"]}
+              tableData={[
+                ["1565228", "Anillo de compromiso", "Adamantium", "Diamante","A_C_Adam.png","300","$36.738"]
+              ]}
+            />
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto", "Cantidad","Precio"]}
+              tableData={[
+                ["1565228", "Anillo de compromiso", "Adamantium", "Diamante","A_C_Adam.png","300","$36.738"]
+              ]}
+            />
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto", "Cantidad","Precio"]}
+              tableData={[
+                ["1565228", "Anillo de compromiso", "Adamantium", "Diamante","A_C_Adam.png","300","$36.738"]
+              ]}
+            />
+            </TabPanel>
+          </CardBody>
+        </Card>
+    </div>
   );
 }

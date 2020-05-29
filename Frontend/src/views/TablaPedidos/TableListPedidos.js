@@ -123,7 +123,7 @@ export default function SimpleTabs() {
           <Grid  xs={2} sm={2} md={2}><TextField id="contacto" label="contacto" placeholder="contacto"/></Grid>
           <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="numero" placeholder="salario"/></Grid>
 
-          <Grid xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Actualizar</Button></Grid>
+          <Grid xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Buscar</Button></Grid>
         </Grid>
       </div>
 

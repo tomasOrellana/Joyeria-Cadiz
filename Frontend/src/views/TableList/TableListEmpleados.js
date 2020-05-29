@@ -6,13 +6,14 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
+import Grid from '@material-ui/core/Grid';
 import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
+import TextField from '@material-ui/core/TextField';
 import Button from "components/CustomButtons/Button.js";
+
+
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -106,63 +107,61 @@ export default function SimpleTabs() {
   };
 
   return (
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardBody>
-      <AppBar position="static" color="primary" className={classes.Barrita}>
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Lo Castillo" {...a11yProps(0)} />
-          <Tab label="Apumanque" {...a11yProps(1)} />
-          <Tab label="Vitacura" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
+    <div className={classes.root}>
+      <Card>
+        <CardBody>
+          <AppBar position="static" color="primary" className={classes.Barrita}>
+            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+              <Tab label="Lo Castillo" {...a11yProps(0)} />
+              <Tab label="Apumanque" {...a11yProps(1)} />
+              <Tab label="Vitacura" {...a11yProps(2)} />
+            </Tabs>
+          </AppBar>
 
-      <GridContainer className={classes.buscador} direction="row" justify>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Numero" id="numero" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Tipo" id="tipo" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Material" id="material" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Contacto" id="contacto" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Rol" id="rol" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Telefono" id="telefono" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Salario" id="salario" formControlProps={{ fullWidth: true }} /></GridItem>
+          <div style={{ paddingLeft: 40, paddingTop: 20 }}>
+            <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
+              <Grid  xs={2} sm={2} md={2}><TextField id="codigo" label="Codigo" placeholder="codigo" /></Grid>
+              <Grid  xs={2} sm={2} md={2}><TextField id="producto" label="Producto" placeholder="producto"/></Grid>
+              <Grid  xs={2} sm={2} md={2}><TextField id="material" label="Material" placeholder="material"/></Grid>
+              <Grid  xs={2} sm={2} md={2}><TextField id="piedra" label="Piedra" placeholder="piedra"/></Grid>
+              <Grid  xs={2} sm={2} md={2}><TextField id="precio" label="Precio" placeholder="precio"/></Grid>
 
-        <GridItem xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Actualizar</Button></GridItem>
-      </GridContainer>
+              <Grid xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Buscar</Button></Grid>
+            </Grid>
+          </div>
 
-      <TabPanel value={value} index={0}>
-        <Table
-          tableHeaderColor="primary"
-          tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
-          tableData={[
-            ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
-            ["Diego Inostroza", "6969696-9", "La calle", "10","Putita","666", "Trabaja gratis, es putita"],
-          ]}
-        />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-      <Table
-        tableHeaderColor="primary"
-        tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
-        tableData={[
-          ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
-          ["Diego Inostroza", "6969696-9", "La calle", "10","Putita","666", "Trabaja gratis, es putita"],
-        ]}
-      />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-      <Table
-        tableHeaderColor="primary"
-        tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
-        tableData={[
-          ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
-          ["Diego Inostroza", "6969696-9", "La calle", "10","Putita","666", "Trabaja gratis, es putita"],
-        ]}
-      />
-      </TabPanel>
-      </CardBody>
+          <TabPanel value={value} index={0}>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
+              tableData={[
+                ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
+                ["Diego Inostroza", "6969696-9", "La calle", "10","Putita","666", "Trabaja gratis, es putita"],
+              ]}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
+              tableData={[
+                ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
+                ["Diego Inostroza", "6969696-9", "La calle", "10","Putita","666", "Trabaja gratis, es putita"],
+              ]}
+            />
+            </TabPanel>
+          <TabPanel value={value} index={2}>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
+              tableData={[
+                ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
+                ["Diego Inostroza", "6969696-9", "La calle", "10","Putita","666", "Trabaja gratis, es putita"],
+              ]}
+            />
+          </TabPanel>
+        </CardBody>
       </Card>
-    </GridItem>
-  </GridContainer>
+    </div>
   );
 }
