@@ -111,7 +111,7 @@ export default function SimpleTabs() {
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Ventas de día.</h4>
+            <h4 className={classes.cardTitleWhite}>Ventas de día</h4>
           </CardHeader>
           <CardBody>
       <AppBar position="static" color="primary" className={classes.Barrita}>
@@ -168,7 +168,7 @@ export default function SimpleTabs() {
     <GridItem xs={12} sm={12} md={12}>
       <Card>
         <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>Ventas de la semana.</h4>
+          <h4 className={classes.cardTitleWhite}>Ventas de la semana</h4>
         </CardHeader>
         <CardBody>
     <AppBar position="static" color="primary" className={classes.Barrita}>
@@ -225,7 +225,7 @@ export default function SimpleTabs() {
   <GridItem xs={12} sm={12} md={12}>
     <Card>
       <CardHeader color="primary">
-        <h4 className={classes.cardTitleWhite}>Ventas del mes.</h4>
+        <h4 className={classes.cardTitleWhite}>Ventas del mes</h4>
       </CardHeader>
       <CardBody>
   <AppBar position="static" color="primary" className={classes.Barrita}>
