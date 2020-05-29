@@ -124,12 +124,12 @@ export default function SimpleTabs() {
 
       <GridContainer className={classes.buscador} direction="row" justify>
         <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Numero" id="numero" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Tipo" id="tipo" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Material" id="material" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Contacto" id="contacto" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Rol" id="rol" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Telefono" id="telefono" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Salario" id="salario" formControlProps={{ fullWidth: true }} /></GridItem>
+        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Fecha" id="fecha" formControlProps={{ fullWidth: true }} /></GridItem>
+        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Metodo" id="metodo" formControlProps={{ fullWidth: true }} /></GridItem>
+        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Descuento" id="descuento" formControlProps={{ fullWidth: true }} /></GridItem>
+        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Vendedor" id="vendedor" formControlProps={{ fullWidth: true }} /></GridItem>
+        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Cliente" id="cliente" formControlProps={{ fullWidth: true }} /></GridItem>
+        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Total" id="total" formControlProps={{ fullWidth: true }} /></GridItem>
 
         <GridItem xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Actualizar</Button></GridItem>
       </GridContainer>
@@ -181,12 +181,12 @@ export default function SimpleTabs() {
 
     <GridContainer className={classes.buscador} direction="row" justify>
       <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Numero" id="numero" formControlProps={{ fullWidth: true }} /></GridItem>
-      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Tipo" id="tipo" formControlProps={{ fullWidth: true }} /></GridItem>
-      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Material" id="material" formControlProps={{ fullWidth: true }} /></GridItem>
-      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Contacto" id="contacto" formControlProps={{ fullWidth: true }} /></GridItem>
-      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Rol" id="rol" formControlProps={{ fullWidth: true }} /></GridItem>
-      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Telefono" id="telefono" formControlProps={{ fullWidth: true }} /></GridItem>
-      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Salario" id="salario" formControlProps={{ fullWidth: true }} /></GridItem>
+      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Fecha" id="fecha" formControlProps={{ fullWidth: true }} /></GridItem>
+      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Metodo" id="metodo" formControlProps={{ fullWidth: true }} /></GridItem>
+      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Descuento" id="descuento" formControlProps={{ fullWidth: true }} /></GridItem>
+      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Vendedor" id="vendedor" formControlProps={{ fullWidth: true }} /></GridItem>
+      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Cliente" id="cliente" formControlProps={{ fullWidth: true }} /></GridItem>
+      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Total" id="total" formControlProps={{ fullWidth: true }} /></GridItem>
 
       <GridItem xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Actualizar</Button></GridItem>
     </GridContainer>
@@ -238,12 +238,12 @@ export default function SimpleTabs() {
 
   <GridContainer className={classes.buscador} direction="row" justify>
     <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Numero" id="numero" formControlProps={{ fullWidth: true }} /></GridItem>
-    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Tipo" id="tipo" formControlProps={{ fullWidth: true }} /></GridItem>
-    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Material" id="material" formControlProps={{ fullWidth: true }} /></GridItem>
-    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Contacto" id="contacto" formControlProps={{ fullWidth: true }} /></GridItem>
-    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Rol" id="rol" formControlProps={{ fullWidth: true }} /></GridItem>
-    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Telefono" id="telefono" formControlProps={{ fullWidth: true }} /></GridItem>
-    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Salario" id="salario" formControlProps={{ fullWidth: true }} /></GridItem>
+    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Fecha" id="fecha" formControlProps={{ fullWidth: true }} /></GridItem>
+    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Metodo" id="metodo" formControlProps={{ fullWidth: true }} /></GridItem>
+    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Descuento" id="descuento" formControlProps={{ fullWidth: true }} /></GridItem>
+    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Vendedor" id="vendedor" formControlProps={{ fullWidth: true }} /></GridItem>
+    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Cliente" id="cliente" formControlProps={{ fullWidth: true }} /></GridItem>
+    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Total" id="total" formControlProps={{ fullWidth: true }} /></GridItem>
 
     <GridItem xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Actualizar</Button></GridItem>
   </GridContainer>
