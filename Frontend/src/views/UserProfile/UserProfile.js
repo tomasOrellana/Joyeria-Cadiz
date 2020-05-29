@@ -81,15 +81,6 @@ export default function UserProfile() {
                     }}
                   />
                 </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    labelText="Email"
-                    id="email"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                  />
-                </GridItem>
               </GridContainer>
               <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
