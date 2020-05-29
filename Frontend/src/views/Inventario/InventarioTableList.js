@@ -3,6 +3,8 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
+import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 // core components
@@ -14,6 +16,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import { container } from "assets/jss/material-dashboard-react";
 import { Container } from "@material-ui/core";
+import { card } from "assets/jss/material-dashboard-react";
 
 
 const styles = {
@@ -99,13 +102,15 @@ export default function TableList() {
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Tabla de Inventario</h4>
-            <p className={classes.cardCategoryWhite}>
-              seleccione la sucursal
-            </p>
+            <h4>ads</h4>
 
           </CardHeader>
           <CardBody>
+
+            <Card color="secondary">
+              a
+            </Card>
+
             <Table
               tableHeaderColor="primary"
               tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto", "Cantidad","Precio"]}
