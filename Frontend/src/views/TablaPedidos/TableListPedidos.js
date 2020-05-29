@@ -56,8 +56,11 @@ const styles = {
     flexGrow: 1,
     backgroundColor: "#FFFFFF",
   },
+  buscador: {
+    marginHorizontal: "10px"
+  },
   boton: {
-    marginTop: "25px"
+    marginLeft: "20px"
   }
 };
 
@@ -113,7 +116,7 @@ export default function SimpleTabs() {
         </Tabs>
       </AppBar>
 
-      <GridContainer direction="row" justify>
+      <GridContainer className={classes.buscador} direction="row" justify>
         <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Numero" id="numero" formControlProps={{ fullWidth: true }} /></GridItem>
         <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Tipo" id="tipo" formControlProps={{ fullWidth: true }} /></GridItem>
         <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Material" id="material" formControlProps={{ fullWidth: true }} /></GridItem>
