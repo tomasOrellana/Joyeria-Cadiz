@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 
 import Table from "components/Table/Table.js";
 import Button from "components/CustomButtons/Button.js";
+
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -105,10 +106,7 @@ export default function SimpleTabs() {
   };
 
   return (
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardBody>
+    <div className={classes.root}>
       <AppBar position="static" color="primary" className={classes.Barrita}>
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab label="Lo Castillo" {...a11yProps(0)} />
@@ -123,7 +121,7 @@ export default function SimpleTabs() {
           <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="tipo" placeholder="tipo"/></Grid>
           <Grid  xs={2} sm={2} md={2}><TextField id="material" label="material" placeholder="material"/></Grid>
           <Grid  xs={2} sm={2} md={2}><TextField id="contacto" label="contacto" placeholder="contacto"/></Grid>
-          <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="salario" placeholder="salario"/></Grid>
+          <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="numero" placeholder="salario"/></Grid>
 
           <Grid xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Actualizar</Button></Grid>
         </Grid>
@@ -162,9 +160,6 @@ export default function SimpleTabs() {
           ]}
         />
       </TabPanel>
-      </CardBody>
-      </Card>
-    </GridItem>
-  </GridContainer>
+    </div>
   );
 }
