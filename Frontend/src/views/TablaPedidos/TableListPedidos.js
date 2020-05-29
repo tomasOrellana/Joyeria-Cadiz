@@ -10,7 +10,9 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
-
+import GridItem from "components/Grid/GridItem.js";
+import GridContainer from "components/Grid/GridContainer.js";
+import CardBody from "components/Card/CardBody.js";
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -98,7 +100,10 @@ export default function SimpleTabs() {
   };
 
   return (
-    <div className={classes.root}>
+    <GridContainer>
+      <GridItem xs={12} sm={12} md={12}>
+        <Card>
+          <CardBody>
       <AppBar position="static" color="primary" className={classes.Barrita}>
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab label="Lo Castillo" {...a11yProps(0)} />
@@ -108,7 +113,7 @@ export default function SimpleTabs() {
       </AppBar>
 
       <TabPanel value={value} index={0}>
-        
+
         <Card className={classes.buscador}>
           <Grid direction="row" justify>
             <TextField id="Numero" label="Numero" variant="outlined" />
@@ -151,6 +156,9 @@ export default function SimpleTabs() {
           ]}
         />
       </TabPanel>
-    </div>
+      </CardBody>
+      </Card>
+    </GridItem>
+  </GridContainer>
   );
 }
