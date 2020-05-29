@@ -32,7 +32,7 @@ const switchRoutes = (
       }
       return null;
     })}
-    <Redirect from="/admin" to="/admin/inicio" />
+    <Redirect from="/admin" to="/admin/login" />
   </Switch>
 );
 
