@@ -37,7 +37,7 @@ import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
 import Login from "views/Login/Login.js";
-import Ventas from "views/Ventas/Ventas.js";
+import ListaDeVentas from "views/Ventas/Ventas.js";
 // core components/views for RTL layout
 //import Login from "views/Init/Init.js";
 import RTLPage from "views/RTLPage/RTLPage.js";
@@ -116,11 +116,11 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/Ventas",
-    name: "Ventas",
+    path: "/ListaVentas",
+    name: "Lista de Ventas",
     rtlName: "لوحة القيادة",
     icon: "list_alt",
-    component: Ventas,
+    component: ListaDeVentas,
     layout: "/admin"
   }
    /*
