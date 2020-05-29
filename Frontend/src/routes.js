@@ -36,11 +36,20 @@ import Taller from "views/Taller/Taller.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
+import Login from "views/Login/Login.js";
 // core components/views for RTL layout
 //import Login from "views/Init/Init.js";
 import RTLPage from "views/RTLPage/RTLPage.js";
 
 const dashboardRoutes = [
+  {
+    path: "/login",
+    name: "Login",
+    rtlName: "لوحة القيادة",
+    icon: Person,
+    component: Login,
+    layout: "/admin"
+  },
   {
     path: "/inicio",
     name: "Inicio",
