@@ -62,7 +62,6 @@ const styles = {
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -104,14 +103,24 @@ export default function SimpleTabs() {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+    <GridContainer>
+      <GridItem xs={12} sm={12} md={12}>
+        <Card>
+          <CardHeader color="primary">
+          <h4 className={classes.cardTitleWhite}>Tabla de pedidos.</h4>
+          <p className={classes.cardCategoryWhite}>
+            Seleccione la sucursal:
+          </p>
+          </CardHeader>
+          <CardBody>
+      <AppBar position="static" >
+        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" >
           <Tab label="Lo Castillo" {...a11yProps(0)} />
           <Tab label="Apumanque" {...a11yProps(1)} />
           <Tab label="Vitacura" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
+
       <TabPanel value={value} index={0}>
       <Table
         tableHeaderColor="primary"
@@ -145,6 +154,10 @@ export default function SimpleTabs() {
         ]}
       />
       </TabPanel>
-    </div>
+      </CardBody>
+      </Card>
+    </GridItem>
+
+  </GridContainer>
   );
 }
