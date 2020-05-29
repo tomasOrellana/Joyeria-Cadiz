@@ -32,7 +32,7 @@ import InventarioTableList from "views/Inventario/InventarioTableList.js";
 import TableListEmpleados from "views/TableList/TableListEmpleados.js";
 import TableListPedidos from "views/TablaPedidos/TableListPedidos.js";
 import Typography from "views/Typography/Typography.js";
-import Pedidos from "views/Pedidos/Pedidos.js";
+import Taller from "views/Taller/Taller.js";
 import Maps from "views/Maps/Maps.js";
 import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
@@ -94,7 +94,7 @@ const dashboardRoutes = [
     name: "Taller",
     rtlName: "لوحة القيادة",
     icon: "palette",
-    component: Pedidos,
+    component: Taller,
     layout: "/admin"
   },
   {

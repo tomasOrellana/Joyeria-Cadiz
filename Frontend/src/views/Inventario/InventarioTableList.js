@@ -1,13 +1,11 @@
-import React from "react";
-// @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
-import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
-import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
-// core components
+import React from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
 import GridItem from "components/Grid/GridItem.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import Table from "components/Table/Table.js";
@@ -16,8 +14,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import { container } from "assets/jss/material-dashboard-react";
 import { Container } from "@material-ui/core";
-import { card } from "assets/jss/material-dashboard-react";
-
+import MenuItem from '@material-ui/core/MenuItem';
 
 const styles = {
   cardCategoryWhite: {
@@ -56,71 +53,105 @@ const styles = {
   },
   selectEmpty: {
     marginTop: 20,
+  },
+  root: {
+    flexGrow: 1,
+    backgroundColor: "#FFFFFF",
   }
 };
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
 
 const useStyles = makeStyles(styles);
 
-export default function TableList() {
+export default function SimpleTabs() {
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    age: '',
-    name: 'hai',
-  });
+  const [value, setValue] = React.useState(0);
 
-  const handleChange = (event) => {
-    const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
   return (
     <GridContainer>
-      <Container className={classes.picker}>
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="age-native-simple">Sucursal</InputLabel>
-          <Select
-            native
-            value={state.age}
-            onChange={handleChange}
-            inputProps={{
-              name: 'age',
-              id: 'age-native-simple',
-            }}
-          >
-            <option aria-label="None" value="" />
-            <option value={1}>LO CASTILLO</option>
-            <option value={2}>APUMANQUE</option>
-            <option value={3}>VITACURA</option>
-          </Select>
-        </FormControl>
-      </Container>
-
       <GridItem xs={12} sm={12} md={12}>
         <Card>
           <CardHeader color="primary">
-            <h4>ads</h4>
-
+          <h4 className={classes.cardTitleWhite}>Inventario</h4>
+          <p className={classes.cardCategoryWhite}>
+            Seleccione la sucursal:
+          </p>
           </CardHeader>
           <CardBody>
+      <AppBar position="static" >
+        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" >
+          <Tab label="Lo Castillo" {...a11yProps(0)} />
+          <Tab label="Apumanque" {...a11yProps(1)} />
+          <Tab label="Vitacura" {...a11yProps(2)} />
+        </Tabs>
+      </AppBar>
 
-            <Card color="secondary">
-              a
-            </Card>
+      <TabPanel value={value} index={0}>
+      <Table
+        tableHeaderColor="primary"
+        tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto", "Cantidad","Precio"]}
+        tableData={[
+          ["1565228", "Anillo de compromiso", "Adamantium", "Diamante","A_C_Adam.png","300","$36.738"]
+        ]}
+      />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+      <Table
+        tableHeaderColor="primary"
+        tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto", "Cantidad","Precio"]}
+        tableData={[
+          ["1565228", "Anillo de compromiso", "Adamantium", "Diamante","A_C_Adam.png","300","$36.738"]
+        ]}
+      />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+      <Table
+        tableHeaderColor="primary"
+        tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto", "Cantidad","Precio"]}
+        tableData={[
+          ["1565228", "Anillo de compromiso", "Adamantium", "Diamante","A_C_Adam.png","300","$36.738"]
+        ]}
+      />
+      </TabPanel>
+      </CardBody>
+      </Card>
+    </GridItem>
 
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto", "Cantidad","Precio"]}
-              tableData={[
-                ["1565228", "Anillo de compromiso", "Adamantium", "Diamante","A_C_Adam.png","300","$36.738"]
-              ]}
-            />
-          </CardBody>
-        </Card>
-      </GridItem>
-    </GridContainer>
+  </GridContainer>
   );
 }

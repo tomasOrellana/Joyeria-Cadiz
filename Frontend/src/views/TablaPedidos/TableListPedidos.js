@@ -57,7 +57,6 @@ const styles = {
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       role="tabpanel"
@@ -107,6 +106,7 @@ export default function SimpleTabs() {
           <Tab label="Vitacura" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
+
       <TabPanel value={value} index={0}>
         
         <Card className={classes.buscador}>
@@ -151,6 +151,10 @@ export default function SimpleTabs() {
           ]}
         />
       </TabPanel>
-    </div>
+      </CardBody>
+      </Card>
+    </GridItem>
+
+  </GridContainer>
   );
 }
