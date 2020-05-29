@@ -2,19 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
+import Grid from '@material-ui/core/Grid';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
 import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
-import { container } from "assets/jss/material-dashboard-react";
-import { Container } from "@material-ui/core";
-import MenuItem from '@material-ui/core/MenuItem';
 
 const styles = {
   cardCategoryWhite: {
@@ -57,7 +52,7 @@ const styles = {
   root: {
     flexGrow: 1,
     backgroundColor: "#FFFFFF",
-  }
+  },
 };
 
 function TabPanel(props) {
@@ -105,7 +100,7 @@ export default function SimpleTabs() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" color="primary" className={classes.Barrita}>
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
           <Tab label="Lo Castillo" {...a11yProps(0)} />
           <Tab label="Apumanque" {...a11yProps(1)} />
@@ -113,37 +108,48 @@ export default function SimpleTabs() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-      <Table
-        tableHeaderColor="primary"
-        tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
-        tableData={[
-          [" Palma", "19783062-k", "Lo Castillo", "22", "$9999999999"],
-          [" Inostroza", "6969696-9", "La calle", "10", "Trabaja gratis, es putita"],
+        
+        <Card className={classes.buscador}>
+          <Grid direction="row" justify>
+            <TextField id="Numero" label="Numero" variant="outlined" />
+            <TextField id="Tipo" label="Tipo" variant="outlined" />
+            <TextField id="Material" label="Material" variant="outlined" />
+            <TextField id="Contacto" label="Contacto" variant="outlined" />
+            <TextField id="Salario" label="Salario" variant="outlined" />
+          </Grid>
+        </Card>
 
-        ]}
-      />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-      <Table
-        tableHeaderColor="primary"
-        tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
-        tableData={[
-          ["Franco ", "19783062-k", "Lo Castillo", "22", "$9999999999"],
-          ["Diego ", "6969696-9", "La calle", "10", "Trabaja gratis, es putita"],
+        <Table
+          tableHeaderColor="secondary"
+          tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
+          tableData={[
+            [" Palma", "19783062-k", "Lo Castillo", "22", "$9999999999"],
+            [" Inostroza", "6969696-9", "La calle", "10", "Trabaja gratis, es putita"],
 
-        ]}
-      />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-      <Table
-        tableHeaderColor="primary"
-        tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
-        tableData={[
-          ["Franco Palma", "19783062-k", "Lo Castillo", "22", "$9999999999"],
-          ["Diego Inostroza", "6969696-9", "La calle", "10", "Trabaja gratis, es putita"],
+          ]}
+        />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+        <Table
+          tableHeaderColor="primary"
+          tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
+          tableData={[
+            ["Franco ", "19783062-k", "Lo Castillo", "22", "$9999999999"],
+            ["Diego ", "6969696-9", "La calle", "10", "Trabaja gratis, es putita"],
 
-        ]}
-      />
+          ]}
+        />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+        <Table
+          tableHeaderColor="primary"
+          tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
+          tableData={[
+            ["Franco Palma", "19783062-k", "Lo Castillo", "22", "$9999999999"],
+            ["Diego Inostroza", "6969696-9", "La calle", "10", "Trabaja gratis, es putita"],
+
+          ]}
+        />
       </TabPanel>
     </div>
   );
