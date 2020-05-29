@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Grid from '@material-ui/core/Grid';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+
+import GridItem from "components/Grid/GridItem.js";
+import GridContainer from "components/Grid/GridContainer.js";
 import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import GridItem from "components/Grid/GridItem.js";
@@ -55,6 +56,9 @@ const styles = {
     flexGrow: 1,
     backgroundColor: "#FFFFFF",
   },
+  boton: {
+    marginTop: "25px"
+  }
 };
 
 function TabPanel(props) {
@@ -112,18 +116,17 @@ export default function SimpleTabs() {
         </Tabs>
       </AppBar>
 
+      <GridContainer direction="row" justify>
+        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Numero" id="numero" formControlProps={{ fullWidth: true }} /></GridItem>
+        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Tipo" id="tipo" formControlProps={{ fullWidth: true }} /></GridItem>
+        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Material" id="material" formControlProps={{ fullWidth: true }} /></GridItem>
+        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Contacto" id="contacto" formControlProps={{ fullWidth: true }} /></GridItem>
+        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Salario" id="salario" formControlProps={{ fullWidth: true }} /></GridItem>
+
+        <GridItem xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Actualizar</Button></GridItem>
+      </GridContainer>
+
       <TabPanel value={value} index={0}>
-
-        <Card className={classes.buscador}>
-          <Grid direction="row" justify>
-            <TextField id="Numero" label="Numero" variant="outlined" />
-            <TextField id="Tipo" label="Tipo" variant="outlined" />
-            <TextField id="Material" label="Material" variant="outlined" />
-            <TextField id="Contacto" label="Contacto" variant="outlined" />
-            <TextField id="Salario" label="Salario" variant="outlined" />
-          </Grid>
-        </Card>
-
         <Table
           tableHeaderColor="secondary"
           tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
