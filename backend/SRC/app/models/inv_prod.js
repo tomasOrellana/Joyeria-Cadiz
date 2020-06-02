@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const {Schema} = mongoose
 
 var inv_prod = new Schema   ({
-        cod_prod: {type: String, require: true},
-        cantidad: {type: Number, require: true}},
+        cod_prod: {type: String, require: true}},
         {collection: 'inv_prod'}
       );
 
