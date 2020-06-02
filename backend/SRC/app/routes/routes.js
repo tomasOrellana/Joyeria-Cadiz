@@ -5,6 +5,7 @@ const inv_prod = require('../models/inv_prod');
 const inventario = require('../models/inventario');
 const pedido = require('../models/pedido');
 const lista = require('../models/lista');
+const Venta = require('../models/venta');
 const venta = require('../models/venta');
 const empleado = require('../models/usuario');
 const passport = require('../../config/passport');
@@ -122,10 +123,11 @@ router.get('/delete_producto/:id', isLoggedIn, (req,res) =>{
         res.redirect('/productos');
     });
 });
-router.get('/editar/:id', (req,res) =>{
+
+router.get('/editar_prod/:id', (req,res) =>{
     producto.findById(req.params.id, (err,producto) => {
         if(!err){
-            res.render('editar',{
+            res.render('editar_prod',{
                 title: 'Actualizar',
                 producto: producto
             });
@@ -134,8 +136,7 @@ router.get('/editar/:id', (req,res) =>{
     });
 });
 
-router.post('/editar_prod/:id', function(req, res) {
-    producto.findByIdAndUpdate(req.params.id, req.body, function (err) {
+/*    producto.findByIdAndUpdate(req.params.id, req.body, function (err) {
       if(err){
         res.redirect('editar_prod/'+req.params.id);
     } else {
@@ -143,7 +144,7 @@ router.post('/editar_prod/:id', function(req, res) {
       res.redirect('../productos');
     }
     });
-  });
+  });*/
 
 
 //Gestionar pedidos
@@ -233,7 +234,7 @@ router.get('/venta', isLoggedIn, (req,res) =>{
 });
 
 router.post('/buscar_venta', isLoggedIn, (req,res) =>{
-	venta.find({$or:[{numero_venta: req.body.numero_venta},{fecha: req.body.fecha},{id_vendedor: req.body.id_vendedor},{cliente: req.body.cliente}{estado: req.body.estado}]}, (err, venta) => {
+	venta.find({$or:[{numero_venta: req.body.numero_venta},{fecha: req.body.fecha},{id_vendedor: req.body.id_vendedor},{cliente: req.body.cliente}, {estado: req.body.estado}]}, (err, venta) => {
 		if(err || venta == null){
 			res.redirect('/inicio');
 		}else{
@@ -268,11 +269,25 @@ router.get('/lista_productos', isLoggedIn, (req,res) => {
 })});
 
 router.get('/crear_venta', isLoggedIn, (req,res) => {
-		let total = req.body.total;
-		res.render('crear_venta',{
-				total: total
-		});
+	let aux = new Venta();
+	aux.save( (err, aux)=> {
+				res.render('productos_venta',{
+						user: req.user,
+						numero_venta: aux.numero_venta
+				});
+	});
 });
+
+router.get('/detalle_venta_crear/:codProd/:numero_venta', isLoggedIn, (req,res) => {
+	let det = new Detalle_venta({numero_venta: req.params.numero_venta, cod_prod: req.params.codProd});
+	det.save( (err) => {
+						res.render('productos_venta',{
+							 user: req.user,
+							 numero_venta: : req.params.numero_venta
+					 });
+	});
+});
+
 
 router.get('/agregar_lista_prod/:prodID', isLoggedIn, (req,res) => {
 		producto.findById({_id: req.params.prodID}, (err, producto) => {
