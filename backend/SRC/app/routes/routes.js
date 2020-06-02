@@ -86,7 +86,7 @@ router.get('/buscar_producto', isLoggedIn, (req,res) =>{
 });
 
 router.post('/buscar_producto', isLoggedIn, (req,res) =>{
-	producto.find({$or:[{codigo: req.body.codigo},{tipo: req.body.codigo}]}, (err, producto) => {
+	producto.find({$or:[{codigo: req.body.codigo},{tipo: req.body.tipo},{material: req.body.material},{piedra: req.body.piedra}]}, (err, producto) => {
 		if(err || producto == null){
 			res.redirect('/inicio');
 		}else{
@@ -156,14 +156,14 @@ router.get('/pedidos', isLoggedIn, (req,res) =>{
     });
 });
 
-router.post('/buscar_empleado', isLoggedIn, (req,res) =>{
-	empleado.find({$or:[{fecha: req.body.fecha},{tipo: req.body.id_cliente}]}, (err, empleado) => {
-		if(err || empleado == null){
+router.post('/buscar_pedido', isLoggedIn, (req,res) =>{
+	pedido.find({$or:[{fecha: req.body.fecha},{id_cliente: req.body.id_cliente},{id_sucursal: req.body.id_sucursal},{descripcion: req.body.descripcion},{estado: req.body.estado}]}, (err, pedido) => {
+		if(err || pedido == null){
 			res.redirect('/inicio');
 		}else{
-		res.render('detalle_empleado',{
+		res.render('detalle_pedido',{
 			user: req.user,
-			empleado: empleado
+			pedido: pedido
 		})};
 	});
 });
@@ -232,6 +232,18 @@ router.get('/venta', isLoggedIn, (req,res) =>{
 			 });
 });
 
+router.post('/buscar_venta', isLoggedIn, (req,res) =>{
+	venta.find({$or:[{numero_venta: req.body.numero_venta},{fecha: req.body.fecha},{id_vendedor: req.body.id_vendedor},{cliente: req.body.cliente}{estado: req.body.estado}]}, (err, venta) => {
+		if(err || venta == null){
+			res.redirect('/inicio');
+		}else{
+		res.render('detalle_venta',{
+			user: req.user,
+			venta: venta
+		})};
+	});
+});
+
 /*router.post('/venta', isLoggedIn, (req,res) =>{
     lista.create({}, (err,task) =>{
        res.redirect('/lista_venta');
@@ -282,6 +294,18 @@ router.get('/empleados', isLoggedIn, (req,res) =>{
         });
     });
 
+});
+
+router.post('/buscar_empleado', isLoggedIn, (req,res) =>{
+	empleado.find({$or:[{rut: req.body.rut},{nombre: req.body.nombre},{tipo: req.body.rol}]}, (err, empleado) => {
+		if(err || empleado == null){
+			res.redirect('/inicio');
+		}else{
+		res.render('detalle_empleado',{
+			user: req.user,
+			empleado: empleado
+		})};
+	});
 });
 
 router.get('/delete_empleado/:id', isLoggedIn, (req,res) =>{
