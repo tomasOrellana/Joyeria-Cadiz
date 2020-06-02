@@ -71,10 +71,14 @@ function isLoggedIn (req, res, next) {
 //Administrar productos
 router.get('/productos', isLoggedIn, (req,res) =>{
     producto.find(function (err,producto) {
+			if (!err){
         res.render('productos',{
 						user: req.user,
             producto: producto
         });
+			}else{
+				res.redirect('/inicio');
+			}
     });
 
 });
@@ -109,18 +113,28 @@ router.get('/agregar_prod', isLoggedIn, (req,res) =>{
 router.post('/agregar_prod', isLoggedIn, (req,res) => {
     let body = req.body;
     producto.create(body, (err,task) =>{
+			if(!err){
 			inventario.create({id_sucursal: req.user.id_sucursal}, (err,task) =>{
 				inv_prod.create({cod_prod: req.body.codigo, cantidad: req.body.cantidad}, (err,task) =>{
        		res.redirect('/productos');
 				});
 			});
+		}
+			else{
+				res.redirect('/inicio');
+			}
     });
 });
 
 router.get('/delete_producto/:id', isLoggedIn, (req,res) =>{
     let id = req.params.id;
     producto.remove({_id: id}, (err, task) =>{
+			if(!err){
         res.redirect('/productos');
+			}
+			else{
+					res.redirect('/inicio');
+			}
     });
 });
 
@@ -132,6 +146,9 @@ router.get('/editar_prod/:id', (req,res) =>{
                 producto: producto
             });
         }
+				else{
+					res.redirect('/inicio');
+				}
 
     });
 });
@@ -141,7 +158,7 @@ router.get('/editar_prod/:id', (req,res) =>{
         res.redirect('editar_prod/'+req.params.id);
     } else {
 
-      res.redirect('../productos');
+      res.redirect('../producto');
     }
     });
   });*/
@@ -150,10 +167,15 @@ router.get('/editar_prod/:id', (req,res) =>{
 //Gestionar pedidos
 router.get('/pedidos', isLoggedIn, (req,res) =>{
     pedido.find(function (err,pedido) {
+			if(){
         res.render('pedidos',{
 						user: req.user,
             pedido: pedido
         });
+			}
+			else{
+				res.redirect('/inicio');
+			}
     });
 });
 

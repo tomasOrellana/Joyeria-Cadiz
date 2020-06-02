@@ -70,7 +70,7 @@
                 <a class="btn btn-secondary" href="/agregar_prod"><i class="fa fa-list-alt"></i>Agregar</a>
             </div>
         </form>
-        
+
         <form action="/agregar_prod" method="post">
             <div class="form-group">
                 <a class="btn btn-secondary" href="/buscar_producto"><i class="fa fa-list-alt"></i>Buscar por codigo</a>
@@ -86,8 +86,8 @@
                     <th>Tipo</th>
                     <th>Material</th>
                     <th>Piedra Preciosa</th>
-                    <th>Cantidad</th>
                     <th>Precio</th>
+                    <th>Descripción</th>
                     <th>Operaciones</th>
                 </tr>
             </thead>
@@ -98,8 +98,8 @@
                         <td><%= producto[i].tipo %></td>
                         <td><%= producto[i].material %></td>
                         <td><%= producto[i].piedra %></td>
-                        <td><%= producto[i].cantidad %></td>
                         <td><%= producto[i].precio %></td>
+                        <td><%= producto[i].descripcion %></td>
                         <td>
                             <!--
                             <a
