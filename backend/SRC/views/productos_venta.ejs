@@ -43,25 +43,7 @@
 </head>
 <body>
 
-  <table class ='table table-bordered table-hover'>
-      <thead>
-          <tr>
-              <th>ID</th>
-              <th>Producto</th>
-          </tr>
-      </thead>
-      <tbody>
-          <% for(var i = 0; i < lista.length; i++){ %>
-              <tr>
-                <td><%= lista[i]._id %></td>
-                <td><%= lista[i].id_prod %></td>
-              </tr>
-           <%}%>
-
-      </tbody>
-  </table>
-
-
+<p id="numero_venta"><%= numero_venta%></p>
 
     <div class="container" style="margin-left:10%;padding:1px 16px;height:1000px;">
         <h1> Productos </h1>

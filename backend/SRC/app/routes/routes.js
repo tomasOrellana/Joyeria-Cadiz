@@ -4,7 +4,8 @@ const producto = require('../models/producto');
 const inv_prod = require('../models/inv_prod');
 const inventario = require('../models/inventario');
 const pedido = require('../models/pedido');
-const lista = require('../models/lista');
+const Detalle_venta = require('../models/detalle_venta');
+const detalle_venta = require('../models/detalle_venta');
 const Venta = require('../models/venta');
 const venta = require('../models/venta');
 const empleado = require('../models/usuario');
@@ -167,7 +168,7 @@ router.get('/editar_prod/:id', (req,res) =>{
 //Gestionar pedidos
 router.get('/pedidos', isLoggedIn, (req,res) =>{
     pedido.find(function (err,pedido) {
-			if(){
+			if(err){
         res.render('pedidos',{
 						user: req.user,
             pedido: pedido
@@ -287,27 +288,51 @@ router.get('/lista_productos', isLoggedIn, (req,res) => {
 	            producto: producto,
 							lista: lista
 	        });
-    });
+    	});
 })});
 
-router.get('/crear_venta', isLoggedIn, (req,res) => {
-	let aux = new Venta();
-	aux.save( (err, aux)=> {
-				res.render('productos_venta',{
-						user: req.user,
-						numero_venta: aux.numero_venta
-				});
-	});
+router.get('/crear_venta', isLoggedIn, async (req,res) => {
+	await venta.find({} , async (err, venta) => {
+
+		if( venta.length == null || venta.length == 0 ){
+			let aux = await new Venta({numero_venta: 1} );
+			await aux.save( (err, aux)=> {
+				producto.find((err, producto) => {
+					 res.render('productos_venta',{
+							 user: req.user,
+							 producto: producto,
+							 numero_venta: aux.numero_venta
+					 });
+			 	});
+			});
+	}else{
+		let aux = await new Venta({numero_venta: venta.length} );
+		await aux.save( (err, aux)=> {
+			producto.find((err, producto) => {
+				 res.render('productos_venta',{
+						 user: req.user,
+						 producto: producto,
+						 numero_venta: aux.numero_venta
+				 });
+		 	});
+		});
+	};
+});
 });
 
-router.get('/detalle_venta_crear/:codProd/:numero_venta', isLoggedIn, (req,res) => {
-	let det = new Detalle_venta({numero_venta: req.params.numero_venta, cod_prod: req.params.codProd});
-	det.save( (err) => {
-						res.render('productos_venta',{
-							 user: req.user,
-							 numero_venta: : req.params.numero_venta
-					 });
-	});
+
+router.get('/detalle_venta_crear/:codProd/:numero_venta', isLoggedIn, async (req,res) => {
+	let num = req.params.numero_venta;
+	/*let det = await new Detalle_venta({numero_venta: num, cod_prod: req.params.codProd});
+	await det.save()*/
+	await detalle_venta.create({numero_venta: num, cod_prod: req.params.codProd})
+		producto.find((err, producto) => {
+			 res.render('productos_venta',{
+					 user: req.user,
+					 producto: producto,
+					 numero_venta: num
+			 });
+	 });
 });
 
 
