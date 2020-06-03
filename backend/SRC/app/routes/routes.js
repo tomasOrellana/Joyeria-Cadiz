@@ -333,8 +333,14 @@ router.get('/empleados', isLoggedIn, (req,res) =>{
 router.get('/delete_empleado/:id', isLoggedIn, (req,res) =>{
     let id = req.params.id;
     empleado.remove({_id: id}, (err, task) =>{
+			if(!err){
         res.redirect('/empleados');
-    });
+    }
+		else{
+			res.redirect('/inicio');
+		}
+	});
+
 });
 
 router.get('/editar_empleado/:id', (req,res) =>{
@@ -345,6 +351,9 @@ router.get('/editar_empleado/:id', (req,res) =>{
                 empleado: empleado
             });
         }
+				else{
+					res.redirect('/inicio');
+				}
 
     });
 });
