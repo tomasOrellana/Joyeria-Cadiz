@@ -141,7 +141,7 @@ router.get('/delete_producto/:id', isLoggedIn, (req,res) =>{
 router.get('/editar/:id', (req,res) =>{
     producto.findById(req.params.id, (err,producto) => {
         if(!err){
-            res.render('editar',{
+            res.render('editar_prod',{
                 title: 'Actualizar',
                 producto: producto
             });
@@ -168,7 +168,7 @@ router.post('/editar_prod/:id', function(req, res) {
 //Gestionar pedidos
 router.get('/pedidos', isLoggedIn, (req,res) =>{
     pedido.find(function (err,pedido) {
-			if(!err)){
+			if(!err){
         res.render('pedidos',{
 						user: req.user,
             pedido: pedido
@@ -254,13 +254,12 @@ router.post('/editar_pedido/:id', function(req, res) {
 //Realizar venta, se usa una lista para guardar los productos que desea el usuario
 router.get('/lista_venta', isLoggedIn, (req,res) =>{
   			lista.find(function (err,lista) {
-					if (!err){}
+					if (!err){
         		res.render('lista_venta',{
 								user: req.user,
             		lista: lista
-        		});
-					}
-					else{
+        	});
+					}else{
 						res.redirect('/inicio');
 					}
     });
@@ -274,29 +273,19 @@ router.get('/venta', isLoggedIn, (req,res) =>{
 			 });
 });
 
-/*router.post('/venta', isLoggedIn, (req,res) =>{
-    lista.create({}, (err,task) =>{
-       res.redirect('/lista_venta');
-    });
-});*/
-
-router.get('/venta_cancelar', isLoggedIn, (req,res) =>{
-    lista.remove({}, (err,task) =>{
-       res.redirect('/venta');
-    });
-});
-
 router.get('/lista_productos', isLoggedIn, (req,res) => {
      producto.find(function (err,producto) {
 			 if(!err){
-			 lista.find((err, lista) => {
-	        res.render('lista_productos',{
-							user: req.user,
-	            producto: producto,
-							lista: lista
-	        });
-    	});
-})});
+				 lista.find((err, lista) => {
+		        res.render('lista_productos',{
+								user: req.user,
+		            producto: producto,
+								lista: lista
+		        });
+	    	});
+			};
+		});
+});
 
 router.get('/crear_venta', isLoggedIn, async (req,res) => {
 	await venta.find({} , async (err, venta) => {
@@ -342,16 +331,25 @@ router.get('/detalle_venta_crear/:codProd/:numero_venta', isLoggedIn, async (req
 	 });
 });
 
-router.get('/agregar_lista_prod/:prodID', isLoggedIn, (req,res) => {
-	if(!err){}
-		producto.findById({_id: req.params.prodID}, (err, producto) => {
-		lista.create({codigo: producto.codigo, tipo: producto.tipo, material: producto.material, piedra: producto.piedra, precio: producto.precio }, (err,task) =>{
-			res.redirect('/lista_venta');
-		})
-	});
+router.get('/agregar_venta/:numVenta', isLoggedIn, (req,res) => {
+		venta.findOne({numero_venta: req.params.numVenta}, (err, venta) =>{
+			res.render('agregar_venta', {
+				user: req.user,
+				venta: venta
+			});
+		});
 });
 
+router.post('/agregar_venta/:id', function(req, res) {
+    venta.findByIdAndUpdate(req.params.id, req.body, function (err) {
+      if(err){
+        res.redirect('/inicio');
+    } else {
 
+      res.redirect('../venta');
+    }
+    });
+  });
 
 
 //Gestionar empleados
