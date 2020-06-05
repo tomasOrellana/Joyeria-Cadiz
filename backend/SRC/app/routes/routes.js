@@ -92,7 +92,7 @@ router.get('/buscar_producto', isLoggedIn, (req,res) =>{
 });
 
 router.post('/buscar_producto', isLoggedIn, (req,res) =>{
-	producto.find({$or:[{codigo: req.body.codigo},{tipo: req.body.tipo},{material: req.body.material},{piedra: req.body.piedra}]}, (err, producto) => {
+	producto.find({$or:[{codigo: req.body.codigo},{tipo: req.body.codigo}]}, (err, producto) => {
 		if(err || producto == null){
 			res.redirect('/inicio');
 		}else{
@@ -138,11 +138,10 @@ router.get('/delete_producto/:id', isLoggedIn, (req,res) =>{
 			}
     });
 });
-
-router.get('/editar_prod/:id', (req,res) =>{
+router.get('/editar/:id', (req,res) =>{
     producto.findById(req.params.id, (err,producto) => {
         if(!err){
-            res.render('editar_prod',{
+            res.render('editar',{
                 title: 'Actualizar',
                 producto: producto
             });
@@ -154,7 +153,8 @@ router.get('/editar_prod/:id', (req,res) =>{
     });
 });
 
-/*    producto.findByIdAndUpdate(req.params.id, req.body, function (err) {
+router.post('/editar_prod/:id', function(req, res) {
+    producto.findByIdAndUpdate(req.params.id, req.body, function (err) {
       if(err){
         res.redirect('editar_prod/'+req.params.id);
     } else {
@@ -162,13 +162,13 @@ router.get('/editar_prod/:id', (req,res) =>{
       res.redirect('../producto');
     }
     });
-  });*/
+  });
 
 
 //Gestionar pedidos
 router.get('/pedidos', isLoggedIn, (req,res) =>{
     pedido.find(function (err,pedido) {
-			if(err){
+			if(!err)){
         res.render('pedidos',{
 						user: req.user,
             pedido: pedido
@@ -180,14 +180,14 @@ router.get('/pedidos', isLoggedIn, (req,res) =>{
     });
 });
 
-router.post('/buscar_pedido', isLoggedIn, (req,res) =>{
-	pedido.find({$or:[{fecha: req.body.fecha},{id_cliente: req.body.id_cliente},{id_sucursal: req.body.id_sucursal},{descripcion: req.body.descripcion},{estado: req.body.estado}]}, (err, pedido) => {
-		if(err || pedido == null){
+router.post('/buscar_empleado', isLoggedIn, (req,res) =>{
+	empleado.find({$or:[{fecha: req.body.fecha},{tipo: req.body.id_cliente}]}, (err, empleado) => {
+		if(err || empleado == null){
 			res.redirect('/inicio');
 		}else{
-		res.render('detalle_pedido',{
+		res.render('detalle_empleado',{
 			user: req.user,
-			pedido: pedido
+			empleado: empleado
 		})};
 	});
 });
@@ -202,14 +202,24 @@ router.get('/agregar_pedido', isLoggedIn, (req,res) =>{
 router.post('/agregar_pedido', isLoggedIn, (req,res) => {
     let body = req.body;
     pedido.create(body, (err,task) =>{
+			if(!err){
        res.redirect('/pedidos');
+		 }
+		 else{
+			 res.redirect('/inicio');
+		 }
     });
 });
 
 router.get('/delete_pedido/:id', isLoggedIn, (req,res) =>{
     let id = req.params.id;
     pedido.remove({_id: id}, (err, task) =>{
+			if(!err){
         res.redirect('/pedidos');
+			}
+			else{
+				res.redirect('/pedido');
+			}
     });
 });
 
@@ -221,6 +231,9 @@ router.get('/editar_pedido/:id', (req,res) =>{
                 pedido: pedido
             });
         }
+				else{
+					res.redirect('/inicio');
+				}
 
     });
 });
@@ -228,7 +241,7 @@ router.get('/editar_pedido/:id', (req,res) =>{
 router.post('/editar_pedido/:id', function(req, res) {
     pedido.findByIdAndUpdate(req.params.id, req.body, function (err) {
       if(err){
-        res.redirect('editar_pedido/'+req.params.id);
+        res.redirect('/inicio');
     } else {
 
       res.redirect('../pedidos');
@@ -241,10 +254,15 @@ router.post('/editar_pedido/:id', function(req, res) {
 //Realizar venta, se usa una lista para guardar los productos que desea el usuario
 router.get('/lista_venta', isLoggedIn, (req,res) =>{
   			lista.find(function (err,lista) {
-        res.render('lista_venta',{
-						user: req.user,
-            lista: lista
-        });
+					if (!err){}
+        		res.render('lista_venta',{
+								user: req.user,
+            		lista: lista
+        		});
+					}
+					else{
+						res.redirect('/inicio');
+					}
     });
 });
 
@@ -254,18 +272,6 @@ router.get('/venta', isLoggedIn, (req,res) =>{
        res.render('venta', {
 				 user: req.user
 			 });
-});
-
-router.post('/buscar_venta', isLoggedIn, (req,res) =>{
-	venta.find({$or:[{numero_venta: req.body.numero_venta},{fecha: req.body.fecha},{id_vendedor: req.body.id_vendedor},{cliente: req.body.cliente}, {estado: req.body.estado}]}, (err, venta) => {
-		if(err || venta == null){
-			res.redirect('/inicio');
-		}else{
-		res.render('detalle_venta',{
-			user: req.user,
-			venta: venta
-		})};
-	});
 });
 
 /*router.post('/venta', isLoggedIn, (req,res) =>{
@@ -282,6 +288,7 @@ router.get('/venta_cancelar', isLoggedIn, (req,res) =>{
 
 router.get('/lista_productos', isLoggedIn, (req,res) => {
      producto.find(function (err,producto) {
+			 if(!err){
 			 lista.find((err, lista) => {
 	        res.render('lista_productos',{
 							user: req.user,
@@ -335,8 +342,8 @@ router.get('/detalle_venta_crear/:codProd/:numero_venta', isLoggedIn, async (req
 	 });
 });
 
-
 router.get('/agregar_lista_prod/:prodID', isLoggedIn, (req,res) => {
+	if(!err){}
 		producto.findById({_id: req.params.prodID}, (err, producto) => {
 		lista.create({codigo: producto.codigo, tipo: producto.tipo, material: producto.material, piedra: producto.piedra, precio: producto.precio }, (err,task) =>{
 			res.redirect('/lista_venta');
@@ -358,23 +365,17 @@ router.get('/empleados', isLoggedIn, (req,res) =>{
 
 });
 
-router.post('/buscar_empleado', isLoggedIn, (req,res) =>{
-	empleado.find({$or:[{rut: req.body.rut},{nombre: req.body.nombre},{tipo: req.body.rol}]}, (err, empleado) => {
-		if(err || empleado == null){
-			res.redirect('/inicio');
-		}else{
-		res.render('detalle_empleado',{
-			user: req.user,
-			empleado: empleado
-		})};
-	});
-});
-
 router.get('/delete_empleado/:id', isLoggedIn, (req,res) =>{
     let id = req.params.id;
     empleado.remove({_id: id}, (err, task) =>{
+			if(!err){
         res.redirect('/empleados');
-    });
+    }
+		else{
+			res.redirect('/inicio');
+		}
+	});
+
 });
 
 router.get('/editar_empleado/:id', (req,res) =>{
@@ -385,6 +386,9 @@ router.get('/editar_empleado/:id', (req,res) =>{
                 empleado: empleado
             });
         }
+				else{
+					res.redirect('/inicio');
+				}
 
     });
 });
