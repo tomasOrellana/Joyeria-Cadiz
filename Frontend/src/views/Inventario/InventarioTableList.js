@@ -131,7 +131,7 @@ export default class InventarioTableList extends React.Component {
 
   MostrarNuevoMenu() {
     if(this.state.estado == 0) this.setState({estado: 1})
-    if(this.state.estado == 1) this.setState({estado: 0})   
+    if(this.state.estado == 1) this.setState({estado: 0})
   }
 
   render() {
@@ -161,12 +161,12 @@ export default class InventarioTableList extends React.Component {
               <TabPanel>
                 <Table
                     tableHeaderColor="primary"
-                    tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto", "Cantidad","Precio"]}
+                    tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto","Precio"]}
                     tableData={[
-                      ["1565228", "Anillo de compromiso", "Adamantium", "Diamante","A_C_Adam.png","300","$36.738"]
+                      ["1565228", "Anillo de compromiso", "Adamantium", "Diamante","A_C_Adam.png","$36.738"]
                     ]}
                 />
-                </TabPanel> }  
+                </TabPanel> }
               {this.state.tabIndex == 1 &&
               <TabPanel>
                 <Table

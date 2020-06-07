@@ -22,6 +22,7 @@
     "typeface-roboto": "0.0.75"
   },
   "scripts": {
+    "proxy" : "http://localhost:8000"
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
@@ -64,5 +65,4 @@
     ],
     "development": []
   },
-  “proxy” : “http://localhost:8000"
 }
