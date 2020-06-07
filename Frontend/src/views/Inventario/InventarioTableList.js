@@ -104,6 +104,18 @@ function a11yProps(index) {
 }
 
 export default class InventarioTableList extends React.Component {
+  state ={
+    data:[]
+  }
+
+  fetchData= async()=>{
+    const response = await fetch('localhost:8000/productos');
+    const producto = await response.json();
+    this.setState({data: producto});
+  }
+  componentDidMount(){
+  this.fetchData();
+  }
 
   static propTypes = {
     children: PropTypes.node,
