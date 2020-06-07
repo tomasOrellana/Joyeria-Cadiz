@@ -109,12 +109,12 @@ export default class InventarioTableList extends React.Component {
   }
 
   fetchData= async()=>{
-    const response = await fetch('localhost:8000/productos');
+    const response = await fetch('localhost:8000/productos')
     const producto = await response.json();
     this.setState({data: producto});
   }
   componentDidMount(){
-  this.fetchData();
+    this.fetchData();
   }
 
   static propTypes = {
