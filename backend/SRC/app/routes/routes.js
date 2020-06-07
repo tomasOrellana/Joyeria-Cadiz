@@ -70,13 +70,14 @@ function isLoggedIn (req, res, next) {
 }
 
 //Administrar productos
-router.get('/productos', isLoggedIn, (req,res) =>{
-    producto.find(function (err,producto) {
+router.get('/productos', isLoggedIn, async (req,res) =>{
+    await producto.find(function (err,producto) {
 			if (!err){
-        res.render('productos',{
+        /*res.render('productos',{
 						user: req.user,
             producto: producto
-        });
+        });*/
+				res.send(producto)
 			}else{
 				res.redirect('/inicio');
 			}
