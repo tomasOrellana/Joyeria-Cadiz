@@ -6,14 +6,13 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
 import Table from "components/Table/Table.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
 import CardHeader from "components/Card/CardHeader.js";
 import Button from "components/CustomButtons/Button.js";
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -104,181 +103,163 @@ export default function SimpleTabs() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+    console.log('aa')
+    console.log(newValue)
   };
 
   return (
-    <GridContainer>
-      <GridItem xs={12} sm={12} md={12}>
-        <Card>
-          <CardHeader color="primary">
-            <h4 className={classes.cardTitleWhite}>Ventas de día</h4>
-          </CardHeader>
-          <CardBody>
-      <AppBar position="static" color="primary" className={classes.Barrita}>
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Lo Castillo" {...a11yProps(0)} />
-          <Tab label="Apumanque" {...a11yProps(1)} />
-          <Tab label="Vitacura" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
-
-      <GridContainer className={classes.buscador} direction="row" justify>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Numero" id="numero" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Fecha" id="fecha" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Metodo" id="metodo" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Descuento" id="descuento" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Vendedor" id="vendedor" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Cliente" id="cliente" formControlProps={{ fullWidth: true }} /></GridItem>
-        <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Total" id="total" formControlProps={{ fullWidth: true }} /></GridItem>
-
-        <GridItem xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Actualizar</Button></GridItem>
-      </GridContainer>
-
-      <TabPanel value={value} index={0}>
-        <Table
-          tableHeaderColor="primary"
-          tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-          tableData={[
-            ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-          ]}
-        />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-      <Table
-        tableHeaderColor="primary"
-        tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-        tableData={[
-          ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-        ]}
-      />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-      <Table
-        tableHeaderColor="primary"
-        tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-        tableData={[
-          ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-        ]}
-      />
-      </TabPanel>
-      </CardBody>
+    <div className={classes.root}>
+      <Card>
+        <AppBar position="static" color="primary" className={classes.Barrita}>
+          <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+            <Tab label="Lo Castillo" {...a11yProps(0)} />
+            <Tab label="Apumanque" {...a11yProps(1)} />
+            <Tab label="Vitacura" {...a11yProps(2)} />
+          </Tabs>
+        </AppBar>
       </Card>
-    </GridItem>
+      <Card>
+        <CardHeader color="primary">
+          <h4 className={classes.cardTitleWhite}>Ventas de día</h4>
+        </CardHeader>
+        <CardBody>
+          <div style={{ paddingLeft: 40, paddingTop: 20 }}>
+            <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
+              <Grid  xs={2} sm={2} md={2}><TextField id="numero" label="numero" placeholder="numero" /></Grid>
+              <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="tipo" placeholder="tipo"/></Grid>
+              <Grid  xs={2} sm={2} md={2}><TextField id="material" label="material" placeholder="material"/></Grid>
+              <Grid  xs={2} sm={2} md={2}><TextField id="contacto" label="contacto" placeholder="contacto"/></Grid>
+              <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="numero" placeholder="salario"/></Grid>
 
-    <GridItem xs={12} sm={12} md={12}>
+              <Grid xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Buscar</Button></Grid>
+            </Grid>
+          </div>
+
+          <TabPanel value={value} index={0}>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+              tableData={[
+                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+              ]}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+              tableData={[
+                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+              ]}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+              tableData={[
+                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+              ]}
+            />
+          </TabPanel>
+        </CardBody>
+      </Card>
+
       <Card>
         <CardHeader color="primary">
           <h4 className={classes.cardTitleWhite}>Ventas de la semana</h4>
         </CardHeader>
         <CardBody>
-    <AppBar position="static" color="primary" className={classes.Barrita}>
-      <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-        <Tab label="Lo Castillo" {...a11yProps(0)} />
-        <Tab label="Apumanque" {...a11yProps(1)} />
-        <Tab label="Vitacura" {...a11yProps(2)} />
-      </Tabs>
-    </AppBar>
 
-    <GridContainer className={classes.buscador} direction="row" justify>
-      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Numero" id="numero" formControlProps={{ fullWidth: true }} /></GridItem>
-      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Fecha" id="fecha" formControlProps={{ fullWidth: true }} /></GridItem>
-      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Metodo" id="metodo" formControlProps={{ fullWidth: true }} /></GridItem>
-      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Descuento" id="descuento" formControlProps={{ fullWidth: true }} /></GridItem>
-      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Vendedor" id="vendedor" formControlProps={{ fullWidth: true }} /></GridItem>
-      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Cliente" id="cliente" formControlProps={{ fullWidth: true }} /></GridItem>
-      <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Total" id="total" formControlProps={{ fullWidth: true }} /></GridItem>
+          <div style={{ paddingLeft: 40, paddingTop: 20 }}>
+              <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
+                <Grid  xs={2} sm={2} md={2}><TextField id="numero" label="numero" placeholder="numero" /></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="tipo" placeholder="tipo"/></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="material" label="material" placeholder="material"/></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="contacto" label="contacto" placeholder="contacto"/></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="numero" placeholder="salario"/></Grid>
 
-      <GridItem xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Actualizar</Button></GridItem>
-    </GridContainer>
+                <Grid xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Buscar</Button></Grid>
+              </Grid>
+          </div>
 
-    <TabPanel value={value} index={0}>
-      <Table
-        tableHeaderColor="primary"
-        tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-        tableData={[
-          ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-        ]}
-      />
-    </TabPanel>
-    <TabPanel value={value} index={1}>
-    <Table
-      tableHeaderColor="primary"
-      tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-      tableData={[
-        ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-      ]}
-    />
-    </TabPanel>
-    <TabPanel value={value} index={2}>
-    <Table
-      tableHeaderColor="primary"
-      tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-      tableData={[
-        ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-      ]}
-    />
-    </TabPanel>
-    </CardBody>
-    </Card>
-  </GridItem>
+          <TabPanel value={value} index={0}>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+              tableData={[
+                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+              ]}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+              tableData={[
+                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+              ]}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+              tableData={[
+                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+              ]}
+            />
+          </TabPanel>
+        </CardBody>
+      </Card>
 
-  <GridItem xs={12} sm={12} md={12}>
-    <Card>
-      <CardHeader color="primary">
-        <h4 className={classes.cardTitleWhite}>Ventas del mes</h4>
-      </CardHeader>
-      <CardBody>
-  <AppBar position="static" color="primary" className={classes.Barrita}>
-    <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-      <Tab label="Lo Castillo" {...a11yProps(0)} />
-      <Tab label="Apumanque" {...a11yProps(1)} />
-      <Tab label="Vitacura" {...a11yProps(2)} />
-    </Tabs>
-  </AppBar>
+      <Card>
+        <CardHeader color="primary">
+          <h4 className={classes.cardTitleWhite}>Ventas del mes</h4>
+        </CardHeader>
+        <CardBody>
 
-  <GridContainer className={classes.buscador} direction="row" justify>
-    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Numero" id="numero" formControlProps={{ fullWidth: true }} /></GridItem>
-    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Fecha" id="fecha" formControlProps={{ fullWidth: true }} /></GridItem>
-    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Metodo" id="metodo" formControlProps={{ fullWidth: true }} /></GridItem>
-    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Descuento" id="descuento" formControlProps={{ fullWidth: true }} /></GridItem>
-    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Vendedor" id="vendedor" formControlProps={{ fullWidth: true }} /></GridItem>
-    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Cliente" id="cliente" formControlProps={{ fullWidth: true }} /></GridItem>
-    <GridItem xs={2} sm={2} md={2}><CustomInput labelText="Total" id="total" formControlProps={{ fullWidth: true }} /></GridItem>
+        <div style={{ paddingLeft: 40, paddingTop: 20 }}>
+              <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
+                <Grid  xs={2} sm={2} md={2}><TextField id="numero" label="numero" placeholder="numero" /></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="tipo" placeholder="tipo"/></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="material" label="material" placeholder="material"/></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="contacto" label="contacto" placeholder="contacto"/></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="numero" placeholder="salario"/></Grid>
 
-    <GridItem xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Actualizar</Button></GridItem>
-  </GridContainer>
+                <Grid xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Buscar</Button></Grid>
+              </Grid>
+          </div>
 
-  <TabPanel value={value} index={0}>
-    <Table
-      tableHeaderColor="primary"
-      tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-      tableData={[
-        ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-      ]}
-    />
-  </TabPanel>
-  <TabPanel value={value} index={1}>
-  <Table
-    tableHeaderColor="primary"
-    tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-    tableData={[
-      ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-    ]}
-  />
-  </TabPanel>
-  <TabPanel value={value} index={2}>
-  <Table
-    tableHeaderColor="primary"
-    tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-    tableData={[
-      ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-    ]}
-  />
-  </TabPanel>
-  </CardBody>
-  </Card>
-</GridItem>
-
-  </GridContainer>
+          <TabPanel value={value} index={0}>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+              tableData={[
+                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+              ]}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+              tableData={[
+                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+              ]}
+            />
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <Table
+              tableHeaderColor="primary"
+              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+              tableData={[
+                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+              ]}
+            />
+          </TabPanel>
+        </CardBody>
+      </Card>
+    </div>
   );
 }
