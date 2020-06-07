@@ -63,5 +63,6 @@
       "not op_mini all"
     ],
     "development": []
-  }
+  },
+  “proxy” : “http://localhost:8000"
 }
