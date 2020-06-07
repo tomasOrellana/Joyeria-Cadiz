@@ -15,7 +15,7 @@ import Button from "components/CustomButtons/Button.js";
 import AddIcon from '@material-ui/icons/Add';
 import { isConstructorDeclaration } from 'typescript';
 import { render } from 'react-dom';
-
+import {Platform, StyleSheet, Text, View,FlatList} from 'react';
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -170,7 +170,8 @@ export default class InventarioTableList extends React.Component {
                 </Grid>
               </div>
               {this.state.tabIndex == 0 &&
-              <TabPanel>
+
+              <TabPanel              >
                 <Table
                     tableHeaderColor="primary"
                     tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
@@ -179,14 +180,22 @@ export default class InventarioTableList extends React.Component {
                 />
                 </TabPanel> }
               {this.state.tabIndex == 1 &&
-              <TabPanel>
-                <Table
-                    tableHeaderColor="primary"
-                    tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
-                    tableData={[
-                    ]}
+                <View>
+                  <Text>Welcome</Text>
+                    <FlatList
+                    data={this.state.data}
+                    keyExtractor={(item,index) => index.toString()}
+                    renderItem={({item}) =>
+                <View style={{backgroundColor:'#abc123',padding:10,margin:10}}>
+                  <Text style={{color:'#fff', fontWeight:'bold'}}>{item.codigo}</Text>
+                  <Text style={{color:'#fff'}}>{item.tipo}</Text>
+                  <Text>City: {item.materia}</Text>
+                </View>
+                }
                 />
-              </TabPanel> }
+                </View>
+
+              }
               {this.state.tabIndex == 2 &&
               <TabPanel>
                 <Table
@@ -212,6 +221,7 @@ export default class InventarioTableList extends React.Component {
 
                   <Button className={styles.boton} color="primary"><AddIcon/></Button>
                 </div>
+
             </Card>
           }
       </div>
