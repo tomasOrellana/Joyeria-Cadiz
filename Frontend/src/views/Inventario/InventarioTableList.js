@@ -161,11 +161,11 @@ export default class InventarioTableList extends React.Component {
               <div style={{ paddingLeft: 40, paddingTop: 20 }}>
                 <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
                   <Grid  xs={2} sm={2} md={2}><TextField id="codigo" label="Codigo" placeholder="codigo" /></Grid>
-                  <Grid  xs={2} sm={2} md={2}><TextField id="producto" label="Producto" placeholder="producto"/></Grid>
+                  <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="Tipo" placeholder="producto"/></Grid>
                   <Grid  xs={2} sm={2} md={2}><TextField id="material" label="Material" placeholder="material"/></Grid>
                   <Grid  xs={2} sm={2} md={2}><TextField id="piedra" label="Piedra" placeholder="piedra"/></Grid>
                   <Grid  xs={2} sm={2} md={2}><TextField id="precio" label="Precio" placeholder="precio"/></Grid>
-
+                  <Grid  xs={2} sm={2} md={2}><TextField id="descripcion" label="Descripcion" placeholder="precio"/></Grid>
                   <Grid xs={2} sm={2} md={2}><Button className={styles.boton} color="primary">Buscar</Button></Grid>
                 </Grid>
               </div>
@@ -173,9 +173,8 @@ export default class InventarioTableList extends React.Component {
               <TabPanel>
                 <Table
                     tableHeaderColor="primary"
-                    tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto","Precio"]}
+                    tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
                     tableData={[
-                      ["1565228", "Anillo de compromiso", "Adamantium", "Diamante","A_C_Adam.png","$36.738"]
                     ]}
                 />
                 </TabPanel> }
@@ -183,20 +182,18 @@ export default class InventarioTableList extends React.Component {
               <TabPanel>
                 <Table
                     tableHeaderColor="primary"
-                    tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto", "Cantidad","Precio"]}
+                    tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
                     tableData={[
-                      ["1565228", "Anillo de compromiso", "Adamantium", "asdas","A_C_Adam.png","300","$36.738"]
                     ]}
                 />
               </TabPanel> }
               {this.state.tabIndex == 2 &&
               <TabPanel>
                 <Table
-                  tableHeaderColor="primary"
-                  tableHead={["Código", "Producto", "Material", "Piedra Preciosa", "Foto", "Cantidad","Precio"]}
-                  tableData={[
-                    ["1565228", "Anillo de compromiso", "Adamantium", "Diamssssante","A_C_Adam.png","300","$36.738"]
-                  ]}
+                    tableHeaderColor="primary"
+                    tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
+                    tableData={[
+                    ]}
                 />
               </TabPanel> }
             </CardBody>
