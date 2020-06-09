@@ -97,69 +97,77 @@ function a11yProps(index) {
 
 const useStyles = makeStyles(styles);
 
-export default function SimpleTabs() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+export default class InventarioTableList extends React.Component {
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      tabIndex: 0,
+    }
+    this.handleChange = this.handleChange.bind(this)
+  }
 
-  return (
-    <div className={classes.root}>
-      <AppBar position="static" color="primary" className={classes.Barrita}>
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Lo Castillo" {...a11yProps(0)} />
-          <Tab label="Apumanque" {...a11yProps(1)} />
-          <Tab label="Vitacura" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
+  handleChange(event, newValue) {
+    this.setState({tabIndex: newValue});
+  }
 
-      <div style={{ paddingLeft: 40, paddingTop: 20 }}>
-        <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
-          <Grid  xs={2} sm={2} md={2}><TextField id="numero" label="numero" placeholder="numero" /></Grid>
-          <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="tipo" placeholder="tipo"/></Grid>
-          <Grid  xs={2} sm={2} md={2}><TextField id="material" label="material" placeholder="material"/></Grid>
-          <Grid  xs={2} sm={2} md={2}><TextField id="contacto" label="contacto" placeholder="contacto"/></Grid>
-          <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="numero" placeholder="salario"/></Grid>
+  render() {
+    return (
+      <div style={styles.root}>
+        <AppBar position="static" color="primary" style={styles.Barrita}>
+          <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example">
+            <Tab label="Lo Castillo" {...a11yProps(0)} />
+            <Tab label="Apumanque" {...a11yProps(1)} />
+            <Tab label="Vitacura" {...a11yProps(2)} />
+          </Tabs>
+        </AppBar>
 
-          <Grid xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Buscar</Button></Grid>
-        </Grid>
+        <div style={{ paddingLeft: 40, paddingTop: 20 }}>
+          <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
+            <Grid  xs={2} sm={2} md={2}><TextField id="numero" label="numero" placeholder="numero" /></Grid>
+            <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="tipo" placeholder="tipo"/></Grid>
+            <Grid  xs={2} sm={2} md={2}><TextField id="material" label="material" placeholder="material"/></Grid>
+            <Grid  xs={2} sm={2} md={2}><TextField id="contacto" label="contacto" placeholder="contacto"/></Grid>
+            <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="numero" placeholder="salario"/></Grid>
+
+            <Grid xs={2} sm={2} md={2}><Button style={styles.boton} color="primary">Buscar</Button></Grid>
+          </Grid>
+        </div>
+
+        <TabPanel value={this.state.tabIndex} index={0}>
+          <Table
+            tableHeaderColor="secondary"
+            tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
+            tableData={[
+              [" Palma", "19783062-k", "Lo Castillo", "22", "$9999999999"],
+              [" Inostroza", "6969696-9", "La calle", "10", "Trabaja gratis, es putita"],
+
+            ]}
+          />
+        </TabPanel>
+        <TabPanel value={this.state.tabIndex} index={1}>
+          <Table
+            tableHeaderColor="primary"
+            tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
+            tableData={[
+              ["Franco ", "19783062-k", "Lo Castillo", "22", "$9999999999"],
+              ["Diego ", "6969696-9", "La calle", "10", "Trabaja gratis, es putita"],
+
+            ]}
+          />
+        </TabPanel>
+        <TabPanel value={this.state.tabIndex} index={2}>
+          <Table
+            tableHeaderColor="primary"
+            tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
+            tableData={[
+              ["Franco Palma", "19783062-k", "Lo Castillo", "22", "$9999999999"],
+              ["Diego Inostroza", "6969696-9", "La calle", "10", "Trabaja gratis, es putita"],
+
+            ]}
+          />
+        </TabPanel>
       </div>
-
-      <TabPanel value={value} index={0}>
-        <Table
-          tableHeaderColor="secondary"
-          tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
-          tableData={[
-            [" Palma", "19783062-k", "Lo Castillo", "22", "$9999999999"],
-            [" Inostroza", "6969696-9", "La calle", "10", "Trabaja gratis, es putita"],
-
-          ]}
-        />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Table
-          tableHeaderColor="primary"
-          tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
-          tableData={[
-            ["Franco ", "19783062-k", "Lo Castillo", "22", "$9999999999"],
-            ["Diego ", "6969696-9", "La calle", "10", "Trabaja gratis, es putita"],
-
-          ]}
-        />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Table
-          tableHeaderColor="primary"
-          tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
-          tableData={[
-            ["Franco Palma", "19783062-k", "Lo Castillo", "22", "$9999999999"],
-            ["Diego Inostroza", "6969696-9", "La calle", "10", "Trabaja gratis, es putita"],
-
-          ]}
-        />
-      </TabPanel>
-    </div>
-  );
+    );
+  }
 }
