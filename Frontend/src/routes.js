@@ -1,21 +1,3 @@
-/*!
-
-=========================================================
-* Material Dashboard React - v1.8.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2019 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/material-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
-// @material-ui/icons
 import Dashboard from "@material-ui/icons/Dashboard";
 import Person from "@material-ui/icons/Person";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
@@ -30,15 +12,10 @@ import UserProfile from "views/Perfil/Perfil.js";
 import InventarioTableList from "views/Inventario/InventarioTableList.js";
 import TableListEmpleados from "views/Empleados/TableListEmpleados.js";
 import TableListPedidos from "views/TablaPedidos/TableListPedidos.js";
-import Typography from "views/Typography/Typography.js";
 import Taller from "views/Taller/Taller.js";
 import Maps from "views/Maps/Maps.js";
-import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
 import Login from "views/Login/Login.js";
 import ListaDeVentas from "views/Ventas/Ventas.js";
-// core components/views for RTL layout
-//import Login from "views/Init/Init.js";
-import RTLPage from "views/RTLPage/RTLPage.js";
 
 const dashboardRoutes = [
   {
