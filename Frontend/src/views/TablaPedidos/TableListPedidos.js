@@ -115,7 +115,7 @@ export default class InventarioTableList extends React.Component {
     return (
       <div style={styles.root}>
         <AppBar position="static" color="primary" style={styles.Barrita}>
-          <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+          <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example">
             <Tab label="Lo Castillo" {...a11yProps(0)} />
             <Tab label="Apumanque" {...a11yProps(1)} />
             <Tab label="Vitacura" {...a11yProps(2)} />
@@ -134,7 +134,7 @@ export default class InventarioTableList extends React.Component {
           </Grid>
         </div>
 
-        <TabPanel value={value} index={0}>
+        <TabPanel value={this.state.tabIndex} index={0}>
           <Table
             tableHeaderColor="secondary"
             tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
@@ -145,7 +145,7 @@ export default class InventarioTableList extends React.Component {
             ]}
           />
         </TabPanel>
-        <TabPanel value={value} index={1}>
+        <TabPanel value={this.state.tabIndex} index={1}>
           <Table
             tableHeaderColor="primary"
             tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
@@ -156,7 +156,7 @@ export default class InventarioTableList extends React.Component {
             ]}
           />
         </TabPanel>
-        <TabPanel value={value} index={2}>
+        <TabPanel value={this.state.tabIndex} index={2}>
           <Table
             tableHeaderColor="primary"
             tableHead={["N° de Pedido", "Tipo", "Material","Contacto cliente", "Salario"]}
