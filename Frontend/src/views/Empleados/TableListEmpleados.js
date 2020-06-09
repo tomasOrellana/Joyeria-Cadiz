@@ -132,18 +132,18 @@ export default class TableListEmpleados extends React.Component {
                 <Grid  xs={2} sm={2} md={2}><TextField id="material" label="Material" placeholder="material"/></Grid>
                 <Grid  xs={2} sm={2} md={2}><TextField id="piedra" label="Piedra" placeholder="piedra"/></Grid>
                 <Grid  xs={2} sm={2} md={2}><TextField id="precio" label="Precio" placeholder="precio"/></Grid>
-  
+
                 <Grid xs={2} sm={2} md={2}><Button style={styles.boton} color="primary">Buscar</Button></Grid>
               </Grid>
             </div>
-  
+
             <TabPanel value={this.state.tabIndex} index={0}>
               <Table
                 tableHeaderColor="primary"
                 tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
                 tableData={[
                   ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
-                  ["Diego Inostroza", "6969696-9", "La calle", "10","Putita","666", "Trabaja gratis, es putita"],
+                  ["Diego Inostroza", "-9", "La calle", "10","","", "Trabaja gratis"],
                 ]}
               />
             </TabPanel>
@@ -153,7 +153,7 @@ export default class TableListEmpleados extends React.Component {
                 tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
                 tableData={[
                   ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
-                  ["Diego Inostroza", "6969696-9", "La calle", "10","Putita","666", "Trabaja gratis, es putita"],
+                  ["Diego Inostroza", "-9", "La calle", "10","","666", "Trabaja gratis"],
                 ]}
               />
               </TabPanel>
@@ -163,7 +163,7 @@ export default class TableListEmpleados extends React.Component {
                 tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
                 tableData={[
                   ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
-                  ["Diego Inostroza", "6969696-9", "La calle", "10","Putita","666", "Trabaja gratis, es putita"],
+                  ["Diego Inostroza", "-9", "La calle", "10","","666", "Trabaja gratis"],
                 ]}
               />
             </TabPanel>
