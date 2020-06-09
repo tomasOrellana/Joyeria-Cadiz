@@ -98,50 +98,6 @@ const dashboardRoutes = [
     component: ListaDeVentas,
     layout: "/admin"
   }
-   /*
-  {
-    path: "/typography",
-    name: "Typography",
-    rtlName: "طباعة",
-    icon: LibraryBooks,
-    component: Typography,
-    layout: "/admin"
-  },
-  {
-    path: "/icons",
-    name: "Icons",
-    rtlName: "الرموز",
-    icon: BubbleChart,
-    component: Icons,
-    layout: "/admin"
-  },
-  {
-    path: "/maps",
-    name: "Maps",
-    rtlName: "خرائط",
-    icon: LocationOn,
-    component: Maps,
-    layout: "/admin"
-  },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    rtlName: "إخطارات",
-    icon: Notifications,
-    component: NotificationsPage,
-    layout: "/admin"
-  }*/
-];
-
-const dashboardRoutesInit = [
-  {
-    path: "/notifications",
-    name: "Notifications",
-    rtlName: "إخطارات",
-    icon: Notifications,
-    component: NotificationsPage,
-    layout: "/admin"
-  },
 ];
 
 export default dashboardRoutes;
