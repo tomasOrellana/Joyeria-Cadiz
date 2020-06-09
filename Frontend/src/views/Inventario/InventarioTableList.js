@@ -139,10 +139,6 @@ export default class InventarioTableList extends React.Component {
     this.MostrarNuevoMenu = this.MostrarNuevoMenu.bind(this)
   }
 
-  componentDidMount() {
-    console.log('aasd')
-  }
-
   handleChange(event, newValue) {
     this.setState({tabIndex: newValue});
   }
