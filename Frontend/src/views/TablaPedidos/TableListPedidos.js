@@ -97,7 +97,7 @@ function a11yProps(index) {
 
 const useStyles = makeStyles(styles);
 
-export default class InventarioTableList extends React.Component {
+export default class TableListPedidos extends React.Component {
 
   constructor(props) {
     super(props);

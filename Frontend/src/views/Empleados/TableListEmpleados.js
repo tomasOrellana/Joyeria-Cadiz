@@ -98,69 +98,78 @@ function a11yProps(index) {
 
 const useStyles = makeStyles(styles);
 
-export default function SimpleTabs() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+export default class TableListEmpleados extends React.Component {
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      tabIndex: 0,
+    }
+    this.handleChange = this.handleChange.bind(this)
+  }
 
-  return (
-    <div className={classes.root}>
-      <Card>
-          <AppBar position="static" color="primary" className={classes.Barrita}>
-            <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-              <Tab label="Lo Castillo" {...a11yProps(0)} />
-              <Tab label="Apumanque" {...a11yProps(1)} />
-              <Tab label="Vitacura" {...a11yProps(2)} />
-            </Tabs>
-          </AppBar>
-        <CardBody>
-          <div style={{ paddingLeft: 40, paddingTop: 20 }}>
-            <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
-              <Grid  xs={2} sm={2} md={2}><TextField id="codigo" label="Codigo" placeholder="codigo" /></Grid>
-              <Grid  xs={2} sm={2} md={2}><TextField id="producto" label="Producto" placeholder="producto"/></Grid>
-              <Grid  xs={2} sm={2} md={2}><TextField id="material" label="Material" placeholder="material"/></Grid>
-              <Grid  xs={2} sm={2} md={2}><TextField id="piedra" label="Piedra" placeholder="piedra"/></Grid>
-              <Grid  xs={2} sm={2} md={2}><TextField id="precio" label="Precio" placeholder="precio"/></Grid>
+  handleChange(event, newValue) {
+    this.setState({tabIndex: newValue});
+  }
 
-              <Grid xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Buscar</Button></Grid>
-            </Grid>
-          </div>
 
-          <TabPanel value={value} index={0}>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
-              tableData={[
-                ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
-                ["Diego Inostroza", "-9", "La ", "10","","", "Trabaja gratis,  "],
-              ]}
-            />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
-              tableData={[
-                ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
-                ["Diego Inostroza", "-9", "La ", "10","","", "Trabaja gratis, "],
-              ]}
-            />
+  render() {
+    return (
+      <div style={styles.root}>
+        <Card>
+            <AppBar position="static" color="primary" style={styles.Barrita}>
+              <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example">
+                <Tab label="Lo Castillo" {...a11yProps(0)} />
+                <Tab label="Apumanque" {...a11yProps(1)} />
+                <Tab label="Vitacura" {...a11yProps(2)} />
+              </Tabs>
+            </AppBar>
+          <CardBody>
+            <div style={{ paddingLeft: 40, paddingTop: 20 }}>
+              <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
+                <Grid  xs={2} sm={2} md={2}><TextField id="codigo" label="Codigo" placeholder="codigo" /></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="producto" label="Producto" placeholder="producto"/></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="material" label="Material" placeholder="material"/></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="piedra" label="Piedra" placeholder="piedra"/></Grid>
+                <Grid  xs={2} sm={2} md={2}><TextField id="precio" label="Precio" placeholder="precio"/></Grid>
+  
+                <Grid xs={2} sm={2} md={2}><Button style={styles.boton} color="primary">Buscar</Button></Grid>
+              </Grid>
+            </div>
+  
+            <TabPanel value={this.state.tabIndex} index={0}>
+              <Table
+                tableHeaderColor="primary"
+                tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
+                tableData={[
+                  ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
+                  ["Diego Inostroza", "6969696-9", "La calle", "10","Putita","666", "Trabaja gratis, es putita"],
+                ]}
+              />
             </TabPanel>
-          <TabPanel value={value} index={2}>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
-              tableData={[
-                ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
-                ["Diego Inostroza", "-9", "La ", "10","","", "Trabaja gratis, "],
-              ]}
-            />
-          </TabPanel>
-        </CardBody>
-      </Card>
-    </div>
-  );
+            <TabPanel value={this.state.tabIndex} index={1}>
+              <Table
+                tableHeaderColor="primary"
+                tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
+                tableData={[
+                  ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
+                  ["Diego Inostroza", "6969696-9", "La calle", "10","Putita","666", "Trabaja gratis, es putita"],
+                ]}
+              />
+              </TabPanel>
+            <TabPanel value={this.state.tabIndex} index={2}>
+              <Table
+                tableHeaderColor="primary"
+                tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
+                tableData={[
+                  ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
+                  ["Diego Inostroza", "6969696-9", "La calle", "10","Putita","666", "Trabaja gratis, es putita"],
+                ]}
+              />
+            </TabPanel>
+          </CardBody>
+        </Card>
+      </div>
+    );
+  }
 }
