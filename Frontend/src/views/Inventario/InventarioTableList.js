@@ -16,6 +16,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { isConstructorDeclaration } from 'typescript';
 import { render } from 'react-dom';
 import {Platform, StyleSheet, Text, View,FlatList} from 'react';
+
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -106,7 +107,7 @@ function a11yProps(index) {
 export default class InventarioTableList extends React.Component {
 
 
-  fetchData= async()=>{
+  /*fetchData= async()=>{
     const response = await fetch('localhost:8000/productos')
     console.log('Llego');
     const producto = await response.json();
@@ -117,7 +118,7 @@ export default class InventarioTableList extends React.Component {
     this.fetchData();
   }
 
-  /*componentDidMount(){
+  componentDidMount(){
     fetch('localhost:8000/productos')
       .then(producto => producto.json())
       .then(producto => this.setState({ data: producto }));
@@ -166,48 +167,39 @@ export default class InventarioTableList extends React.Component {
                   <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="Tipo" placeholder="producto"/></Grid>
                   <Grid  xs={2} sm={2} md={2}><TextField id="material" label="Material" placeholder="material"/></Grid>
                   <Grid  xs={2} sm={2} md={2}><TextField id="piedra" label="Piedra" placeholder="piedra"/></Grid>
-                  <Grid  xs={2} sm={2} md={2}><TextField id="precio" label="Precio" placeholder="precio"/></Grid>
                   <Grid  xs={2} sm={2} md={2}><TextField id="descripcion" label="Descripcion" placeholder="precio"/></Grid>
                   <Grid xs={2} sm={2} md={2}><Button className={styles.boton} color="primary">Buscar</Button></Grid>
                 </Grid>
               </div>
-              {this.state.tabIndex == 0 &&
 
-              <TabPanel              >
+              <TabPanel value={this.state.tabIndex} index={0}>
+                <Table
+                    tableHeaderColor="primary"
+                    tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
+                    tableData={[
+                      ["asd", "asdas", "asdasd", "asdads", "asdasd", "asdasd"],
+                    ]}
+                />
+                </TabPanel> 
+              <TabPanel value={this.state.tabIndex} index={1}>
                 <Table
                     tableHeaderColor="primary"
                     tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
                     tableData={[
                     ]}
                 />
-                </TabPanel> }
-              {this.state.tabIndex == 1 &&
-                <View>
-                  <Text>Welcome</Text>
-                    <FlatList
-                    data={this.state.data}
-                    keyExtractor={(item,index) => index.toString()}
-                    renderItem={({item}) =>
-                <View style={{backgroundColor:'#abc123',padding:10,margin:10}}>
-                  <Text style={{color:'#fff', fontWeight:'bold'}}>{item.codigo}</Text>
-                  <Text style={{color:'#fff'}}>{item.tipo}</Text>
-                  <Text>City: {item.materia}</Text>
-                </View>
-                }
-                />
-                </View>
+              </TabPanel> 
 
-              }
-              {this.state.tabIndex == 2 &&
-              <TabPanel>
+              <TabPanel value={this.state.tabIndex} index={2}>
                 <Table
                     tableHeaderColor="primary"
                     tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
                     tableData={[
                     ]}
                 />
-              </TabPanel> }
+              </TabPanel> 
             </CardBody>
+
             <div style={styles.botonera}>
               <Button style={styles.botonañadir} color="primary" onClick={this.MostrarNuevoMenu}><AddIcon/>Añadir</Button>
             </div>
