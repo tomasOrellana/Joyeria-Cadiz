@@ -15,7 +15,8 @@ import TableListPedidos from "views/TablaPedidos/TableListPedidos.js";
 import Taller from "views/Taller/Taller.js";
 import Maps from "views/Maps/Maps.js";
 import Login from "views/Login/Login.js";
-import ListaDeVentas from "views/Ventas/Ventas.js";
+import ListaDeVentas from "views/TablaVentas/Ventas.js";
+import Ventas from "views/Ventas/Ventas.js"
 
 const dashboardRoutes = [
   {
@@ -71,7 +72,7 @@ const dashboardRoutes = [
     name: "Ventas",
     rtlName: "لوحة القيادة",
     icon: "shop",
-    component: Typography,
+    component: Ventas,
     layout: "/admin"
   },
   {
