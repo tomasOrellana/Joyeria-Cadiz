@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> <%= title%> </title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+
+
 </head>
 <body>
     <div class="container">
@@ -12,19 +15,21 @@
 
         <form  action="/agregar_prod" method="post" autocomplete="off">
             <div class="form-group">
-                <input type="text" id="codigo" class="form-control" name="codigo" placeholder="Codigo del producto">
+                <input type="text" oninput="this.value = this.value.toUpperCase()" id="codigo" class="form-control" name="codigo" placeholder="Codigo del producto">
             </div>
 
             <div class="form-group">
-                <input type="text" id= "tipo" class="form-control" name="tipo" placeholder="Tipo de producto">
+              <div class="mayus">
+                <input type="text" oninput="this.value = this.value.toUpperCase()" id= "tipo" class="form-control" name="tipo" placeholder="Tipo de producto">
+              </div>
             </div>
 
             <div class="form-group">
-                <input type="text" id="material" class="form-control" name="material" placeholder="Tipo de material">
+                <input type="text" oninput="this.value = this.value.toUpperCase()" id="material" class="form-control" name="material" placeholder="Tipo de material">
             </div>
 
             <div class="form-group">
-                <input type="text" id="piedra" class="form-control" name="piedra" placeholder="Piedra Preciosa">
+                <input type="text" oninput="this.value = this.value.toUpperCase()" id="piedra" class="form-control" name="piedra" placeholder="Piedra Preciosa">
             </div>
 
             <div class="form-group">
@@ -33,7 +38,7 @@
 
 
             <div class="form-group">
-                <input type="text" id="precio" class="form-control" name="precio" placeholder="Precio del producto">
+                <input type="number" id="precio" class="form-control" name="precio" placeholder="Precio del producto">
             </div>
 
             <div class="form-group">

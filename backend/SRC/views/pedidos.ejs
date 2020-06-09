@@ -69,8 +69,8 @@
             <thead>
                 <tr>
                     <th>Fecha</th>
-                    <th>ID del cliente</th>
-                    <th>ID de la sucursal</th>
+                    <th>Nombre del cliente</th>
+                    <th>Sucursal</th>
                     <th>Descripción</th>
                     <th>Estado</th>
                     <th>Total</th>
@@ -80,8 +80,8 @@
                 <% for(var i = 0; i < pedido.length; i++){ %>
                     <tr>
                         <td><%= pedido[i].fecha %></td>
-                        <td><%= pedido[i].id_cliente %></td>
-                        <td><%= pedido[i].id_sucursal %></td>
+                        <td><%= pedido[i].cliente %></td>
+                        <td><%= pedido[i].sucursal %></td>
                         <td><%= pedido[i].descripcion %></td>
                         <td><%= pedido[i].estado %></td>
                         <td><%= pedido[i].total %></td>
