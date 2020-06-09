@@ -26,7 +26,6 @@ import Unarchive from "@material-ui/icons/Unarchive";
 import Language from "@material-ui/icons/Language";
 // core components/views for Admin layout
 import Inicio from "views/Inicio/Inicio.js";
-import Icons from "views/Icons/Icons.js";
 import UserProfile from "views/Perfil/Perfil.js";
 import InventarioTableList from "views/Inventario/InventarioTableList.js";
 import TableListEmpleados from "views/Empleados/TableListEmpleados.js";
@@ -34,7 +33,6 @@ import TableListPedidos from "views/TablaPedidos/TableListPedidos.js";
 import Typography from "views/Typography/Typography.js";
 import Taller from "views/Taller/Taller.js";
 import Maps from "views/Maps/Maps.js";
-import NotificationsPage from "views/Notifications/Notifications.js";
 import UpgradeToPro from "views/UpgradeToPro/UpgradeToPro.js";
 import Login from "views/Login/Login.js";
 import ListaDeVentas from "views/Ventas/Ventas.js";
