@@ -114,7 +114,7 @@ router.get('/agregar_prod', isLoggedIn, (req,res) =>{
 
 router.post('/agregar_prod', isLoggedIn, (req,res) => {
     let body = req.body;
-    producto.create({codigo: req.body.codigotoUpperCase(), tipo: req.body.tipotoUpperCase(), material: req.body.materialtoUpperCase(), piedra: req.body.piedratoUpperCase(), precio: req.body.precio, descripcion: req.body.descripcion.toUpperCase()}, (err,task) =>{
+    producto.create(body, (err,task) =>{
 			if(!err){
 			inventario.create({id_sucursal: req.user.id_sucursal}, (err,task) =>{
 				inv_prod.create({cod_prod: req.body.codigo, cantidad: req.body.cantidad}, (err,task) =>{
@@ -139,7 +139,7 @@ router.get('/delete_producto/:id', isLoggedIn, (req,res) =>{
 			}
     });
 });
-router.get('/editar/:id', (req,res) =>{
+router.get('/editar_prod/:id', (req,res) =>{
     producto.findById(req.params.id, (err,producto) => {
         if(!err){
             res.render('editar_prod',{
@@ -155,7 +155,7 @@ router.get('/editar/:id', (req,res) =>{
 });
 
 router.post('/editar_prod/:id', function(req, res) {
-    producto.findByIdAndUpdate(req.params.id, {codigo: req.body.codigotoUpperCase(), tipo: req.body.tipotoUpperCase(), material: req.body.materialtoUpperCase(), piedra: req.body.piedratoUpperCase(), precio: req.body.precio, descripcion: req.body.descripcion.toUpperCase()}, function (err) {
+    producto.findByIdAndUpdate(req.params.id, req.body, function (err) {
       if(err){
         res.redirect('editar_prod/'+req.params.id);
     } else {
@@ -202,7 +202,7 @@ router.get('/agregar_pedido', isLoggedIn, (req,res) =>{
 
 router.post('/agregar_pedido', isLoggedIn, (req,res) => {
     let body = req.body;
-    pedido.create({fecha: req.body.fecha, cliente: req.body.cliente.toUpperCase(), sucursal: req.body.sucursal.toUpperCase(), descripcion: req.body.descripcion.toUpperCase(), estado: req.body.estado.toUpperCase(), total: req.body.total}, (err) =>{
+    pedido.create(body, (err) =>{
 			if(!err){
        res.redirect('/pedidos');
 		 }
