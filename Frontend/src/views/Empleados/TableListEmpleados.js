@@ -135,7 +135,7 @@ export default function SimpleTabs() {
               tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
               tableData={[
                 ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
-                ["Diego Inostroza", "6969696-9", "La calle", "10","Putita","666", "Trabaja gratis, es putita"],
+                ["Diego Inostroza", "-9", "La ", "10","","", "Trabaja gratis,  "],
               ]}
             />
           </TabPanel>
@@ -145,7 +145,7 @@ export default function SimpleTabs() {
               tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
               tableData={[
                 ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
-                ["Diego Inostroza", "6969696-9", "La calle", "10","Putita","666", "Trabaja gratis, es putita"],
+                ["Diego Inostroza", "-9", "La ", "10","","", "Trabaja gratis, "],
               ]}
             />
             </TabPanel>
@@ -155,7 +155,7 @@ export default function SimpleTabs() {
               tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
               tableData={[
                 ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
-                ["Diego Inostroza", "6969696-9", "La calle", "10","Putita","666", "Trabaja gratis, es putita"],
+                ["Diego Inostroza", "-9", "La ", "10","","", "Trabaja gratis, "],
               ]}
             />
           </TabPanel>
