@@ -70,40 +70,32 @@ function isLoggedIn (req, res, next) {
 }
 
 //Administrar productos
-router.get('/productos', async (req,res) =>{
-    await producto.find(function (err,producto) {
-			if (!err){
-        res.render('productos',{
-						user: req.user,
-            producto: producto
+
+router.get("/productos", function(req, res){  //lista de productos, tiene buscador
+    if(req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        producto.find({codigo: regex}, function(err, producto){
+           if(err){
+               console.log(err);
+           } else {
+              if(producto.length < 1) {
+                  noMatch = "No campgrounds match that query, please try again.";
+              }
+              //res.render("productos",{user: req.user, producto: producto});
+							res.json(producto);
+					 }
         });
-				//res.send(JSON.stringify(producto));
-			}else{
-				res.redirect('/inicio');
-			}
-    });
-
-});
-
-router.get('/buscar_producto', isLoggedIn, (req,res) =>{
-        res.render('buscar_producto',{
-						user: req.user,
-            producto: producto
+    } else {
+        producto.find({}, function(err, producto){
+           if(err){
+               console.log(err);
+           } else {
+              //res.render("productos",{user: req.user, producto: producto});
+							res.json(producto);
+           }
         });
+    }
 });
-
-router.post('/buscar_producto', isLoggedIn, (req,res) =>{
-	producto.find({$or:[{codigo: req.body.codigo},{tipo: req.body.codigo}]}, (err, producto) => {
-		if(err || producto == null){
-			res.redirect('/inicio');
-		}else{
-		res.render('detalle_producto',{
-			user: req.user,
-			producto: producto
-		})};
-	});
-});
-
 
 router.get('/agregar_prod', isLoggedIn, (req,res) =>{
     res.render('agregar_prod',{
@@ -139,6 +131,7 @@ router.get('/delete_producto/:id', isLoggedIn, (req,res) =>{
 			}
     });
 });
+
 router.get('/editar_prod/:id', (req,res) =>{
     producto.findById(req.params.id, (err,producto) => {
         if(!err){
@@ -404,6 +397,9 @@ router.post('/editar_empleado/:id', function(req, res) {
     });
   });
 
+	function escapeRegex(text) {
+	    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+	};
 
 
 
