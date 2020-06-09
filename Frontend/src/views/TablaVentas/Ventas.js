@@ -6,13 +6,17 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Table from "components/Table/Table.js";
+import Table from "components/Table/TableInv.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
-import Button from "components/CustomButtons/Button.js";
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import Button from "components/CustomButtons/Button.js";
+import AddIcon from '@material-ui/icons/Add';
+import { isConstructorDeclaration } from 'typescript';
+import { render } from 'react-dom';
+import {Platform, StyleSheet, Text, View,FlatList} from 'react';
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -55,11 +59,21 @@ const styles = {
     flexGrow: 1,
     backgroundColor: "#FFFFFF",
   },
-  buscador: {
-    marginHorizontal: "10px"
+  botonera: {
+    marginRight: "auto",
+    marginLeft: 20,
+    marginBottom: 10
   },
-  boton: {
-    marginLeft: "20px"
+  botonañadir: {
+    width: 150,
+  },
+  añadirestilo: {
+    margin: 'auto',
+    marginBottom:20,
+  },
+  formañadir: {
+    marginLeft: 5,
+    marginRight: 5
   }
 };
 
@@ -82,11 +96,6 @@ function TabPanel(props) {
   );
 }
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
 
 function a11yProps(index) {
   return {
@@ -95,83 +104,51 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles(styles);
+export default class Ventas extends React.Component {
 
-export default function SimpleTabs() {
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  static propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired,
+  }
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-    console.log('aa')
-    console.log(newValue)
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      tabIndex: 0,
+      estado: 0
+    }
+    this.handleChange = this.handleChange.bind(this)
+    this.MostrarNuevoMenu = this.MostrarNuevoMenu.bind(this)
+  }
 
-  return (
-    <div className={classes.root}>
-      <Card>
-        <AppBar position="static" color="primary" className={classes.Barrita}>
-          <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-            <Tab label="Lo Castillo" {...a11yProps(0)} />
-            <Tab label="Apumanque" {...a11yProps(1)} />
-            <Tab label="Vitacura" {...a11yProps(2)} />
-          </Tabs>
-        </AppBar>
-      </Card>
-      <Card>
-        <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>Ventas de día</h4>
-        </CardHeader>
-        <CardBody>
-          <div style={{ paddingLeft: 40, paddingTop: 20 }}>
-            <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
-              <Grid  xs={2} sm={2} md={2}><TextField id="numero" label="numero" placeholder="numero" /></Grid>
-              <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="tipo" placeholder="tipo"/></Grid>
-              <Grid  xs={2} sm={2} md={2}><TextField id="material" label="material" placeholder="material"/></Grid>
-              <Grid  xs={2} sm={2} md={2}><TextField id="contacto" label="contacto" placeholder="contacto"/></Grid>
-              <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="numero" placeholder="salario"/></Grid>
+  handleChange(event, newValue) {
+    this.setState({tabIndex: newValue});
+  }
 
-              <Grid xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Buscar</Button></Grid>
-            </Grid>
-          </div>
+  MostrarNuevoMenu() {
+    if(this.state.estado == 0) this.setState({estado: 1})
+    if(this.state.estado == 1) this.setState({estado: 0})
+  }
 
-          <TabPanel value={value} index={0}>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-              tableData={[
-                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-              ]}
-            />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-              tableData={[
-                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-              ]}
-            />
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-              tableData={[
-                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-              ]}
-            />
-          </TabPanel>
-        </CardBody>
-      </Card>
-
-      <Card>
-        <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>Ventas de la semana</h4>
-        </CardHeader>
-        <CardBody>
-
-          <div style={{ paddingLeft: 40, paddingTop: 20 }}>
+  render() {
+    return (
+      <div style={styles.root}>
+        <Card>
+          <AppBar position="static" color="primary" style={styles.Barrita}>
+            <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example">
+              <Tab label="Lo Castillo" {...a11yProps(0)} />
+              <Tab label="Apumanque" {...a11yProps(1)} />
+              <Tab label="Vitacura" {...a11yProps(2)} />
+            </Tabs>
+          </AppBar>
+        </Card>
+        <Card>
+          <CardHeader color="primary">
+            <h4 style={styles.cardTitleWhite}>Ventas de día</h4>
+          </CardHeader>
+          <CardBody>
+            <div style={{ paddingLeft: 40, paddingTop: 20 }}>
               <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
                 <Grid  xs={2} sm={2} md={2}><TextField id="numero" label="numero" placeholder="numero" /></Grid>
                 <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="tipo" placeholder="tipo"/></Grid>
@@ -179,87 +156,152 @@ export default function SimpleTabs() {
                 <Grid  xs={2} sm={2} md={2}><TextField id="contacto" label="contacto" placeholder="contacto"/></Grid>
                 <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="numero" placeholder="salario"/></Grid>
 
-                <Grid xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Buscar</Button></Grid>
+                <Grid xs={2} sm={2} md={2}><Button style={styles.boton} color="primary">Buscar</Button></Grid>
               </Grid>
-          </div>
+            </div>
+            {this.state.tabIndex == 0 &&
+              <TabPanel>
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+                  tableData={[
+                    ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+                  ]}
+                />
+              </TabPanel>
+            }
+            {this.state.tabIndex == 1 &&
+              <TabPanel>
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+                  tableData={[
+                    ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+                  ]}
+                />
+              </TabPanel>
+            }
+            {this.state.tabIndex == 2 &&
+              <TabPanel>
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+                  tableData={[
+                    ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+                  ]}
+                />
+              </TabPanel>
+            }
+          </CardBody>
+        </Card>
 
-          <TabPanel value={value} index={0}>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-              tableData={[
-                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-              ]}
-            />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-              tableData={[
-                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-              ]}
-            />
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-              tableData={[
-                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-              ]}
-            />
-          </TabPanel>
-        </CardBody>
-      </Card>
+        <Card>
+          <CardHeader color="primary">
+            <h4 style={styles.cardTitleWhite}>Ventas de la semana</h4>
+          </CardHeader>
+          <CardBody>
 
-      <Card>
-        <CardHeader color="primary">
-          <h4 className={classes.cardTitleWhite}>Ventas del mes</h4>
-        </CardHeader>
-        <CardBody>
+            <div style={{ paddingLeft: 40, paddingTop: 20 }}>
+                <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
+                  <Grid  xs={2} sm={2} md={2}><TextField id="numero" label="numero" placeholder="numero" /></Grid>
+                  <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="tipo" placeholder="tipo"/></Grid>
+                  <Grid  xs={2} sm={2} md={2}><TextField id="material" label="material" placeholder="material"/></Grid>
+                  <Grid  xs={2} sm={2} md={2}><TextField id="contacto" label="contacto" placeholder="contacto"/></Grid>
+                  <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="numero" placeholder="salario"/></Grid>
 
-        <div style={{ paddingLeft: 40, paddingTop: 20 }}>
-              <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
-                <Grid  xs={2} sm={2} md={2}><TextField id="numero" label="numero" placeholder="numero" /></Grid>
-                <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="tipo" placeholder="tipo"/></Grid>
-                <Grid  xs={2} sm={2} md={2}><TextField id="material" label="material" placeholder="material"/></Grid>
-                <Grid  xs={2} sm={2} md={2}><TextField id="contacto" label="contacto" placeholder="contacto"/></Grid>
-                <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="numero" placeholder="salario"/></Grid>
+                  <Grid xs={2} sm={2} md={2}><Button style={styles.boton} color="primary">Buscar</Button></Grid>
+                </Grid>
+            </div>
+            {this.state.tabIndex == 0 &&
+              <TabPanel >
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+                  tableData={[
+                    ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+                  ]}
+                />
+              </TabPanel>
+            }
+            {this.state.tabIndex == 1 &&
+              <TabPanel>
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+                  tableData={[
+                    ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+                  ]}
+                />
+              </TabPanel>
+              }
+              {this.state.tabIndex == 2 &&
+              <TabPanel>
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+                  tableData={[
+                    ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+                  ]}
+                />
+              </TabPanel>
+              }
 
-                <Grid xs={2} sm={2} md={2}><Button className={classes.boton} color="primary">Buscar</Button></Grid>
-              </Grid>
-          </div>
+          </CardBody>
+        </Card>
 
-          <TabPanel value={value} index={0}>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-              tableData={[
-                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-              ]}
-            />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-              tableData={[
-                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-              ]}
-            />
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <Table
-              tableHeaderColor="primary"
-              tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-              tableData={[
-                ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-              ]}
-            />
-          </TabPanel>
-        </CardBody>
-      </Card>
-    </div>
-  );
+        <Card>
+          <CardHeader color="primary">
+            <h4 style={styles.cardTitleWhite}>Ventas del mes</h4>
+          </CardHeader>
+          <CardBody>
+
+          <div style={{ paddingLeft: 40, paddingTop: 20 }}>
+                <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
+                  <Grid  xs={2} sm={2} md={2}><TextField id="numero" label="numero" placeholder="numero" /></Grid>
+                  <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="tipo" placeholder="tipo"/></Grid>
+                  <Grid  xs={2} sm={2} md={2}><TextField id="material" label="material" placeholder="material"/></Grid>
+                  <Grid  xs={2} sm={2} md={2}><TextField id="contacto" label="contacto" placeholder="contacto"/></Grid>
+                  <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="numero" placeholder="salario"/></Grid>
+
+                  <Grid xs={2} sm={2} md={2}><Button style={styles.boton} color="primary">Buscar</Button></Grid>
+                </Grid>
+            </div>
+            {this.state.tabIndex == 0 &&
+              <TabPanel>
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+                  tableData={[
+                    ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+                  ]}
+                />
+              </TabPanel>
+            }
+            {this.state.tabIndex == 1 &&
+              <TabPanel>
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+                  tableData={[
+                    ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+                  ]}
+                />
+              </TabPanel>
+              }
+              {this.state.tabIndex == 2 &&
+              <TabPanel>
+                <Table
+                  tableHeaderColor="primary"
+                  tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
+                  tableData={[
+                    ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
+                  ]}
+                />
+              </TabPanel>
+              }
+          </CardBody>
+        </Card>
+      </div>
+    );
+  }
 }
