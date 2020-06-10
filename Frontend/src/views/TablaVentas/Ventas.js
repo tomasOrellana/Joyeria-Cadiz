@@ -196,6 +196,32 @@ export default class Ventas extends React.Component {
           </CardHeader>
           <CardBody>
 
+          <form style={styles.container} noValidate>
+            <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
+              <Grid  xs={2} sm={2} md={2}><TextField
+              id="date"
+              label="Desde"
+              type="date"
+              defaultValue="today"
+              style={styles.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              /></Grid>
+            <Grid  xs={2} sm={2} md={2}><TextField
+            id="date"
+            label="Hasta"
+            type="date"
+            defaultValue="today"
+            style={styles.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            /></Grid>
+            <Grid xs={2} sm={2} md={2}><Button style={styles.boton} color="primary">Buscar</Button></Grid>
+          </Grid>
+          </form>
+
             <div style={{ paddingLeft: 40, paddingTop: 20 }}>
                 <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
                   <Grid  xs={2} sm={2} md={2}><TextField id="numero" label="numero" placeholder="numero" /></Grid>
@@ -207,7 +233,12 @@ export default class Ventas extends React.Component {
                   <Grid xs={2} sm={2} md={2}><Button style={styles.boton} color="primary">Buscar</Button></Grid>
                 </Grid>
             </div>
+<<<<<<< HEAD
             {this.state.tabIndex === 0 &&
+=======
+
+            {this.state.tabIndex == 0 &&
+>>>>>>> efa6c784a0f9c96a5d89d182aee9edcb7bc95d63
               <TabPanel >
                 <Table
                   tableHeaderColor="primary"
