@@ -71,10 +71,10 @@ function isLoggedIn (req, res, next) {
 
 //Administrar productos
 
-router.get("/productos", function(req, res){  //lista de productos, tiene buscador
+router.get('/productos', async function(req, res){  //lista de productos, tiene buscador
     if(req.query.search) {
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-        producto.find({codigo: regex}, function(err, producto){
+        await producto.find({codigo: regex}, function(err, producto){
            if(err){
                console.log(err);
            } else {
@@ -86,7 +86,7 @@ router.get("/productos", function(req, res){  //lista de productos, tiene buscad
 					 }
         });
     } else {
-        producto.find({}, function(err, producto){
+        await producto.find({}, function(err, producto){
            if(err){
                console.log(err);
            } else {
@@ -109,9 +109,7 @@ router.post('/agregar_prod', isLoggedIn, (req,res) => {
     producto.create(body, (err,task) =>{
 			if(!err){
 			inventario.create({id_sucursal: req.user.id_sucursal}, (err,task) =>{
-				inv_prod.create({cod_prod: req.body.codigo, cantidad: req.body.cantidad}, (err,task) =>{
-       		res.redirect('/productos');
-				});
+       		res.sendStatus(201);
 			});
 		}
 			else{
@@ -160,30 +158,30 @@ router.post('/editar_prod/:id', function(req, res) {
 
 
 //Gestionar pedidos
-router.get('/pedidos', isLoggedIn, (req,res) =>{
-    pedido.find(function (err,pedido) {
-			if(!err){
-        res.render('pedidos',{
-						user: req.user,
-            pedido: pedido
+router.get('/pedidos', async function(req, res){  //lista de productos, tiene buscador
+    if(req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        await pedido.find({codigo: regex}, function(err, pedido){
+           if(err){
+               console.log(err);
+           } else {
+              if(pedido.length < 1) {
+                  noMatch = "No campgrounds match that query, please try again.";
+              }
+              //res.render("productos",{user: req.user, pedido: pedido});
+							res.json(pedido);
+					 }
         });
-			}
-			else{
-				res.redirect('/inicio');
-			}
-    });
-});
-
-router.post('/buscar_pedido', isLoggedIn, (req,res) =>{
-	empleado.find({$or:[{fecha: req.body.fecha},{tipo: req.body.id_cliente}]}, (err, empleado) => {
-		if(err || empleado == null){
-			res.redirect('/inicio');
-		}else{
-		res.render('detalle_empleado',{
-			user: req.user,
-			empleado: empleado
-		})};
-	});
+    } else {
+        await pedido.find({}, function(err, pedido){
+           if(err){
+               console.log(err);
+           } else {
+              //res.render("productos",{user: req.user, pedido: pedido});
+							res.json(pedido);
+           }
+        });
+    }
 });
 
 router.get('/agregar_pedido', isLoggedIn, (req,res) =>{
