@@ -12,7 +12,7 @@ const bodyParser = require('body-parser');
 
 const { url } = require('./config/database');
 
-mongoose.connect(url,{useMongoClient: true});
+mongoose.connect(url);
 
 //Setting
 app.set('port', process.env.PORT || 8000);

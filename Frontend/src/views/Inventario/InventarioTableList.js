@@ -122,12 +122,12 @@ export default class InventarioTableList extends React.Component {
   }
 //
   componentDidMount() {
-    fetch('/asd')
+    fetch('/productos')
       .then(res => {
           console.log(res);
           return res.json()
       })
-      .then(users => { 
+      .then(users => {
           this.setState({ListaProductos: users, ready: true})
       });
   }
@@ -135,7 +135,7 @@ export default class InventarioTableList extends React.Component {
   handleChange(event, newValue) {
     this.setState({tabIndex: newValue});
   }
-  
+
   actualizarTexto(event, id, value) {
     this.setState({id: value});
   }
@@ -152,7 +152,7 @@ export default class InventarioTableList extends React.Component {
     headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-    },  
+    },
     body: JSON.stringify({
       codigo: this.state.codigo,
       material: this.state.material,
@@ -212,7 +212,7 @@ export default class InventarioTableList extends React.Component {
                       tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
                       tableData={Lista}
                   />
-                  </TabPanel> 
+                  </TabPanel>
                 <TabPanel value={this.state.tabIndex} index={1}>
                   <Table
                       tableHeaderColor="primary"
@@ -220,7 +220,7 @@ export default class InventarioTableList extends React.Component {
                       tableData={[
                       ]}
                   />
-                </TabPanel> 
+                </TabPanel>
 
                 <TabPanel value={this.state.tabIndex} index={2}>
                   <Table
@@ -229,7 +229,7 @@ export default class InventarioTableList extends React.Component {
                       tableData={[
                       ]}
                   />
-                </TabPanel> 
+                </TabPanel>
               </CardBody>
 
               <div style={styles.botonera}>
@@ -246,13 +246,13 @@ export default class InventarioTableList extends React.Component {
                     <Input style={styles.formañadir} id="piedra" label="Piedra" placeholder="piedra" onChange={(event) => this.setState({piedra:event.target.value})}/>
                     <Input style={styles.formañadir} id="precio" label="Precio" placeholder="precio" onChange={(event) => this.setState({precio:event.target.value})}/>
                     <Input style={styles.formañadir} id="descripcion" label="Descripcion" placeholder="descripcion" onChange={(event) => this.setState({descripcion:event.target.value})}/>
-                    <Button style={styles.boton} onClick={this.AgregarProducto} color="primary"><AddIcon/></Button> 
+                    <Button style={styles.boton} onClick={this.AgregarProducto} color="primary"><AddIcon/></Button>
                   </div>
               </Card>
             }
         </div>
       )
-    } else if(this.state.ready === false) { 
+    } else if(this.state.ready === false) {
       return(
         <div style={styles.root}>
           <p></p>

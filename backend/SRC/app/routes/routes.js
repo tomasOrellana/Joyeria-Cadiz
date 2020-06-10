@@ -70,20 +70,26 @@ function isLoggedIn (req, res, next) {
 }
 
 //Administrar productos
-router.get('/productos', (req,res) =>{
-    /*await producto.find(function (err,producto) {
-			if (!err){
-        res.render('productos',{
-						user: req.user,
-            producto: producto
+router.get('/productos', async function(req, res){  //lista de productos, tiene buscador
+    if(req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        await producto.find({codigo: regex}, function(err, producto){
+           if(err){
+               console.log(err);
+           } else {
+							res.json(producto);
+					 }
         });
-				//res.send(JSON.stringify(producto));
-			}else{
-				res.redirect('/inicio');
-			}
-	});*/
-	res.send(hola);
-	console.log(hola)
+    } else {
+        await producto.find({}, function(err, producto){
+           if(err){
+               console.log(err);
+           } else {
+              //res.render("productos",{user: req.user, producto: producto});
+							res.json(producto);
+           }
+        });
+    }
 });
 
 router.get('/asd', function(req, res) {
@@ -152,35 +158,21 @@ router.get('/agregar_prod', isLoggedIn, (req,res) =>{
 });
 
 router.post('/agregar_prod', (req,res) => {
-	var codigo = req.body.codigo.toUpperCase();
-	var material = req.body.material.toUpperCase();
-	var tipo = req.body.tipo.toUpperCase();
-	var piedra = req.body.piedra.toUpperCase();
-	var precio = req.body.precio.toUpperCase();
-	var descripcion = req.body.descripcion.toUpperCase();
-	var sucursal = req.body.sucursal;
+	let codigo = req.body.codigo.toUpperCase();
+	let material = req.body.material.toUpperCase();
+	let tipo = req.body.tipo.toUpperCase();
+	let piedra = req.body.piedra.toUpperCase();
+	let precio = req.body.precio.toUpperCase();
+	let descripcion = req.body.descripcion.toUpperCase();
+	let sucursal = req.body.sucursal;
 
-	console.log(codigo)
-	console.log(material)
-	console.log(tipo)
-	console.log(piedra)
-	console.log(precio)
-	console.log(descripcion)
-	console.log(sucursal)
-
-	res.sendStatus(201)
-
-    /*let body = req.body;
-    producto.create(body, (err,task) =>{
-			if(!err){
-			inventario.create({id_sucursal: req.user.id_sucursal}, (err,task) =>{
-       		res.sendStatus(201);
-			});
-		}
-			else{
-				res.redirect('/inicio');
-			}
-    });*/
+  producto.create({codigo: codigo, material: material, tipo: tipo, piedra: piedra, precio: precio, descripcion: descripcion, sucursal: sucursal}, (err) =>{
+		if(!err){
+     	res.sendStatus(201);
+	}else{
+			console.log(err);
+	}
+  });
 });
 
 router.get('/delete_producto/:id', isLoggedIn, (req,res) =>{
