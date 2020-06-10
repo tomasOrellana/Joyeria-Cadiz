@@ -233,12 +233,7 @@ export default class Ventas extends React.Component {
                   <Grid xs={2} sm={2} md={2}><Button style={styles.boton} color="primary">Buscar</Button></Grid>
                 </Grid>
             </div>
-<<<<<<< HEAD
             {this.state.tabIndex === 0 &&
-=======
-
-            {this.state.tabIndex == 0 &&
->>>>>>> efa6c784a0f9c96a5d89d182aee9edcb7bc95d63
               <TabPanel >
                 <Table
                   tableHeaderColor="primary"

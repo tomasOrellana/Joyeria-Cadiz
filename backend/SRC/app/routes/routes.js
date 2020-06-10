@@ -70,7 +70,6 @@ function isLoggedIn (req, res, next) {
 }
 
 //Administrar productos
-<<<<<<< HEAD
 router.get('/productos', (req,res) =>{
     /*await producto.find(function (err,producto) {
 			if (!err){
@@ -128,34 +127,21 @@ router.get('/buscar_producto', isLoggedIn, (req,res) =>{
         res.render('buscar_producto',{
 						user: req.user,
             producto: producto
-=======
-
-router.get("/productos", function(req, res){  //lista de productos, tiene buscador
-    if(req.query.search) {
-        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-        producto.find({codigo: regex}, function(err, producto){
-           if(err){
-               console.log(err);
-           } else {
-              if(producto.length < 1) {
-                  noMatch = "No campgrounds match that query, please try again.";
-              }
-              //res.render("productos",{user: req.user, producto: producto});
-							res.json(producto);
-					 }
->>>>>>> efa6c784a0f9c96a5d89d182aee9edcb7bc95d63
         });
-    } else {
-        producto.find({}, function(err, producto){
-           if(err){
-               console.log(err);
-           } else {
-              //res.render("productos",{user: req.user, producto: producto});
-							res.json(producto);
-           }
-        });
-    }
 });
+
+router.post('/buscar_producto', isLoggedIn, (req,res) =>{
+	producto.find({$or:[{codigo: req.body.codigo},{tipo: req.body.codigo}]}, (err, producto) => {
+		if(err || producto == null){
+			res.redirect('/inicio');
+		}else{
+		res.render('detalle_producto',{
+			user: req.user,
+			producto: producto
+		})};
+	});
+});
+
 
 router.get('/agregar_prod', isLoggedIn, (req,res) =>{
 	
@@ -210,7 +196,6 @@ router.get('/delete_producto/:id', isLoggedIn, (req,res) =>{
 			}
     });
 });
-
 router.get('/editar_prod/:id', (req,res) =>{
     producto.findById(req.params.id, (err,producto) => {
         if(!err){
@@ -476,9 +461,6 @@ router.post('/editar_empleado/:id', function(req, res) {
     });
   });
 
-	function escapeRegex(text) {
-	    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-	};
 
 
 
