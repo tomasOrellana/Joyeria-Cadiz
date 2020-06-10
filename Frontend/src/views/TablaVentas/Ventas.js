@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -13,10 +12,6 @@ import CardHeader from "components/Card/CardHeader.js";
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from "components/CustomButtons/Button.js";
-import AddIcon from '@material-ui/icons/Add';
-import { isConstructorDeclaration } from 'typescript';
-import { render } from 'react-dom';
-import {Platform, StyleSheet, Text, View,FlatList} from 'react';
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -127,8 +122,8 @@ export default class Ventas extends React.Component {
   }
 
   MostrarNuevoMenu() {
-    if(this.state.estado == 0) this.setState({estado: 1})
-    if(this.state.estado == 1) this.setState({estado: 0})
+    if(this.state.estado === 0) this.setState({estado: 1})
+    if(this.state.estado === 1) this.setState({estado: 0})
   }
 
   render() {
@@ -159,7 +154,7 @@ export default class Ventas extends React.Component {
                 <Grid xs={2} sm={2} md={2}><Button style={styles.boton} color="primary">Buscar</Button></Grid>
               </Grid>
             </div>
-            {this.state.tabIndex == 0 &&
+            {this.state.tabIndex === 0 &&
               <TabPanel>
                 <Table
                   tableHeaderColor="primary"
@@ -170,7 +165,7 @@ export default class Ventas extends React.Component {
                 />
               </TabPanel>
             }
-            {this.state.tabIndex == 1 &&
+            {this.state.tabIndex === 1 &&
               <TabPanel>
                 <Table
                   tableHeaderColor="primary"
@@ -181,7 +176,7 @@ export default class Ventas extends React.Component {
                 />
               </TabPanel>
             }
-            {this.state.tabIndex == 2 &&
+            {this.state.tabIndex === 2 &&
               <TabPanel>
                 <Table
                   tableHeaderColor="primary"
@@ -201,6 +196,32 @@ export default class Ventas extends React.Component {
           </CardHeader>
           <CardBody>
 
+          <form style={styles.container} noValidate>
+            <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
+              <Grid  xs={2} sm={2} md={2}><TextField
+              id="date"
+              label="Desde"
+              type="date"
+              defaultValue="today"
+              style={styles.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              /></Grid>
+            <Grid  xs={2} sm={2} md={2}><TextField
+            id="date"
+            label="Hasta"
+            type="date"
+            defaultValue="today"
+            style={styles.textField}
+            InputLabelProps={{
+              shrink: true,
+            }}
+            /></Grid>
+            <Grid xs={2} sm={2} md={2}><Button style={styles.boton} color="primary">Buscar</Button></Grid>
+          </Grid>
+          </form>
+
             <div style={{ paddingLeft: 40, paddingTop: 20 }}>
                 <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
                   <Grid  xs={2} sm={2} md={2}><TextField id="numero" label="numero" placeholder="numero" /></Grid>
@@ -212,7 +233,7 @@ export default class Ventas extends React.Component {
                   <Grid xs={2} sm={2} md={2}><Button style={styles.boton} color="primary">Buscar</Button></Grid>
                 </Grid>
             </div>
-            {this.state.tabIndex == 0 &&
+            {this.state.tabIndex === 0 &&
               <TabPanel >
                 <Table
                   tableHeaderColor="primary"
@@ -223,7 +244,7 @@ export default class Ventas extends React.Component {
                 />
               </TabPanel>
             }
-            {this.state.tabIndex == 1 &&
+            {this.state.tabIndex === 1 &&
               <TabPanel>
                 <Table
                   tableHeaderColor="primary"
@@ -234,7 +255,7 @@ export default class Ventas extends React.Component {
                 />
               </TabPanel>
               }
-              {this.state.tabIndex == 2 &&
+              {this.state.tabIndex === 2 &&
               <TabPanel>
                 <Table
                   tableHeaderColor="primary"
@@ -266,7 +287,7 @@ export default class Ventas extends React.Component {
                   <Grid xs={2} sm={2} md={2}><Button style={styles.boton} color="primary">Buscar</Button></Grid>
                 </Grid>
             </div>
-            {this.state.tabIndex == 0 &&
+            {this.state.tabIndex === 0 &&
               <TabPanel>
                 <Table
                   tableHeaderColor="primary"
@@ -277,7 +298,7 @@ export default class Ventas extends React.Component {
                 />
               </TabPanel>
             }
-            {this.state.tabIndex == 1 &&
+            {this.state.tabIndex === 1 &&
               <TabPanel>
                 <Table
                   tableHeaderColor="primary"
@@ -288,7 +309,7 @@ export default class Ventas extends React.Component {
                 />
               </TabPanel>
               }
-              {this.state.tabIndex == 2 &&
+              {this.state.tabIndex === 2 &&
               <TabPanel>
                 <Table
                   tableHeaderColor="primary"

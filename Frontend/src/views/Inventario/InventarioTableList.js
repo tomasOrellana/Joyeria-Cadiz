@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -13,9 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from "components/CustomButtons/Button.js";
 import AddIcon from '@material-ui/icons/Add';
-import { isConstructorDeclaration } from 'typescript';
-import { render } from 'react-dom';
-import {Platform, StyleSheet, Text, View,FlatList} from 'react';
+import { Input } from '@material-ui/core';
 
 const styles = {
   cardCategoryWhite: {
@@ -106,119 +102,162 @@ function a11yProps(index) {
 
 export default class InventarioTableList extends React.Component {
 
-
-  /*fetchData= async()=>{
-    const response = await fetch('localhost:8000/productos')
-    console.log('Llego');
-    const producto = await response.json();
-    this.setState({data: producto});
-  }
-
-  componentDidMount(){
-    this.fetchData();
-  }
-
-  componentDidMount(){
-    fetch('localhost:8000/productos')
-      .then(producto => producto.json())
-      .then(producto => this.setState({ data: producto }));
-  }*/
-
-  static propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired,
-  }
-
   constructor(props) {
     super(props);
     this.state = {
       tabIndex: 0,
-      estado: 0
+      estado: 0,
+      ListaProductos: null,
+      ready: false,
+      codigo: null,
+      material: null,
+      tipo: null,
+      piedra: null,
+      precio: null,
+      descripcion: null
     }
     this.handleChange = this.handleChange.bind(this)
     this.MostrarNuevoMenu = this.MostrarNuevoMenu.bind(this)
+    this.AgregarProducto = this.AgregarProducto.bind(this)
+  }
+//
+  componentDidMount() {
+    fetch('/asd')
+      .then(res => {
+          console.log(res);
+          return res.json()
+      })
+      .then(users => { 
+          this.setState({ListaProductos: users, ready: true})
+      });
   }
 
   handleChange(event, newValue) {
     this.setState({tabIndex: newValue});
   }
+  
+  actualizarTexto(event, id, value) {
+    this.setState({id: value});
+  }
 
   MostrarNuevoMenu() {
-    if(this.state.estado == 0) this.setState({estado: 1})
-    if(this.state.estado == 1) this.setState({estado: 0})
+    if(this.state.estado === 0) this.setState({estado: 1})
+    if(this.state.estado === 1) this.setState({estado: 0})
+  }
+
+  AgregarProducto() {
+    console.log(this.state.tabIndex)
+    fetch('/agregar_prod', {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },  
+    body: JSON.stringify({
+      codigo: this.state.codigo,
+      material: this.state.material,
+      tipo: this.state.tipo,
+      piedra: this.state.piedra,
+      precio: this.state.precio,
+      descripcion: this.state.descripcion,
+      sucursal: this.state.tabIndex })
+    })
+    .then( (response) => {
+        if(response.status === 201) {
+            console.log("Añadido correctamente")
+        } else {
+            console.log('Hubo un error')
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
   }
 
   render() {
-    return (
-      <div style={styles.root}>
-          <Card>
-              <AppBar position="static" color="primary" >
-                <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example" >
-                  <Tab label="Lo Castillo" {...a11yProps(0)}/>
-                  <Tab label="Apumanque" {...a11yProps(1)}/>
-                  <Tab label="Vitacura" {...a11yProps(2)}/>
-                </Tabs>
-              </AppBar>
-            <CardBody>
-              <div style={{ paddingLeft: 40, paddingTop: 20 }}>
-                <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
-                  <Grid  xs={2} sm={2} md={2}><TextField id="codigo" label="Codigo" placeholder="codigo" /></Grid>
-                  <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="Tipo" placeholder="producto"/></Grid>
-                  <Grid  xs={2} sm={2} md={2}><TextField id="material" label="Material" placeholder="material"/></Grid>
-                  <Grid  xs={2} sm={2} md={2}><TextField id="piedra" label="Piedra" placeholder="piedra"/></Grid>
-                  <Grid  xs={2} sm={2} md={2}><TextField id="descripcion" label="Descripcion" placeholder="precio"/></Grid>
-                  <Grid xs={2} sm={2} md={2}><Button className={styles.boton} color="primary">Buscar</Button></Grid>
-                </Grid>
-              </div>
 
-              <TabPanel value={this.state.tabIndex} index={0}>
-                <Table
-                    tableHeaderColor="primary"
-                    tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
-                    tableData={[
-                      ["asd", "asdas", "asdasd", "asdads", "asdasd", "asdasd"],
-                    ]}
-                />
-                </TabPanel> 
-              <TabPanel value={this.state.tabIndex} index={1}>
-                <Table
-                    tableHeaderColor="primary"
-                    tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
-                    tableData={[
-                    ]}
-                />
-              </TabPanel> 
+    if(this.state.ready === true) {
+      let Lista = this.state.ListaProductos.map((val,) => {
+        return (
+          // tableHead={["Código", "Tipo", "Material", "Piedra", "Precio", "descripcion"}
+            [val.codigo, val.tipo, val.material, val.piedra, val.precio, val.descripcion]
+        )
+      });
 
-              <TabPanel value={this.state.tabIndex} index={2}>
-                <Table
-                    tableHeaderColor="primary"
-                    tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
-                    tableData={[
-                    ]}
-                />
-              </TabPanel> 
-            </CardBody>
-
-            <div style={styles.botonera}>
-              <Button style={styles.botonañadir} color="primary" onClick={this.MostrarNuevoMenu}><AddIcon/>Añadir</Button>
-            </div>
-          </Card>
-
-          {this.state.estado == 1 &&
-            <Card >
-              <div style={styles.añadirestilo}>
-                  <TextField style={styles.formañadir} id="producto" label="Producto" placeholder="nombre"/>
-                  <TextField style={styles.formañadir} id="material" label="Material" placeholder="material"/>
-                  <TextField style={styles.formañadir} id="piedra" label="Piedra" placeholder="piedra"/>
-                  <TextField style={styles.formañadir} id="precio" label="Precio" placeholder="precio"/>
-
-                  <Button className={styles.boton} color="primary"><AddIcon/></Button>
+      return (
+        <div style={styles.root}>
+            <Card>
+                <AppBar position="static" color="primary" >
+                  <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example" >
+                    <Tab label="Lo Castillo" {...a11yProps(0)}/>
+                    <Tab label="Apumanque" {...a11yProps(1)}/>
+                    <Tab label="Vitacura" {...a11yProps(2)}/>
+                  </Tabs>
+                </AppBar>
+              <CardBody>
+                <div style={{ paddingLeft: 40, paddingTop: 20 }}>
+                  <Grid item={true} container direction='row' spacing={1} justify='center' alignItems='center'>
+                    <Grid  xs={2} sm={2} md={2}><TextField id="codigo" label="Codigo" placeholder="codigo" /></Grid>
+                    <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="Tipo" placeholder="producto"/></Grid>
+                    <Grid  xs={2} sm={2} md={2}><TextField id="material" label="Material" placeholder="material"/></Grid>
+                    <Grid  xs={2} sm={2} md={2}><TextField id="piedra" label="Piedra" placeholder="piedra"/></Grid>
+                    <Grid  xs={2} sm={2} md={2}><TextField id="descripcion" label="Descripcion" placeholder="precio"/></Grid>
+                    <Grid xs={2} sm={2} md={2}><Button className={styles.boton} color="primary">Buscar</Button></Grid>
+                  </Grid>
                 </div>
 
+                <TabPanel value={this.state.tabIndex} index={0}>
+                  <Table
+                      tableHeaderColor="primary"
+                      tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
+                      tableData={Lista}
+                  />
+                  </TabPanel> 
+                <TabPanel value={this.state.tabIndex} index={1}>
+                  <Table
+                      tableHeaderColor="primary"
+                      tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
+                      tableData={[
+                      ]}
+                  />
+                </TabPanel> 
+
+                <TabPanel value={this.state.tabIndex} index={2}>
+                  <Table
+                      tableHeaderColor="primary"
+                      tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
+                      tableData={[
+                      ]}
+                  />
+                </TabPanel> 
+              </CardBody>
+
+              <div style={styles.botonera}>
+                <Button style={styles.botonañadir} color="primary" onClick={this.MostrarNuevoMenu}><AddIcon/>Añadir</Button>
+              </div>
             </Card>
-          }
-      </div>
-    )
+
+            {this.state.estado === 1 &&
+              <Card >
+                <div style={styles.añadirestilo}>
+                    <Input style={styles.formañadir} id="codigo" label="Codigo" placeholder="codigo" onChange={(event) => this.setState({codigo:event.target.value})}/>
+                    <Input style={styles.formañadir} id="material" label="Material" placeholder="material" onChange={(event) => this.setState({material:event.target.value})}/>
+                    <Input style={styles.formañadir} id="tipo" label="Tipo" placeholder="tipo" onChange={(event) => this.setState({tipo:event.target.value})}/>
+                    <Input style={styles.formañadir} id="piedra" label="Piedra" placeholder="piedra" onChange={(event) => this.setState({piedra:event.target.value})}/>
+                    <Input style={styles.formañadir} id="precio" label="Precio" placeholder="precio" onChange={(event) => this.setState({precio:event.target.value})}/>
+                    <Input style={styles.formañadir} id="descripcion" label="Descripcion" placeholder="descripcion" onChange={(event) => this.setState({descripcion:event.target.value})}/>
+                    <Button style={styles.boton} onClick={this.AgregarProducto} color="primary"><AddIcon/></Button> 
+                  </div>
+              </Card>
+            }
+        </div>
+      )
+    } else if(this.state.ready === false) { 
+      return(
+        <div style={styles.root}>
+          <p></p>
+        </div>
+      )
+    }
   }
 }
