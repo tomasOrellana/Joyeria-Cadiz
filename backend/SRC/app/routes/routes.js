@@ -70,8 +70,8 @@ function isLoggedIn (req, res, next) {
 }
 
 //Administrar productos
-router.get('/productos', async (req,res) =>{
-    await producto.find(function (err,producto) {
+router.get('/productos', (req,res) =>{
+    /*await producto.find(function (err,producto) {
 			if (!err){
         res.render('productos',{
 						user: req.user,
@@ -81,9 +81,47 @@ router.get('/productos', async (req,res) =>{
 			}else{
 				res.redirect('/inicio');
 			}
-    });
-
+	});*/
+	res.send(hola);
+	console.log(hola)
 });
+
+router.get('/asd', function(req, res) {
+	// res.send('respond with a resource');
+
+	
+	 res.json([{
+	   id: "5ec49fc573d1885c64d14065",
+	   codigo:'1132238',//
+	   tipo: 'collar',
+	   material: 'Oro',
+	   piedra: 'No tiene',
+	   cantidad: 5,
+	   precio: 50000,
+	   descripcion: "aaaaaaaaaaaaasd"
+	 }, {
+		id: "5ec49fc573d188asdadasd5c64d14065",
+		codigo:'1132238',//
+		tipo: 'asdasdsad',
+		material: 'Oro',
+		piedra: 'No tiene',
+		cantidad: 5,
+		precio: 50000, 
+		descripcion: "asd"
+	 }]);
+   });
+
+/*app.post('/productoslista',(req,res) => {
+  
+	client.query('SELECT PRODATA.PRO_ID, PRODATA.OPEN, USERS.USR_ID, USERS.USR_NAME, USERS.USR_EMAIL, USERS.USR_ADDRESS, USERS.USR_PHONE, USERS.DATE_IN FROM PRODATA, USERS WHERE PRODATA.USR_ID = USERS.USR_ID', (err, response) => {
+		if (err) {
+			console.log(err.stack)
+			res.sendStatus(400)
+		} else {
+			res.send(response)
+		}
+	})
+  })*/
 
 router.get('/buscar_producto', isLoggedIn, (req,res) =>{
         res.render('buscar_producto',{
@@ -106,14 +144,33 @@ router.post('/buscar_producto', isLoggedIn, (req,res) =>{
 
 
 router.get('/agregar_prod', isLoggedIn, (req,res) =>{
+	
     res.render('agregar_prod',{
         title: 'Agregar Producto'
     });
 
 });
 
-router.post('/agregar_prod', isLoggedIn, (req,res) => {
-    let body = req.body;
+router.post('/agregar_prod', (req,res) => {
+	var codigo = req.body.codigo.toUpperCase();
+	var material = req.body.material.toUpperCase();
+	var tipo = req.body.tipo.toUpperCase();
+	var piedra = req.body.piedra.toUpperCase();
+	var precio = req.body.precio.toUpperCase();
+	var descripcion = req.body.descripcion.toUpperCase();
+	var sucursal = req.body.sucursal;
+
+	console.log(codigo)
+	console.log(material)
+	console.log(tipo)
+	console.log(piedra)
+	console.log(precio)
+	console.log(descripcion)
+	console.log(sucursal)
+
+	res.sendStatus(201)
+
+    /*let body = req.body;
     producto.create(body, (err,task) =>{
 			if(!err){
 			inventario.create({id_sucursal: req.user.id_sucursal}, (err,task) =>{
@@ -125,7 +182,7 @@ router.post('/agregar_prod', isLoggedIn, (req,res) => {
 			else{
 				res.redirect('/inicio');
 			}
-    });
+    });*/
 });
 
 router.get('/delete_producto/:id', isLoggedIn, (req,res) =>{
