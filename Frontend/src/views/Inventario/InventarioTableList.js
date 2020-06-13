@@ -187,7 +187,7 @@ export default class InventarioTableList extends React.Component {
       });
       let Usuario = this.state.ListaProductos.map((val,) => {
         return (
-            val.user
+            val.rol
         )
       });
 
