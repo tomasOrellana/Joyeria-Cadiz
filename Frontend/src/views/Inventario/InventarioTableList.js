@@ -114,7 +114,8 @@ export default class InventarioTableList extends React.Component {
       tipo: null,
       piedra: null,
       precio: null,
-      descripcion: null
+      descripcion: null,
+      Usuario: null
     }
     this.handleChange = this.handleChange.bind(this)
     this.MostrarNuevoMenu = this.MostrarNuevoMenu.bind(this)
@@ -160,7 +161,9 @@ export default class InventarioTableList extends React.Component {
       piedra: this.state.piedra,
       precio: this.state.precio,
       descripcion: this.state.descripcion,
-      sucursal: this.state.tabIndex })
+      sucursal: this.state.tabIndex ,
+      Usuario : this.state.user
+    })
     })
     .then( (response) => {
         if(response.status === 201) {
