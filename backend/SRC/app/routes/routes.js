@@ -77,7 +77,10 @@ router.get('/productos', async function(req, res){  //lista de productos, tiene 
            if(err){
                console.log(err);
            } else {
-							res.json(producto);
+							res.json({
+								user: req.user,
+								producto: producto
+							);
 					 }
         });
     } else {
@@ -93,8 +96,6 @@ router.get('/productos', async function(req, res){  //lista de productos, tiene 
 });
 
 router.get('/asd', function(req, res) {
-	// res.send('respond with a resource');
-
 
 	 res.json([{
 	   id: "5ec49fc573d1885c64d14065",
@@ -116,38 +117,6 @@ router.get('/asd', function(req, res) {
 		descripcion: "asd"
 	 }]);
    });
-
-/*app.post('/productoslista',(req,res) => {
-
-	client.query('SELECT PRODATA.PRO_ID, PRODATA.OPEN, USERS.USR_ID, USERS.USR_NAME, USERS.USR_EMAIL, USERS.USR_ADDRESS, USERS.USR_PHONE, USERS.DATE_IN FROM PRODATA, USERS WHERE PRODATA.USR_ID = USERS.USR_ID', (err, response) => {
-		if (err) {
-			console.log(err.stack)
-			res.sendStatus(400)
-		} else {
-			res.send(response)
-		}
-	})
-  })*/
-
-router.get('/buscar_producto', isLoggedIn, (req,res) =>{
-        res.render('buscar_producto',{
-						user: req.user,
-            producto: producto
-        });
-});
-
-router.post('/buscar_producto', isLoggedIn, (req,res) =>{
-	producto.find({$or:[{codigo: req.body.codigo},{tipo: req.body.codigo}]}, (err, producto) => {
-		if(err || producto == null){
-			res.redirect('/inicio');
-		}else{
-		res.render('detalle_producto',{
-			user: req.user,
-			producto: producto
-		})};
-	});
-});
-
 
 router.get('/agregar_prod', isLoggedIn, (req,res) =>{
 
@@ -186,6 +155,7 @@ router.get('/delete_producto/:id', isLoggedIn, (req,res) =>{
 			}
     });
 });
+
 router.get('/editar_prod/:id', (req,res) =>{
     producto.findById(req.params.id, (err,producto) => {
         if(!err){
@@ -220,12 +190,11 @@ router.get('/pedidos', async function(req, res){  //lista de productos, tiene bu
         await pedido.find({codigo: regex}, function(err, pedido){
            if(err){
                console.log(err);
-           } else {
-              if(pedido.length < 1) {
-                  noMatch = "No campgrounds match that query, please try again.";
-              }
-              //res.render("productos",{user: req.user, pedido: pedido});
-							res.json(pedido);
+           } else {  
+							res.json({
+								user: req.user,
+								producto: producto
+							););
 					 }
         });
     } else {
