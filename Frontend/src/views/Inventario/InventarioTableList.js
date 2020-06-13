@@ -185,11 +185,6 @@ export default class InventarioTableList extends React.Component {
             [val.codigo, val.tipo, val.material, val.piedra, val.precio, val.descripcion]
         )
       });
-      let Usuario = this.state.ListaProductos.map((val,) => {
-        return (
-            val.rol
-        )
-      });
 
       return (
         <div style={styles.root}>
@@ -224,7 +219,7 @@ export default class InventarioTableList extends React.Component {
                   <Table
                       tableHeaderColor="primary"
                       tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
-                      tableData={[[Usuario,"","","","",""]
+                      tableData={[["","","","","",""]
                       ]}
                   />
                 </TabPanel>
