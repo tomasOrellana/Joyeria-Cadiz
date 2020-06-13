@@ -10,9 +10,11 @@ const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
-const { url } = require('./config/database');
+//const { url } = require('./config/database');
+const connectDB = require('./config/database')
 
-mongoose.connect(url);
+//mongoose.connect(url);
+connectDB();
 
 //Setting
 app.set('port', process.env.PORT || 8000);

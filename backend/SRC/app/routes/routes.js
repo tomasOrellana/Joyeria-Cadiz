@@ -25,12 +25,17 @@ router.use(passport.session());
 		});
 	});
 
+/*	router.post('/conectado', passport.authenticate('local-login', {
+		if(isAuthenticated()){
+			res.sendStatus()
+		}
+	}));*/
+
 	router.post('/login', passport.authenticate('local-login', {
 
-
-	/*	successRedirect: '/inicio',
+		successRedirect: '/inicio',
 		failureRedirect: '/login',
-		failureFlash: true*/
+		failureFlash: true
 	}));
 
 	// signup view
@@ -78,10 +83,12 @@ router.get('/productos', async function(req, res){  //lista de productos, tiene 
            if(err){
                console.log(err);
            } else {
-							res.json({
+
+							/*res.render({
 								user: req.user,
 								producto: producto
-							});
+							});*/
+							res.json(producto);
 					 }
         });
     } else {
@@ -132,7 +139,7 @@ router.post('/agregar_prod', (req,res) => {
 	let material = req.body.material.toUpperCase();
 	let tipo = req.body.tipo.toUpperCase();
 	let piedra = req.body.piedra.toUpperCase();
-	let precio = req.body.precio.toUpperCase();
+	let precio = req.body.precio;
 	let descripcion = req.body.descripcion.toUpperCase();
 	let sucursal = req.body.sucursal;
 
@@ -192,6 +199,7 @@ router.get('/pedidos', async function(req, res){  //lista de productos, tiene bu
            if(err){
                console.log(err);
            } else {
+              res.render("pedidas",{user: req.user, producto: producto});
 							res.json({
 								user: req.user,
 								producto: producto

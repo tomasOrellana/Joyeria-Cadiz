@@ -1,17 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import Table from "components/Table/Table.js";
+import Table from "components/Table/TableInv.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
+import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import Button from "components/CustomButtons/Button.js";
-
+import AddIcon from '@material-ui/icons/Add';
+import { Input } from '@material-ui/core';
 
 const styles = {
   cardCategoryWhite: {
@@ -55,11 +55,21 @@ const styles = {
     flexGrow: 1,
     backgroundColor: "#FFFFFF",
   },
-  buscador: {
-    marginHorizontal: "10px"
+  botonera: {
+    marginRight: "auto",
+    marginLeft: 20,
+    marginBottom: 10
   },
-  boton: {
-    marginLeft: "20px"
+  botonañadir: {
+    width: 150,
+  },
+  añadirestilo: {
+    margin: 'auto',
+    marginBottom:20,
+  },
+  formañadir: {
+    marginLeft: 5,
+    marginRight: 5
   }
 };
 
@@ -82,11 +92,6 @@ function TabPanel(props) {
   );
 }
 
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
 
 function a11yProps(index) {
   return {
@@ -95,78 +100,183 @@ function a11yProps(index) {
   };
 }
 
-export default class TableListEmpleados extends React.Component {
+export default class InventarioTableList extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       tabIndex: 0,
+      estado: 0,
+      ListaEmpleados: null,
+      ready: false,
+      nombre : null,
+      rut : null,
+      tienda : null,
+      edad: null,
+      rol: null,
+      telefono: null,
+      salario: null,
+
     }
     this.handleChange = this.handleChange.bind(this)
+    this.MostrarNuevoMenu = this.MostrarNuevoMenu.bind(this)
+    this.AgregarEmpleado = this.AgregarEmpleado.bind(this)
+  }
+//
+  componentDidMount() {
+    fetch('/empleados')
+      .then(res => {
+          console.log(res);
+          return res.json()
+      })
+      .then(users => {
+          this.setState({ListaEmpleados: users, ready: true})
+      });
   }
 
   handleChange(event, newValue) {
     this.setState({tabIndex: newValue});
   }
 
+  actualizarTexto(event, id, value) {
+    this.setState({id: value});
+  }
+
+  MostrarNuevoMenu() {
+    if(this.state.estado === 0) this.setState({estado: 1})
+    if(this.state.estado === 1) this.setState({estado: 0})
+  }
+
+  AgregarEmpleado() {
+    console.log(this.state.tabIndex)
+    fetch('/agregar_empleado', {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      nombre : this.state.nombre,
+      rut : this.state.rut,
+      tienda : this.state.tienda,
+      edad: this.state.edad,
+      rol: this.state.rol,
+      telefono: this.state.telefono,
+      salario: this.state.salio,
+    })
+    })
+    .then( (response) => {
+        if(response.status === 201) {
+            console.log("Añadido correctamente")
+        } else {
+            console.log('Hubo un error')
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+  }
 
   render() {
-    return (
-      <div style={styles.root}>
-        <Card>
-            <AppBar position="static" color="primary" style={styles.Barrita}>
-              <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example">
-                <Tab label="Lo Castillo" {...a11yProps(0)} />
-                <Tab label="Apumanque" {...a11yProps(1)} />
-                <Tab label="Vitacura" {...a11yProps(2)} />
-              </Tabs>
-            </AppBar>
-          <CardBody>
-            <div style={{ paddingLeft: 40, paddingTop: 20 }}>
-              <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
-                <Grid  xs={2} sm={2} md={2}><TextField id="codigo" label="Codigo" placeholder="codigo" /></Grid>
-                <Grid  xs={2} sm={2} md={2}><TextField id="producto" label="Producto" placeholder="producto"/></Grid>
-                <Grid  xs={2} sm={2} md={2}><TextField id="material" label="Material" placeholder="material"/></Grid>
-                <Grid  xs={2} sm={2} md={2}><TextField id="piedra" label="Piedra" placeholder="piedra"/></Grid>
-                <Grid  xs={2} sm={2} md={2}><TextField id="precio" label="Precio" placeholder="precio"/></Grid>
 
-                <Grid xs={2} sm={2} md={2}><Button style={styles.boton} color="primary">Buscar</Button></Grid>
-              </Grid>
-            </div>
+    if(this.state.ready === true) {
+      let Lista0 = this.state.ListaEmpleados.map((val,) => {
+        if(val.tienda === "Lo Castillo"){
+          return (
+              [val.nombre, val.rut, val.tienda, val.edad, val.rol, val.telefono, val.salario]
+          )
+        }
+      }
+      );
+      let Lista1 = this.state.ListaEmpleados.map((val,) => {
+        if(val.tienda === "Apumanque"){
+          return (
+              [val.nombre, val.rut, val.tienda, val.edad, val.rol, val.telefono, val.salario]
+          )
+        }
+      }
+      );
+      let Lista2 = this.state.ListaEmpleados.map((val,) => {
+        if(val.tienda === "Vitacura"){
+          return (
+              [val.nombre, val.rut, val.tienda, val.edad, val.rol, val.telefono, val.salario]
+          )
+        }
+      }
+      );
+      return (
+        <div style={styles.root}>
+            <Card>
+                <AppBar position="static" color="primary" >
+                  <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example" >
+                    <Tab label="Lo Castillo" {...a11yProps(0)}/>
+                    <Tab label="Apumanque" {...a11yProps(1)}/>
+                    <Tab label="Vitacura" {...a11yProps(2)}/>
+                  </Tabs>
+                </AppBar>
+              <CardBody>
+                <div style={{ paddingLeft: 40, paddingTop: 20 }}>
+                  <Grid item={true} container direction='row' spacing={1} justify='center' alignItems='center'>
+                    <Grid  xs={2} sm={2} md={2}><TextField id="nombre" label="Nombre" placeholder="nombre" /></Grid>
+                    <Grid  xs={2} sm={2} md={2}><TextField id="rut" label="Rut" placeholder="rut"/></Grid>
+                    <Grid  xs={2} sm={2} md={2}><TextField id="edad" label="Edad" placeholder="edad"/></Grid>
+                    <Grid  xs={2} sm={2} md={2}><TextField id="rol" label="Rol" placeholder="rol"/></Grid>
+                    <Grid  xs={2} sm={2} md={2}><TextField id="telefono" label="Telefono" placeholder="telefono"/></Grid>
+                    <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="Salario" placeholder="salario"/></Grid>
+                    <Grid xs={2} sm={2} md={2}><Button className={styles.boton} color="primary">Buscar</Button></Grid>
+                  </Grid>
+                </div>
 
-            <TabPanel value={this.state.tabIndex} index={0}>
-              <Table
-                tableHeaderColor="primary"
-                tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
-                tableData={[
-                  ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
-                  ["Diego Inostroza", "-9", "La calle", "10","","", "Trabaja gratis"],
-                ]}
-              />
-            </TabPanel>
-            <TabPanel value={this.state.tabIndex} index={1}>
-              <Table
-                tableHeaderColor="primary"
-                tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
-                tableData={[
-                  ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
-                  ["Diego Inostroza", "-9", "La calle", "10","","666", "Trabaja gratis"],
-                ]}
-              />
-              </TabPanel>
-            <TabPanel value={this.state.tabIndex} index={2}>
-              <Table
-                tableHeaderColor="primary"
-                tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
-                tableData={[
-                  ["Franco Palma", "19783062-k", "Lo Castillo", "22","Jefe supremo","132", "$9999999999"],
-                  ["Diego Inostroza", "-9", "La calle", "10","","666", "Trabaja gratis"],
-                ]}
-              />
-            </TabPanel>
-          </CardBody>
-        </Card>
-      </div>
-    );
+                <TabPanel value={this.state.tabIndex} index={0}>
+                  <Table
+                      tableHeaderColor="primary"
+                      tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
+                      tableData={Lista0}
+                  />
+                  </TabPanel>
+                <TabPanel value={this.state.tabIndex} index={1}>
+                  <Table
+                      tableHeaderColor="primary"
+                      tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
+                      tableData={Lista1}
+                  />
+                </TabPanel>
+
+                <TabPanel value={this.state.tabIndex} index={2}>
+                  <Table
+                      tableHeaderColor="primary"
+                      tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
+                      tableData={Lista2}
+                  />
+                </TabPanel>
+              </CardBody>
+
+              <div style={styles.botonera}>
+                <Button style={styles.botonañadir} color="primary" onClick={this.MostrarNuevoMenu}><AddIcon/>Añadir</Button>
+              </div>
+            </Card>
+
+            {this.state.estado === 1 &&
+              <Card >
+                <div style={styles.añadirestilo}>
+                    <Input style={styles.formañadir} id="nombre" label="Nombre" placeholder="nombre" onChange={(event) => this.setState({codigo:event.target.value})}/>
+                    <Input style={styles.formañadir} id="rut" label="Rut" placeholder="rut" onChange={(event) => this.setState({material:event.target.value})}/>
+                    <Input style={styles.formañadir} id="edad" label="Edad" placeholder="edad" onChange={(event) => this.setState({tipo:event.target.value})}/>
+                    <Input style={styles.formañadir} id="rol" label="Rol" placeholder="rol" onChange={(event) => this.setState({piedra:event.target.value})}/>
+                    <Input style={styles.formañadir} id="telefono" label="Telefono" placeholder="telefono" onChange={(event) => this.setState({precio:event.target.value})}/>
+                    <Input style={styles.formañadir} id="salario" label="Salario" placeholder="salario" onChange={(event) => this.setState({descripcion:event.target.value})}/>
+                    <Button style={styles.boton} onClick={this.AgregarProducto} color="primary"><AddIcon/></Button>
+                  </div>
+              </Card>
+            }
+        </div>
+      )
+    } else if(this.state.ready === false) {
+      return(
+        <div style={styles.root}>
+          <p></p>
+        </div>
+      )
+    }
   }
 }
