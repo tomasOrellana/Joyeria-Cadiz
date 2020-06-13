@@ -25,12 +25,17 @@ router.use(passport.session());
 		});
 	});
 
+/*	router.post('/conectado', passport.authenticate('local-login', {
+		if(isAuthenticated()){
+			res.sendStatus()
+		}
+	}));*/
+
 	router.post('/login', passport.authenticate('local-login', {
 
-
-	/*	successRedirect: '/inicio',
+		successRedirect: '/inicio',
 		failureRedirect: '/login',
-		failureFlash: true*/
+		failureFlash: true
 	}));
 
 	// signup view
@@ -71,7 +76,7 @@ function isLoggedIn (req, res, next) {
 }
 
 //Administrar productos
-router.get('/productos', async function(req, res){  //lista de productos, tiene buscador
+router.get('/productos', isLoggedIn, async function(req, res){  //lista de productos, tiene buscador
     if(req.query.search) {
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
         await producto.find({codigo: regex}, function(err, producto){
@@ -89,7 +94,7 @@ router.get('/productos', async function(req, res){  //lista de productos, tiene 
            if(err){
                console.log(err);
            } else {
-              //res.render("productos",{user: req.user, producto: producto});
+              res.render("productos",{user: req.user, producto: producto});
 							res.json(producto);
            }
         });
@@ -192,6 +197,7 @@ router.get('/pedidos', async function(req, res){  //lista de productos, tiene bu
            if(err){
                console.log(err);
            } else {
+              res.render("pedidas",{user: req.user, producto: producto});
 							res.json({
 								user: req.user,
 								producto: producto
