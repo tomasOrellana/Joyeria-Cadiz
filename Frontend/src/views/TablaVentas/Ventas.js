@@ -192,14 +192,14 @@ export default class Ventas extends React.Component {
 
         <Card>
           <CardHeader color="primary">
-            <h4 style={styles.cardTitleWhite}>Ventas de la semana</h4>
+            <h4 style={styles.cardTitleWhite}>Ventas por periodo</h4>
           </CardHeader>
           <CardBody>
 
           <form style={styles.container} noValidate>
             <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
               <Grid  xs={2} sm={2} md={2}><TextField
-              id="date"
+              id="desde"
               label="Desde"
               type="date"
               defaultValue="today"
@@ -209,7 +209,7 @@ export default class Ventas extends React.Component {
               }}
               /></Grid>
             <Grid  xs={2} sm={2} md={2}><TextField
-            id="date"
+            id="hasta"
             label="Hasta"
             type="date"
             defaultValue="today"
@@ -267,59 +267,6 @@ export default class Ventas extends React.Component {
               </TabPanel>
               }
 
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardHeader color="primary">
-            <h4 style={styles.cardTitleWhite}>Ventas del mes</h4>
-          </CardHeader>
-          <CardBody>
-
-          <div style={{ paddingLeft: 40, paddingTop: 20 }}>
-                <Grid container direction='row' spacing={1} justify='center' alignItems='center'>
-                  <Grid  xs={2} sm={2} md={2}><TextField id="numero" label="numero" placeholder="numero" /></Grid>
-                  <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="tipo" placeholder="tipo"/></Grid>
-                  <Grid  xs={2} sm={2} md={2}><TextField id="material" label="material" placeholder="material"/></Grid>
-                  <Grid  xs={2} sm={2} md={2}><TextField id="contacto" label="contacto" placeholder="contacto"/></Grid>
-                  <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="numero" placeholder="salario"/></Grid>
-
-                  <Grid xs={2} sm={2} md={2}><Button style={styles.boton} color="primary">Buscar</Button></Grid>
-                </Grid>
-            </div>
-            {this.state.tabIndex === 0 &&
-              <TabPanel>
-                <Table
-                  tableHeaderColor="primary"
-                  tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-                  tableData={[
-                    ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-                  ]}
-                />
-              </TabPanel>
-            }
-            {this.state.tabIndex === 1 &&
-              <TabPanel>
-                <Table
-                  tableHeaderColor="primary"
-                  tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-                  tableData={[
-                    ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-                  ]}
-                />
-              </TabPanel>
-              }
-              {this.state.tabIndex === 2 &&
-              <TabPanel>
-                <Table
-                  tableHeaderColor="primary"
-                  tableHead={["N° de venta", "Fecha", "Metodo de pago","Descuento", "Id Vendedor","Id Cliente", "Total"]}
-                  tableData={[
-                    ["000001", "15/05/2020", "Efectivo", "20%","00002","00003", "$99999"],
-                  ]}
-                />
-              </TabPanel>
-              }
           </CardBody>
         </Card>
       </div>
