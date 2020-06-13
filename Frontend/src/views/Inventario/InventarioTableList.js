@@ -114,8 +114,7 @@ export default class InventarioTableList extends React.Component {
       tipo: null,
       piedra: null,
       precio: null,
-      descripcion: null,
-      Usuario: null
+      descripcion: null
     }
     this.handleChange = this.handleChange.bind(this)
     this.MostrarNuevoMenu = this.MostrarNuevoMenu.bind(this)
