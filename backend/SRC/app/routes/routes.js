@@ -83,10 +83,15 @@ router.get('/productos', isLoggedIn, async function(req, res){  //lista de produ
            if(err){
                console.log(err);
            } else {
-							res.json({
+
+							res.render({
 								user: req.user,
 								producto: producto
 							});
+							/*res.json({
+								user: req.user,
+								producto: producto
+							});*/
 					 }
         });
     } else {
@@ -95,7 +100,7 @@ router.get('/productos', isLoggedIn, async function(req, res){  //lista de produ
                console.log(err);
            } else {
               res.render("productos",{user: req.user, producto: producto});
-							res.json(producto);
+							//res.json(producto);
            }
         });
     }
@@ -137,7 +142,7 @@ router.post('/agregar_prod', (req,res) => {
 	let material = req.body.material.toUpperCase();
 	let tipo = req.body.tipo.toUpperCase();
 	let piedra = req.body.piedra.toUpperCase();
-	let precio = req.body.precio.toUpperCase();
+	let precio = req.body.precio;
 	let descripcion = req.body.descripcion.toUpperCase();
 	let sucursal = req.body.sucursal;
 
