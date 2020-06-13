@@ -161,8 +161,7 @@ export default class InventarioTableList extends React.Component {
       piedra: this.state.piedra,
       precio: this.state.precio,
       descripcion: this.state.descripcion,
-      sucursal: this.state.tabIndex ,
-      Usuario : this.state.user
+      sucursal: this.state.tabIndex
     })
     })
     .then( (response) => {
@@ -184,6 +183,11 @@ export default class InventarioTableList extends React.Component {
         return (
           // tableHead={["Código", "Tipo", "Material", "Piedra", "Precio", "descripcion"}
             [val.codigo, val.tipo, val.material, val.piedra, val.precio, val.descripcion]
+        )
+      });
+      let Usuario = this.state.ListaProductos.map((val,) => {
+        return (
+            val.user
         )
       });
 
@@ -220,7 +224,7 @@ export default class InventarioTableList extends React.Component {
                   <Table
                       tableHeaderColor="primary"
                       tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
-                      tableData={[
+                      tableData={[[Usuario,"","","","",""]
                       ]}
                   />
                 </TabPanel>
