@@ -27,9 +27,15 @@ router.use(passport.session());
 	});
 
 	router.post('/login', passport.authenticate('local-login', {
-		successRedirect: '/inicio',
+		if(req.user){
+			res.sendStatus(201);
+		}else{
+			res.sendStatus(201);
+		}
+
+	/*	successRedirect: '/inicio',
 		failureRedirect: '/login',
-		failureFlash: true
+		failureFlash: true*/
 	}));
 
 	// signup view
@@ -80,7 +86,7 @@ router.get('/productos', async function(req, res){  //lista de productos, tiene 
 							res.json({
 								user: req.user,
 								producto: producto
-							);
+							});
 					 }
         });
     } else {
@@ -190,7 +196,7 @@ router.get('/pedidos', async function(req, res){  //lista de productos, tiene bu
         await pedido.find({codigo: regex}, function(err, pedido){
            if(err){
                console.log(err);
-           } else {  
+           } else {
 							res.json({
 								user: req.user,
 								producto: producto
