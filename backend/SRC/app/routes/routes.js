@@ -76,7 +76,7 @@ function isLoggedIn (req, res, next) {
 }
 
 //Administrar productos
-router.get('/productos', isLoggedIn, async function(req, res){  //lista de productos, tiene buscador
+router.get('/productos', async function(req, res){  //lista de productos, tiene buscador
     if(req.query.search) {
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
         await producto.find({codigo: regex}, function(err, producto){
@@ -84,14 +84,11 @@ router.get('/productos', isLoggedIn, async function(req, res){  //lista de produ
                console.log(err);
            } else {
 
-							res.render({
-								user: req.user,
-								producto: producto
-							});
-							/*res.json({
+							/*res.render({
 								user: req.user,
 								producto: producto
 							});*/
+							res.json(producto);
 					 }
         });
     } else {
@@ -99,8 +96,8 @@ router.get('/productos', isLoggedIn, async function(req, res){  //lista de produ
            if(err){
                console.log(err);
            } else {
-              res.render("productos",{user: req.user, producto: producto});
-							//res.json(producto);
+              //res.render("productos",{user: req.user, producto: producto});
+							res.json(producto);
            }
         });
     }
