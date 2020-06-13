@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const producto = require('../models/producto');
-const inv_prod = require('../models/inv_prod');
 const inventario = require('../models/inventario');
 const pedido = require('../models/pedido');
 const Detalle_venta = require('../models/detalle_venta');
@@ -27,11 +26,7 @@ router.use(passport.session());
 	});
 
 	router.post('/login', passport.authenticate('local-login', {
-		if(req.user){
-			res.sendStatus(201);
-		}else{
-			res.sendStatus(201);
-		}
+
 
 	/*	successRedirect: '/inicio',
 		failureRedirect: '/login',
@@ -200,7 +195,7 @@ router.get('/pedidos', async function(req, res){  //lista de productos, tiene bu
 							res.json({
 								user: req.user,
 								producto: producto
-							););
+							})
 					 }
         });
     } else {
