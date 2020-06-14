@@ -15,26 +15,25 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
-import ReactDOM from "react-dom";
-//import { createBrowserHistory } from "history";
-//import { Router, Route, Switch, Redirect } from "react-router-dom";
 
-// core components
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
-import Login from "views/Login/Login.js";
-import "assets/css/material-dashboard-react.css?v=1.8.0";
+//core
+import Login from './views/Login/Login';
 
 
-//const hist = createBrowserHistory();
-
-ReactDOM.render(
-  <Login/>,
-  document.getElementById("root")
+const App = () => (
+  <Router>
+    <Route path="/login" component={Login}/>
+    <Redirect from="/" to="/login" />
+  </Router>
 );
 
-/*
-import React from "react";
+ReactDOM.render(<App/>, document.getElementById('root'))
+
+/*import React from "react";
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
@@ -56,4 +55,4 @@ ReactDOM.render(
     </Switch>
   </Router>,
   document.getElementById("root")
-); */
+);*/

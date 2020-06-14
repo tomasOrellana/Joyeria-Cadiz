@@ -85,22 +85,12 @@
                     <th>ID vendedor</th>
                     <th>Cliente</th>
                 </tr>
-            </thead>
-            <tbody>
-                <% for(var i = 0; i < venta.length; i++){ %>
-                    <tr>
-                        <td><%= venta[i].numero_venta %></td>
-                        <td><%= venta[i].fecha %></td>
-                        <td><%= venta[i].metodo_pago %></td>
-                        <td><%= venta[i].descuento %></td>
-                        <td><%= venta[i].total %></td>
-                        <td><%= venta[i].id_vendedor %></td>
-                        <td><%= venta[i].cliente%></td>
-                        <td>
+            </thead>  <tbody>
+                
                             <!--
                             <a
                             class="btn btn-success"
-                             href="/agregar_prod/<%= venta[i]._id %>">Modificar</a>-->
+                             href="/agregar_prod/<%= venta[i]._id %>">Modificar</a>
                              <a
                              class="btn btn-success"
                               href="/editar_prod/<%= venta[i]._id%>"> <i class="fa fa-list-alt" aria-hidden="true"></i>Modificar</a>
@@ -110,7 +100,7 @@
                             href="/delete_venta/<%= venta[i]._id%>">Eliminar</a>
                         </td>
                     </tr>
-                 <%}%>
+                 <%}%>-->
 
             </tbody>
         </table>

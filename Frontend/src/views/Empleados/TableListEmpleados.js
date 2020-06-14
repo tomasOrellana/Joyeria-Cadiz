@@ -4,7 +4,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Table from "components/Table/TableInv.js";
+import Table from "components/Table/TableEmpleados.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import Grid from '@material-ui/core/Grid';
@@ -111,7 +111,7 @@ export default class InventarioTableList extends React.Component {
       ready: false,
       nombre : null,
       rut : null,
-      tienda : null,
+      sucursal : null,
       edad: null,
       rol: null,
       telefono: null,
@@ -158,7 +158,7 @@ export default class InventarioTableList extends React.Component {
     body: JSON.stringify({
       nombre : this.state.nombre,
       rut : this.state.rut,
-      tienda : this.state.tienda,
+      sucursal : this.state.sucursal,
       edad: this.state.edad,
       rol: this.state.rol,
       telefono: this.state.telefono,
@@ -181,25 +181,25 @@ export default class InventarioTableList extends React.Component {
 
     if(this.state.ready === true) {
       let Lista0 = this.state.ListaEmpleados.map((val,) => {
-        if(val.tienda === "Lo Castillo"){
+        if(val.sucursal === "Lo Castillo"){
           return (
-              [val.nombre, val.rut, val.tienda, val.edad, val.rol, val.telefono, val.salario]
+              [val.nombre, val.rut, val.sucursal, val.edad, val.rol, val.telefono, val.salario]
           )
         }
       }
       );
       let Lista1 = this.state.ListaEmpleados.map((val,) => {
-        if(val.tienda === "Apumanque"){
+        if(val.sucursal === "Apumanque"){
           return (
-              [val.nombre, val.rut, val.tienda, val.edad, val.rol, val.telefono, val.salario]
+              [val.nombre, val.rut, val.sucursal, val.edad, val.rol, val.telefono, val.salario]
           )
         }
       }
       );
       let Lista2 = this.state.ListaEmpleados.map((val,) => {
-        if(val.tienda === "Vitacura"){
+        if(val.sucursal === "Vitacura"){
           return (
-              [val.nombre, val.rut, val.tienda, val.edad, val.rol, val.telefono, val.salario]
+              [val.nombre, val.rut, val.sucursal, val.edad, val.rol, val.telefono, val.salario]
           )
         }
       }
@@ -230,14 +230,14 @@ export default class InventarioTableList extends React.Component {
                 <TabPanel value={this.state.tabIndex} index={0}>
                   <Table
                       tableHeaderColor="primary"
-                      tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
+                      tableHead={["Nombre", "Rut", "Sucursal","Edad", "Rol","Telefono", "Salario"]}
                       tableData={Lista0}
                   />
                   </TabPanel>
                 <TabPanel value={this.state.tabIndex} index={1}>
                   <Table
                       tableHeaderColor="primary"
-                      tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
+                      tableHead={["Nombre", "Rut", "Sucursal","Edad", "Rol","Telefono", "Salario"]}
                       tableData={Lista1}
                   />
                 </TabPanel>
@@ -245,7 +245,7 @@ export default class InventarioTableList extends React.Component {
                 <TabPanel value={this.state.tabIndex} index={2}>
                   <Table
                       tableHeaderColor="primary"
-                      tableHead={["Nombre", "Rut", "Tienda","Edad", "Rol","Telefono", "Salario"]}
+                      tableHead={["Nombre", "Rut", "Sucursal","Edad", "Rol","Telefono", "Salario"]}
                       tableData={Lista2}
                   />
                 </TabPanel>
@@ -259,12 +259,12 @@ export default class InventarioTableList extends React.Component {
             {this.state.estado === 1 &&
               <Card >
                 <div style={styles.añadirestilo}>
-                    <Input style={styles.formañadir} id="nombre" label="Nombre" placeholder="nombre" onChange={(event) => this.setState({codigo:event.target.value})}/>
-                    <Input style={styles.formañadir} id="rut" label="Rut" placeholder="rut" onChange={(event) => this.setState({material:event.target.value})}/>
-                    <Input style={styles.formañadir} id="edad" label="Edad" placeholder="edad" onChange={(event) => this.setState({tipo:event.target.value})}/>
-                    <Input style={styles.formañadir} id="rol" label="Rol" placeholder="rol" onChange={(event) => this.setState({piedra:event.target.value})}/>
-                    <Input style={styles.formañadir} id="telefono" label="Telefono" placeholder="telefono" onChange={(event) => this.setState({precio:event.target.value})}/>
-                    <Input style={styles.formañadir} id="salario" label="Salario" placeholder="salario" onChange={(event) => this.setState({descripcion:event.target.value})}/>
+                    <Input style={styles.formañadir} id="nombre" label="Nombre" placeholder="nombre" onChange={(event) => this.setState({nombre:event.target.value})}/>
+                    <Input style={styles.formañadir} id="rut" label="Rut" placeholder="rut" onChange={(event) => this.setState({rut:event.target.value})}/>
+                    <Input style={styles.formañadir} id="edad" label="Edad" placeholder="edad" onChange={(event) => this.setState({edad:event.target.value})}/>
+                    <Input style={styles.formañadir} id="rol" label="Rol" placeholder="rol" onChange={(event) => this.setState({rol:event.target.value})}/>
+                    <Input style={styles.formañadir} id="telefono" label="Telefono" placeholder="telefono" onChange={(event) => this.setState({telefono:event.target.value})}/>
+                    <Input style={styles.formañadir} id="salario" label="Salario" placeholder="salario" onChange={(event) => this.setState({salario:event.target.value})}/>
                     <Button style={styles.boton} onClick={this.AgregarProducto} color="primary"><AddIcon/></Button>
                   </div>
               </Card>
