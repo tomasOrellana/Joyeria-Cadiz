@@ -320,9 +320,13 @@ router.get('/lista_venta', isLoggedIn, (req,res) =>{
 
 
 router.get('/venta', isLoggedIn, (req,res) =>{
-       res.render('venta', {
-				 user: req.user
-			 });
+	venta.find(function(err, venta){
+		if(!err){
+       			res.render('venta', {
+				 user: req.user,
+				 venta:venta
+			 	});
+	}});
 });
 
 router.get('/lista_productos', isLoggedIn, (req,res) => {
