@@ -49,7 +49,7 @@ const Usuario = require('../app/models/usuario');
   // login
   // we are using named strategies since we have one for login and one for signup
   // by default, if there was no name, it would just be called 'local
-  /*passport.use('local-login', new LocalStrategy({
+  passport.use('local-login', new LocalStrategy({
     usernameField: 'rut',
     passwordField: 'password',
     passReqToCallback: true
@@ -65,6 +65,6 @@ const Usuario = require('../app/models/usuario');
       }
       return done(null, usuario);
     });
-  }));*/
+  }));
 
 module.exports = passport;

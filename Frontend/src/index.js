@@ -17,25 +17,6 @@
 */
 import React from "react";
 import ReactDOM from "react-dom";
-//import { createBrowserHistory } from "history";
-//import { Router, Route, Switch, Redirect } from "react-router-dom";
-
-// core components
-
-import Login from "views/Login/Login.js";
-import "assets/css/material-dashboard-react.css?v=1.8.0";
-
-
-//const hist = createBrowserHistory();
-
-ReactDOM.render(
-  <Login/>,
-  document.getElementById("root")
-);
-
-/*
-import React from "react";
-import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 
@@ -56,4 +37,4 @@ ReactDOM.render(
     </Switch>
   </Router>,
   document.getElementById("root")
-); */
+);

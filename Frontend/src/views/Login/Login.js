@@ -13,14 +13,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-import { createBrowserHistory } from "history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
-
-// core components
-import Admin from "layouts/Admin.js";
-import RTL from "layouts/RTL.js";
-import { red } from '@material-ui/core/colors';
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -33,8 +25,6 @@ function Copyright() {
     </Typography>
   );
 }
-
-const hist = createBrowserHistory();
 
 const styles = makeStyles((theme) => ({
   paper: {
@@ -54,10 +44,6 @@ const styles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  rojito: {
-    color: '#FF0000',
-    fontWeight: 'bold'
-  }
 }));
 
 export default class Login extends React.Component {
@@ -67,45 +53,40 @@ export default class Login extends React.Component {
       user: null,
       password: null,
       usuario: null,
-      estado: null
     }
     this.EnviarDatos = this.EnviarDatos.bind(this)
   }
-
+  componentDidMount() {
+    fetch('/login')
+      .then(res => {
+          return res.json()
+      })
+      .then(users => {
+          this.setState({Login: users,})
+      });
+  }
   EnviarDatos() {
-    console.log('usuario: ' + this.state.usuario)
-    console.log('password: ' + this.state.password)
-
-    fetch('/conectar', {
+    console.log(this.state.tabIndex)
+    fetch('/login', {
     method: 'POST',
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      rut: this.state.usuario,
-      password: this.state.password,
+      user: this.state.user,
+      password : this.state.password
     })
     })
     .then( (response) => {
-      if(response.status === 201) {
-        console.log("LOGEADO")
-        return (
-          <Router history={hist}>
-            <Switch>
-              <Route path="/admin" component={Admin} />
-              <Route path="/rtl" component={RTL} />
-              <Redirect from="/" to="/admin/inicio" />
-            </Switch>
-          </Router>
-        );
-      } else {
-        console.log('FALLO EL INGRESO')
-        this.setState({estado: 'Fallo el inicio de sesion!'})
-      }
+        if(response.status === 201) {
+            console.log("usuario correcto")
+        } else {
+            console.log('usuario incorrecto')
+        }
     })
     .catch((error) => {
-      console.log(error)
+        console.log(error)
     });
   }
 
@@ -131,7 +112,6 @@ export default class Login extends React.Component {
               name="rut"
               autoComplete="rut"
               autoFocus
-              onChange={(event) => this.setState({usuario:event.target.value})}
             />
             <TextField
               variant="outlined"
@@ -143,17 +123,17 @@ export default class Login extends React.Component {
               type="contraseña"
               id="contraseña"
               autoComplete="current-password"
-              onChange={(event) => this.setState({password:event.target.value})}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Recordarme"
             />
             <Button
+              type="submit"
               fullWidth
               variant="contained"
               color="primary"
-              onClick={this.EnviarDatos}
+              className={styles.submit}
             >
               Iniciar Sesión
             </Button>
@@ -167,8 +147,6 @@ export default class Login extends React.Component {
           </form>
         </div>
         <Box mt={8}>
-          <label style={{color: '#FF0000', fontWeight: 'bold'}}>{this.state.estado}</label>
-          
           <Copyright />
         </Box>
       </Container>
