@@ -180,7 +180,7 @@ export default class InventarioTableList extends React.Component {
   render() {
 
     if(this.state.ready === true) {
-      let Lista0 = this.state.ListaPedidos.map((val,) => {
+      let Lista = this.state.ListaPedidos.map((val,) => {
         return (
             [val.numero, val.fecha, val.estado, val.total, val.cliente, val.descripcion]
         )

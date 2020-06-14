@@ -213,14 +213,14 @@ export default class InventarioTableList extends React.Component {
                   <Table
                       tableHeaderColor="primary"
                       tableHead={["Nombre", "Rut", "Sucursal","Edad", "Rol","Telefono", "Salario"]}
-                      tableData={Lista0}
+                      tableData={Lista}
                   />
                   </TabPanel>
                 <TabPanel value={this.state.tabIndex} index={1}>
                   <Table
                       tableHeaderColor="primary"
                       tableHead={["Nombre", "Rut", "Sucursal","Edad", "Rol","Telefono", "Salario"]}
-                      tableData={Lista1}
+                      tableData={Lista}
                   />
                 </TabPanel>
 
@@ -228,7 +228,7 @@ export default class InventarioTableList extends React.Component {
                   <Table
                       tableHeaderColor="primary"
                       tableHead={["Nombre", "Rut", "Sucursal","Edad", "Rol","Telefono", "Salario"]}
-                      tableData={Lista2}
+                      tableData={Lista}
                   />
                 </TabPanel>
               </CardBody>
