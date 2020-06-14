@@ -9,6 +9,8 @@ const Venta = require('../models/venta');
 const venta = require('../models/venta');
 const empleado = require('../models/usuario');
 const passport = require('../../config/passport');
+const LocalStrategy = require('passport-local').Strategy;
+const Usuario = require('../models/usuario');
 
 router.use(passport.initialize());
 router.use(passport.session());
@@ -25,18 +27,42 @@ router.use(passport.session());
 		});
 	});
 
-/*	router.post('/conectado', passport.authenticate('local-login', {
-		if(isAuthenticated()){
-			res.sendStatus()
-		}
-	}));*/
+	/*.post('/conectar', passport.use('local-login', (req, res) => {new LocalStrategy({
+	    usernameField: 'rut',
+	    passwordField: 'password',
+	    passReqToCallback: true
+	  },
+	  function (req, rut, password, done) {
+			rut = req.body.rut;
+			password = req.body.password;
+	    Usuario.findOne({'rut': rut}, function (err, usuario) {
+	      if (err) { return done(err); }
+	      if (!usuario) {
+					res.json(req.user);
+	      }
+	      if (!usuario.validPassword(password)) {
+					res.sendStatus(404);
+	      }
+	      res.sendStatus(201);
+	    });
+	  })}
+	));*/
 
-	router.post('/login', passport.authenticate('local-login', {
+	router.post('/login', (req,res) => {
+		rut = req.body.rut;
+		password = req.body.password;
+		Usuario.findOne({'rut': rut}, function (err, usuario) {
+			if (err) { return done(err); }
+			if (!usuario) {
+				res.json(req.user);
+			}
+			if (!usuario.validPassword(password)) {
+				res.sendStatus(404);
+			}
+			res.sendStatus(201);
+		});
+	});
 
-		successRedirect: '/inicio',
-		failureRedirect: '/login',
-		failureFlash: true
-	}));
 
 	// signup view
 	router.get('/signup', (req, res) => {
@@ -184,8 +210,7 @@ router.post('/editar_prod/:id', function(req, res) {
       if(err){
         res.redirect('editar_prod/'+req.params.id);
     } else {
-
-      res.redirect('../producto');
+      res.redirect('/producto');
     }
     });
   });
