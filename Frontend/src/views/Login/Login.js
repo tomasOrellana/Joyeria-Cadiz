@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,13 +14,14 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { createBrowserHistory } from "history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
 
 // core components
-import Admin from "layouts/Admin.js";
-import RTL from "layouts/RTL.js";
-import { red } from '@material-ui/core/colors';
+import Admin from "../../layouts/Admin";
+import RTL from "../../layouts/RTL";
+
+const hist = createBrowserHistory();
 
 function Copyright() {
   return (
@@ -33,8 +35,6 @@ function Copyright() {
     </Typography>
   );
 }
-
-const hist = createBrowserHistory();
 
 const styles = makeStyles((theme) => ({
   paper: {
@@ -60,6 +60,16 @@ const styles = makeStyles((theme) => ({
   }
 }));
 
+const Inicio = () => (
+  <Router history={hist}>
+    <Switch>
+      <Route path="/admin" component={Admin} />
+      <Route path="/rtl" component={RTL} />
+      <Redirect from="/" to="/admin/dashboard" />
+    </Switch>
+  </Router>
+);
+
 export default class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -76,7 +86,7 @@ export default class Login extends React.Component {
     console.log('usuario: ' + this.state.usuario)
     console.log('password: ' + this.state.password)
 
-    fetch('/conectar', {
+    fetch('/login', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -90,15 +100,8 @@ export default class Login extends React.Component {
     .then( (response) => {
       if(response.status === 201) {
         console.log("LOGEADO")
-        return (
-          <Router history={hist}>
-            <Switch>
-              <Route path="/admin" component={Admin} />
-              <Route path="/rtl" component={RTL} />
-              <Redirect from="/" to="/admin/inicio" />
-            </Switch>
-          </Router>
-        );
+        this.setState({estado: 'Logeado Correctamente!'})
+        ReactDOM.render(<Inicio/>, document.getElementById('root'))
       } else {
         console.log('FALLO EL INGRESO')
         this.setState({estado: 'Fallo el inicio de sesion!'})
