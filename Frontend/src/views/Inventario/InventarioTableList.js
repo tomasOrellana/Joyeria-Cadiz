@@ -108,6 +108,7 @@ export default class InventarioTableList extends React.Component {
       tabIndex: 0,
       estado: 0,
       ListaProductos: null,
+      sucursal : null,
       ready: false,
       codigo: null,
       material: null,
@@ -178,13 +179,30 @@ export default class InventarioTableList extends React.Component {
   render() {
 
     if(this.state.ready === true) {
-      let Lista = this.state.ListaProductos.map((val,) => {
-        return (
-          // tableHead={["Código", "Tipo", "Material", "Piedra", "Precio", "descripcion"}
-            [val.codigo, val.tipo, val.material, val.piedra, val.precio, val.descripcion]
-        )
-      });
-
+      let Lista0 = this.state.ListaEmpleados.map((val,) => {
+        if(val.tienda === 0){
+          return (
+              [val.codigo, val.tipo, val.material, val.piedra, val.precio, val.descripcion]
+          )
+        }
+      }
+      );
+      let Lista1 = this.state.ListaEmpleados.map((val,) => {
+        if(val.tienda === 1){
+          return (
+              [val.codigo, val.tipo, val.material, val.piedra, val.precio, val.descripcion]
+          )
+        }
+      }
+      );
+      let Lista2 = this.state.ListaEmpleados.map((val,) => {
+        if(val.tienda === 2){
+          return (
+              [val.codigo, val.tipo, val.material, val.piedra, val.precio, val.descripcion]
+          )
+        }
+      }
+      );
       return (
         <div style={styles.root}>
             <Card>
@@ -211,15 +229,14 @@ export default class InventarioTableList extends React.Component {
                   <Table
                       tableHeaderColor="primary"
                       tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
-                      tableData={Lista}
+                      tableData={Lista0}
                   />
                   </TabPanel>
                 <TabPanel value={this.state.tabIndex} index={1}>
                   <Table
                       tableHeaderColor="primary"
                       tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
-                      tableData={[["","","","","",""]
-                      ]}
+                      tableData={Lista1}
                   />
                 </TabPanel>
 
@@ -227,8 +244,7 @@ export default class InventarioTableList extends React.Component {
                   <Table
                       tableHeaderColor="primary"
                       tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
-                      tableData={[
-                      ]}
+                      tableData={Lista2}
                   />
                 </TabPanel>
               </CardBody>
