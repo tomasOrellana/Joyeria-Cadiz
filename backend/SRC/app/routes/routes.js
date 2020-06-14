@@ -323,7 +323,7 @@ router.get('/venta',async function(req,res) {
 	if (req.query.search){
 		const fecha1 = req.body.desde; // ejemplo: '2019/03/26'
 		const fecha2 = req.body.hasta;
-	
+
 		await venta.find({$and: [{fecha: {$gte: new Date(fecha1)}},{fecha: {$lt: new Date(fecha2)}}]}, (err, venta) => {
 			if(err) {
 				console.log(err);
@@ -345,7 +345,7 @@ router.get('/venta',async function(req,res) {
 			else{
 				res.json(venta);
 			}
-		});	
+		});
 	}
 });
 
