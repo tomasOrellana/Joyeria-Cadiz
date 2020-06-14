@@ -87,7 +87,7 @@ export default class Login extends React.Component {
     console.log('usuario: ' + this.state.usuario)
     console.log('password: ' + this.state.password)
 
-    fetch('/conectar', {
+    fetch('/login', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
