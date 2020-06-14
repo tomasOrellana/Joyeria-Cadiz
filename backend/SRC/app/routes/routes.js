@@ -21,11 +21,11 @@ router.use(passport.session());
 	});
 
 	//login view
-	/*router.get('/login', (req, res) => {
+	router.get('/login', (req, res) => {
 		res.render('login.ejs', {
 			message: req.flash('loginMessage')
 		});
-	});*/
+	});
 
 	/*.post('/conectar', passport.use('local-login', (req, res) => {new LocalStrategy({
 	    usernameField: 'rut',
