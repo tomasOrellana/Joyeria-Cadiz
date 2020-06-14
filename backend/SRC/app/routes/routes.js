@@ -27,7 +27,7 @@ router.use(passport.session());
 		});
 	});
 
-	/*router.post('/conectar', passport.use('local-login', (req, res) => {new LocalStrategy({
+	/*.post('/conectar', passport.use('local-login', (req, res) => {new LocalStrategy({
 	    usernameField: 'rut',
 	    passwordField: 'password',
 	    passReqToCallback: true
