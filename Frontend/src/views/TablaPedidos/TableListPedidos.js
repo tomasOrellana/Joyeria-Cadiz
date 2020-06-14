@@ -181,27 +181,9 @@ export default class InventarioTableList extends React.Component {
 
     if(this.state.ready === true) {
       let Lista0 = this.state.ListaPedidos.map((val,) => {
-        if(val.sucursal === 0){
-          return (
-              [val.numero, val.fecha, val.estado, val.total, val.cliente, val.descripcion]
-          )
-        }
-      }
-      );
-      let Lista1 = this.state.ListaPedidos.map((val,) => {
-        if(val.sucursal === 1){
-          return (
-              [val.numero, val.fecha, val.estado, val.total, val.cliente, val.descripcion]
-          )
-        }
-      }
-      );
-      let Lista2 = this.state.ListaPedidos.map((val,) => {
-        if(val.sucursal === 2){
-          return (
-              [val.numero, val.fecha, val.estado, val.total, val.cliente, val.descripcion]
-          )
-        }
+        return (
+            [val.numero, val.fecha, val.estado, val.total, val.cliente, val.descripcion]
+        )
       }
       );
       return (
@@ -231,14 +213,14 @@ export default class InventarioTableList extends React.Component {
                   <Table
                       tableHeaderColor="primary"
                       tableHead={["N° de Pedido", "Fecha", "Estado", "Cliente","Descripción"]}
-                      tableData={Lista0}
+                      tableData={Lista}
                   />
                   </TabPanel>
                 <TabPanel value={this.state.tabIndex} index={1}>
                   <Table
                       tableHeaderColor="primary"
                       tableHead={["N° de Pedido", "Fecha", "Estado", "Cliente","Descripción"]}
-                      tableData={Lista1}
+                      tableData={Lista}
                   />
                 </TabPanel>
 
@@ -246,7 +228,7 @@ export default class InventarioTableList extends React.Component {
                   <Table
                       tableHeaderColor="primary"
                       tableHead={["N° de Pedido", "Fecha", "Estado", "Cliente","Descripción"]}
-                      tableData={Lista2}
+                      tableData={Lista}
                   />
                 </TabPanel>
               </CardBody>

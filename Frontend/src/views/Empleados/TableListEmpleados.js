@@ -180,28 +180,10 @@ export default class InventarioTableList extends React.Component {
   render() {
 
     if(this.state.ready === true) {
-      let Lista0 = this.state.ListaEmpleados.map((val,) => {
-        if(val.sucursal === "Lo Castillo"){
-          return (
-              [val.nombre, val.rut, val.sucursal, val.edad, val.rol, val.telefono, val.salario]
-          )
-        }
-      }
-      );
-      let Lista1 = this.state.ListaEmpleados.map((val,) => {
-        if(val.sucursal === "Apumanque"){
-          return (
-              [val.nombre, val.rut, val.sucursal, val.edad, val.rol, val.telefono, val.salario]
-          )
-        }
-      }
-      );
-      let Lista2 = this.state.ListaEmpleados.map((val,) => {
-        if(val.sucursal === "Vitacura"){
-          return (
-              [val.nombre, val.rut, val.sucursal, val.edad, val.rol, val.telefono, val.salario]
-          )
-        }
+      let Lista = this.state.ListaEmpleados.map((val,) => {
+        return (
+            [val.nombre, val.rut, val.sucursal, val.edad, val.rol, val.telefono, val.salario]
+        )
       }
       );
       return (
