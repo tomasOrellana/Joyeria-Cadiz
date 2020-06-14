@@ -319,11 +319,34 @@ router.get('/lista_venta', isLoggedIn, (req,res) =>{
 
 
 
-router.get('/venta', isLoggedIn, (req,res) =>{
-       			res.render('venta', {
+router.get('/venta',async function(req,res) {
+	if (req.query.search){
+		const fecha1 = req.body.desde; // ejemplo: '2019/03/26'
+		const fecha2 = req.body.hasta;
+	
+		await venta.find({$and: [{fecha: {$gte: new Date(fecha1)}},{fecha: {$lt: new Date(fecha2)}}]}, (err, venta) => {
+			if(err) {
+				console.log(err);
+			}
+			else{
+				res.json(venta);
+			}
+		});
+       			/*res.render('venta', {
 				 user: req.user,
 				 venta: venta
-			 	});
+				 });*/
+	}
+	else{
+		await venta.find({}, function(err,venta){
+			if (err){
+				console.log(err);
+			}
+			else{
+				res.json(venta);
+			}
+		});	
+	}
 });
 
 router.get('/lista_productos', isLoggedIn, (req,res) => {
@@ -393,25 +416,7 @@ router.get('/agregar_venta/:numVenta', isLoggedIn, (req,res) => {
 		});
 });
 
-router.post('/api/actividad/bydate', (req, res, next) => {
-    const fecha1 = req.body.fechaInicial; // ejemplo: '2019/03/26'
-    const fecha2 = req.body.fechaFinal;
 
-    Venta.find({$and: [{fecha: {$gte: new Date(fecha1)}},{fecha: {$lt: new Date(fecha2)}}]}, (err, venta) => {
-        if(err) {
-            console.log(err.message);
-            return res.status(500).json({
-                error: err.message
-            });
-        }
-        if(!venta) {  // si no se consiguen documentos
-            return res.status(400).json({
-                message: 'No se ha encontrado actividad en la fecha dada.'
-            });
-        }
-        return res.status(200).json(venta);
-    });
-});
 
 router.post('/agregar_venta/:id', function(req, res) {
     venta.findByIdAndUpdate(req.params.id, req.body, function (err) {
