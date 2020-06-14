@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const router = express.Router();
 const producto = require('../models/producto');
 const inventario = require('../models/inventario');
@@ -9,8 +10,6 @@ const Venta = require('../models/venta');
 const venta = require('../models/venta');
 const empleado = require('../models/usuario');
 const passport = require('../../config/passport');
-const LocalStrategy = require('passport-local').Strategy;
-const Usuario = require('../models/usuario');
 
 router.use(passport.initialize());
 router.use(passport.session());
@@ -27,40 +26,18 @@ router.use(passport.session());
 		});
 	});
 
-	/*.post('/conectar', passport.use('local-login', (req, res) => {new LocalStrategy({
-	    usernameField: 'rut',
-	    passwordField: 'password',
-	    passReqToCallback: true
-	  },
-	  function (req, rut, password, done) {
-			rut = req.body.rut;
-			password = req.body.password;
-	    Usuario.findOne({'rut': rut}, function (err, usuario) {
-	      if (err) { return done(err); }
-	      if (!usuario) {
-					res.json(req.user);
-	      }
-	      if (!usuario.validPassword(password)) {
-					res.sendStatus(404);
-	      }
-	      res.sendStatus(201);
-	    });
-	  })}
-	));*/
 
-	router.post('/login', (req,res) => {
-		rut = req.body.rut;
-		password = req.body.password;
-		Usuario.findOne({'rut': rut}, function (err, usuario) {
-			if (err) { return done(err); }
-			if (!usuario) {
-				res.json(req.user);
-			}
-			if (!usuario.validPassword(password)) {
-				res.sendStatus(404);
-			}
-			res.sendStatus(201);
-		});
+	router.post('/login', function (req,res) {
+				passport.authenticate('local-login', function(err, user) {
+				if (err) { return next(err); }
+				if (!user) { return res.sendStatus(404); }
+
+				req.logIn(user, function(err) {
+					if (err) { return next(err); }
+					return res.sendStatus(201);
+				});
+
+			}) (req, res);
 	});
 
 
