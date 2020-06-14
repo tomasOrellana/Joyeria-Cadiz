@@ -8,19 +8,10 @@ import TableListEmpleados from "views/Empleados/TableListEmpleados.js";
 import TableListPedidos from "views/TablaPedidos/TableListPedidos.js";
 import Taller from "views/Taller/Taller.js";
 import Maps from "views/Maps/Maps.js";
-import Login from "views/Login/Login.js";
 import ListaDeVentas from "views/TablaVentas/Ventas.js";
 import Ventas from "views/Ventas/Ventas.js"
 
 const dashboardRoutes = [
-  {
-    path: "/login",
-    name: "Login",
-    rtlName: "لوحة القيادة",
-    icon: Person,
-    component: Login,
-    layout: "/admin"
-  },
   {
     path: "/inicio",
     name: "Inicio",
