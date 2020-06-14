@@ -14,13 +14,15 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { createBrowserHistory } from "history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import "assets/css/material-dashboard-react.css?v=1.8.0";
 
 // core components
-import Admin from "layouts/Admin.js";
-import RTL from "layouts/RTL.js";
-import { red } from '@material-ui/core/colors';
+import Admin from "../../layouts/Admin";
+import RTL from "../../layouts/RTL";
+
+const hist = createBrowserHistory();
 
 function Copyright() {
   return (
@@ -34,8 +36,6 @@ function Copyright() {
     </Typography>
   );
 }
-
-const hist = createBrowserHistory();
 
 const styles = makeStyles((theme) => ({
   paper: {
@@ -101,15 +101,8 @@ export default class Login extends React.Component {
     .then( (response) => {
       if(response.status === 201) {
         console.log("LOGEADO")
-        return (
-          <Router history={hist}>
-            <Switch>
-              <Route path="/admin" component={Admin} />
-              <Route path="/rtl" component={RTL} />
-              <Redirect from="/" to="/admin/inicio" />
-            </Switch>
-          </Router>
-        );
+        this.setState({estado: 'Logeado Correctamente!'})
+        ReactDOM.render(<Inicio/>, document.getElementById('root'))
       } else {
         console.log('FALLO EL INGRESO')
         this.setState({estado: 'Fallo el inicio de sesion!'})
@@ -179,7 +172,7 @@ export default class Login extends React.Component {
         </div>
         <Box mt={8}>
           <label style={{color: '#FF0000', fontWeight: 'bold'}}>{this.state.estado}</label>
-
+          
           <Copyright />
         </Box>
       </Container>
