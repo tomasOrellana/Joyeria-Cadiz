@@ -247,7 +247,7 @@ export default class InventarioTableList extends React.Component {
                     <Input style={styles.formañadir} id="piedra" label="Piedra" placeholder="piedra" onChange={(event) => this.setState({piedra:event.target.value})}/>
                     <Input style={styles.formañadir} id="precio" label="Precio" placeholder="precio" onChange={(event) => this.setState({precio:event.target.value})}/>
                     <Input style={styles.formañadir} id="descripcion" label="Descripcion" placeholder="descripcion" onChange={(event) => this.setState({descripcion:event.target.value})}/>
-                    <Button style={styles.boton} onClick={this.AgregarProducto} color="primary"><AddIcon/></Button>
+                    <Button type="submit" style={styles.boton} onClick={this.AgregarProducto} color="primary"><AddIcon/></Button>
                   </div>
               </Card>
             }
