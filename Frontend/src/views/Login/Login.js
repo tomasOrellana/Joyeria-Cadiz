@@ -16,6 +16,7 @@ import Container from '@material-ui/core/Container';
 
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { createBrowserHistory } from "history";
+import "assets/css/material-dashboard-react.css?v=1.8.0";
 
 // core components
 import Admin from "../../layouts/Admin";
