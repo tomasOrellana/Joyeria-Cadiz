@@ -4,7 +4,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Table from "components/Table/TableEmpleados.js";
+import Table from "components/Table/TableInv.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import Grid from '@material-ui/core/Grid';
@@ -180,28 +180,10 @@ export default class InventarioTableList extends React.Component {
   render() {
 
     if(this.state.ready === true) {
-      let Lista0 = this.state.ListaEmpleados.map((val,) => {
-        if(val.sucursal === "Lo Castillo"){
-          return (
-              [val.nombre, val.rut, val.sucursal, val.edad, val.rol, val.telefono, val.salario]
-          )
-        }
-      }
-      );
-      let Lista1 = this.state.ListaEmpleados.map((val,) => {
-        if(val.sucursal === "Apumanque"){
-          return (
-              [val.nombre, val.rut, val.sucursal, val.edad, val.rol, val.telefono, val.salario]
-          )
-        }
-      }
-      );
-      let Lista2 = this.state.ListaEmpleados.map((val,) => {
-        if(val.sucursal === "Vitacura"){
-          return (
-              [val.nombre, val.rut, val.sucursal, val.edad, val.rol, val.telefono, val.salario]
-          )
-        }
+      let Lista = this.state.ListaEmpleados.map((val,) => {
+        return (
+            [val.nombre, val.rut, val.sucursal, val.edad, val.rol, val.telefono, val.salario]
+        )
       }
       );
       return (
