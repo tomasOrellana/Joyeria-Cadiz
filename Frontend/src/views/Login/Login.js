@@ -66,7 +66,7 @@ const Inicio = () => (
     <Switch>
       <Route path="/admin" component={Admin} />
       <Route path="/rtl" component={RTL} />
-      <Redirect from="/" to="/admin/dashboard" />
+      <Redirect from="/" to="/admin/inicio" />
     </Switch>
   </Router>
 );
@@ -87,7 +87,7 @@ export default class Login extends React.Component {
     console.log('usuario: ' + this.state.usuario)
     console.log('password: ' + this.state.password)
 
-    fetch('/conectar', {
+    fetch('/login', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
