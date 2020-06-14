@@ -299,9 +299,9 @@ router.get('/venta', isLoggedIn, (req,res) =>{
 		if(!err){
        			res.render('venta', {
 				 user: req.user,
-				 venta:venta
+				 venta: venta
 			 	});
-	}});
+	    }});
 });
 
 router.get('/lista_productos', isLoggedIn, (req,res) => {
