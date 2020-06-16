@@ -204,10 +204,9 @@ router.post('/agregar_pedido', isLoggedIn, (req,res) => {
 		let fecha = req.body.fecha.toUpperCase();
 		let cliente = req.body.cliente.toUpperCase();
 		let sucursal = req.body.sucursal.toUpperCase();
-		let  = req.body.piedra.toUpperCase();
+		let piedra = req.body.piedra.toUpperCase();
 		let precio = req.body.precio;
 		let descripcion = req.body.descripcion.toUpperCase();
-		let sucursal = req.body.sucursal;
     pedido.create(body, (err) =>{
 			if(!err){
        res.redirect('/pedidos');
@@ -476,7 +475,6 @@ router.post('/agregar_venta/:id', function(req, res) {
       if(err){
         res.sendStatus(404);
     } else {
-
       res.redirect('../venta');
     }
     });
