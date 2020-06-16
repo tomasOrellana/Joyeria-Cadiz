@@ -240,7 +240,7 @@ export default class InventarioTableList extends React.Component {
 
             {this.state.estado === 1 &&
               <Card >
-                <div style={styles.añadirestilo}> //numero, fecha, estado, total, descripcion, cliente, sucursal
+                <div style={styles.añadirestilo}>
                     <Input style={styles.formañadir} id="numero" label="Numero" placeholder="numero" onChange={(event) => this.setState({numero:event.target.value})}/>
                     <Input style={styles.formañadir} id="fecha" label="Fecha" placeholder="fecha" onChange={(event) => this.setState({fecha:event.target.value})}/>
                     <Input style={styles.formañadir} id="estado" label="Estado" placeholder="estado" onChange={(event) => this.setState({estado2:event.target.value})}/>

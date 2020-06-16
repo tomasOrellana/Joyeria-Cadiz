@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,18 +58,6 @@
 
     <div class="container" style="margin-left:10%;padding:1px 16px;height:1000px;">
         <h1> Ventas </h1>
-        <form action="/agregar" method="post">
-            <div class="form-group">
-                <a class="btn btn-secondary" href="/crear_venta"><i class="fa fa-list-alt"></i>Crear venta</a>
-            </div>
-        </form>
-        <form action="/venta" method="post">
-            <a class="btn btn-primary" href="/binput"><i class="fa fa-list-alt"></i>venta_periodo</a>
-        </form>
-
-        <hr>
-
-        <hr>
         <table class ='table table-bordered table-hover'>
             <thead>
                 <tr>
@@ -97,6 +84,10 @@
                  <%}%>
 
             </tbody>
+            <tr>
+                <th> fecha inicial: <%= fechai%> </th>
+                <th> fecha final: <%= fechaf%> </th>
+            </tr>
         </table>
 
     </div>

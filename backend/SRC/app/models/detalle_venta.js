@@ -3,8 +3,7 @@ const {Schema} = mongoose
 
 var detalle_venta = new Schema   ({
         numero_venta: {type: String, require: true},
-        cod_prod: {type: String, require: true},
-        cantidad: {type: Number, require: true}},
+        cod_prod: {type: String, require: true}},
         {collection: 'detalle_venta'}
       );
 

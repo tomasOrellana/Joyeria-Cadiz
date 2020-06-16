@@ -29,11 +29,11 @@ router.use(passport.session());
 
 	router.post('/login', function (req,res) {
 				passport.authenticate('local-login', function(err, user) {
-				if (err) { return next(err); }
+				if (err) { return res.sendStatus(404); }
 				if (!user) { return res.sendStatus(404); }
 
 				req.logIn(user, function(err) {
-					if (err) { return next(err); }
+				if (err) { return next(err); }
 					return res.sendStatus(201);
 				});
 
@@ -54,6 +54,7 @@ router.use(passport.session());
 		failureFlash: true // allow flash messages
 	}));
 
+
 	//profile view
 	router.get('/profile', isLoggedIn, (req, res) => {
 		res.render('profile', {
@@ -64,7 +65,7 @@ router.use(passport.session());
 	// logout
 	router.get('/logout', (req, res) => {
 		req.logout();
-		res.redirect('/');
+		res.sendStatus(201);
 	});
 
 	router.get('/inicio', isLoggedIn, (req, res) =>{
@@ -84,7 +85,7 @@ router.get('/productos', async function(req, res){  //lista de productos, tiene 
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
         await producto.find({codigo: regex}, function(err, producto){
            if(err){
-               console.log(err);
+               res.sendStatus(404);
            } else {
 
 							/*res.render({
@@ -105,29 +106,6 @@ router.get('/productos', async function(req, res){  //lista de productos, tiene 
         });
     }
 });
-
-router.get('/asd', function(req, res) {
-
-	 res.json([{
-	   id: "5ec49fc573d1885c64d14065",
-	   codigo:'1132238',//
-	   tipo: 'collar',
-	   material: 'Oro',
-	   piedra: 'No tiene',
-	   cantidad: 5,
-	   precio: 50000,
-	   descripcion: "aaaaaaaaaaaaasd"
-	 }, {
-		id: "5ec49fc573d188asdadasd5c64d14065",
-		codigo:'1132238',//
-		tipo: 'asdasdsad',
-		material: 'Oro',
-		piedra: 'No tiene',
-		cantidad: 5,
-		precio: 50000,
-		descripcion: "asd"
-	 }]);
-   });
 
 router.get('/agregar_prod', isLoggedIn, (req,res) =>{
 
@@ -150,7 +128,7 @@ router.post('/agregar_prod', (req,res) => {
 		if(!err){
      	res.sendStatus(201);
 	}else{
-			console.log(err);
+     	res.sendStatus(404);
 	}
   });
 });
@@ -159,37 +137,42 @@ router.get('/delete_producto/:id', isLoggedIn, (req,res) =>{
     let id = req.params.id;
     producto.remove({_id: id}, (err, task) =>{
 			if(!err){
-        res.redirect('/productos');
+     		res.sendStatus(201);
 			}
 			else{
-					res.redirect('/inicio');
+     		res.sendStatus(404);
 			}
     });
 });
 
 router.get('/editar_prod/:id', (req,res) =>{
     producto.findById(req.params.id, (err,producto) => {
-        if(!err){
-            res.render('editar_prod',{
-                title: 'Actualizar',
-                producto: producto
-            });
-        }
-				else{
-					res.redirect('/inicio');
-				}
+			if(!err){
+     		res.sendStatus(201);
+			}
+			else{
+     		res.sendStatus(404);
+			}
 
     });
 });
 
 router.post('/editar_prod/:id', function(req, res) {
-    producto.findByIdAndUpdate(req.params.id, req.body, function (err) {
-      if(err){
-        res.redirect('editar_prod/'+req.params.id);
-    } else {
-      res.redirect('/producto');
-    }
-    });
+	let codigo = req.body.codigo.toUpperCase();
+	let material = req.body.material.toUpperCase();
+	let tipo = req.body.tipo.toUpperCase();
+	let piedra = req.body.piedra.toUpperCase();
+	let precio = req.body.precio;
+	let descripcion = req.body.descripcion.toUpperCase();
+	let sucursal = req.body.sucursal;
+  producto.findByIdAndUpdate(req.params.id, {material: material, tipo: tipo, piedra: piedra, precio: precio, descripcion: descripcion, sucursal: sucursal}, function (err) {
+		if(!err){
+   		res.sendStatus(201);
+		}
+		else{
+   		res.sendStatus(404);
+		}
+  });
   });
 
 
@@ -199,19 +182,17 @@ router.get('/pedidos', async function(req, res){  //lista de productos, tiene bu
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
         await pedido.find({codigo: regex}, function(err, pedido){
            if(err){
-               console.log(err);
+               res.sendStatus(404)
            } else {
-              res.render("pedidas",{user: req.user, producto: producto});
 							res.json({
-								user: req.user,
-								producto: producto
+								pedido: pedido
 							})
 					 }
         });
     } else {
         await pedido.find({}, function(err, pedido){
            if(err){
-               console.log(err);
+               res.sendStatus(404)
            } else {
               //res.render("productos",{user: req.user, pedido: pedido});
 							res.json(pedido);
@@ -228,15 +209,19 @@ router.get('/agregar_pedido', isLoggedIn, (req,res) =>{
 });
 
 router.post('/agregar_pedido', isLoggedIn, (req,res) => {
-    let body = req.body;
-    pedido.create(body, (err) =>{
+		let fecha = req.body.fecha;
+		let cliente = req.body.cliente.toUpperCase();
+		let sucursal = req.body.sucursal.toUpperCase();
+		let descripcion = req.body.descripcion.toUpperCase();
+		let estado = req.body.estado.toUpperCase();
+		let total = req.body.total;
+    pedido.create({fecha: fecha, cliente: cliente, sucursal: sucursal, descripción: descripcion, estado: estado, total: total}, (err) =>{
 			if(!err){
-       res.redirect('/pedidos');
-		 }
-		 else{
-			 console.log(err);
-			 res.redirect('/inicio');
-		 }
+	     res.sendStatus(201)
+			}
+			else{
+				res.sendStatus(404)
+			}
     });
 });
 
@@ -244,10 +229,10 @@ router.get('/delete_pedido/:id', isLoggedIn, (req,res) =>{
     let id = req.params.id;
     pedido.remove({_id: id}, (err, task) =>{
 			if(!err){
-        res.redirect('/pedidos');
+				res.sendStatus(201)
 			}
 			else{
-				res.redirect('/pedido');
+				res.sendStatus(404)
 			}
     });
 });
@@ -255,28 +240,48 @@ router.get('/delete_pedido/:id', isLoggedIn, (req,res) =>{
 router.get('/editar_pedido/:id', (req,res) =>{
     pedido.findById(req.params.id, (err,pedido) => {
         if(!err){
-            res.render('editar_pedido',{
-                title: 'Actualizar Pedido',
-                pedido: pedido
-            });
+					res.sendStatus(201)
         }
 				else{
-					res.redirect('/inicio');
+					res.sendStatus(404)
 				}
 
     });
 });
 
-router.post('/editar_pedido/:id', function(req, res) {
-    pedido.findByIdAndUpdate(req.params.id, req.body, function (err) {
-      if(err){
-        res.redirect('/inicio');
-    } else {
-
-      res.redirect('../pedidos');
-    }
-    });
+router.post('/editar_descripcion_pedido/:id', function(req, res) {
+		let fecha = req.body.fecha;
+		let cliente = req.body.cliente.toUpperCase();
+		let sucursal = req.body.sucursal.toUpperCase();
+		let descripcion = req.body.descripcion.toUpperCase();
+		let estado = req.body.estado.toUpperCase();
+		let total = req.body.total;
+    pedido.findByIdAndUpdate(req.parmas.id,{cliente: cliente, sucursal: sucursal, descripción: descripcion, total: total}, function (err) {
+			if(!err){
+				res.sendStatus(201)
+			}
+			else{
+				res.sendStatus(404)
+		}
   });
+});
+
+router.post('/editar_estado_pedido/:id', function(req, res) {
+		let fecha = req.body.fecha;
+		let cliente = req.body.cliente.toUpperCase();
+		let sucursal = req.body.sucursal.toUpperCase();
+		let descripcion = req.body.descripcion.toUpperCase();
+		let estado = req.body.estado.toUpperCase();
+		let total = req.body.total;
+    pedido.findByIdAndUpdate(req.params.id,{estado: estado}, function (err) {
+			if(!err){
+				res.sendStatus(201)
+			}
+			else{
+				res.sendStatus(404)
+		}
+  });
+});
 
 
 
@@ -284,46 +289,92 @@ router.post('/editar_pedido/:id', function(req, res) {
 router.get('/lista_venta', isLoggedIn, (req,res) =>{
   			lista.find(function (err,lista) {
 					if (!err){
-        		res.render('lista_venta',{
-								user: req.user,
-            		lista: lista
-        	});
+						res.json(lista);
 					}else{
-						res.redirect('/inicio');
+						res.sendStatus(404);
 					}
     });
 });
 
 
 
-router.get('/venta',async function(req,res) {
-	if (req.query.search){
-		const fecha1 = req.body.desde; // ejemplo: '2019/03/26'
-		const fecha2 = req.body.hasta;
+router.get('/venta', async function(req,res) {
+	/*if (req.query.search){
+		const fecha1 = req.body.fechaInicial; // ejemplo: '2019/03/26'
+		const fecha2 = req.body.fechaFinal;
+		if (fecha1 == fecha2){
+			const fi= fecha1.concat("T00:00:00-04:00");
+			const ff =fecha2.concat("T23:00:00-04:00");
+		}
+		else{
+			const fi= fecha1.concat("T00:00:00-04:00");
+			const ff =fecha2.concat("T00:00:00-04:00");
+		}
 
-		await venta.find({$and: [{fecha: {$gte: new Date(fecha1)}},{fecha: {$lt: new Date(fecha2)}}]}, (err, venta) => {
+		await venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
 			if(err) {
 				console.log(err);
 			}
 			else{
-				res.json(venta);
+				res.status(200).json(venta);
+				/*res.render('venta',{
+					user: req.user,
+					venta: venta
+				})
+
 			}
 		});
        			/*res.render('venta', {
 				 user: req.user,
 				 venta: venta
-				 });*/
+				 });
 	}
-	else{
+	else{*/
 		await venta.find({}, function(err,venta){
 			if (err){
 				console.log(err);
 			}
 			else{
-				res.json(venta);
+				res.render('venta',{
+					user: req.user,
+					venta: venta
+				})
+				//res.json(venta);
 			}
 		});
+	//}
+});
+router.get('/binput', isLoggedIn, (req,res) =>{
+	res.render('binput',{
+					user: req.user,
+					venta: venta
+	});
+});
+
+router.post('/binput', (req, res, next) => {
+    const fecha1 = req.body.fechaInicial; // ejemplo: '2019/03/26'
+	const fecha2 = req.body.fechaFinal;
+
+	/*if (fecha1 == fecha2){
+		const fi= fecha1.concat("T00:00:00-04:00");
+		const ff =fecha2.concat("T23:00:00-04:00");
 	}
+	else{*/
+		const fi = fecha1.concat("T00:00:00-04:00");
+		const ff =fecha2.concat("T00:00:00-04:00");
+	//}
+
+    venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
+        if(err) {
+            console.log(err);
+		}
+		else{
+			res.render('busca_periodo',{
+				user: req.user,
+				venta: venta
+			})
+		}
+    });
 });
 
 router.get('/lista_productos', isLoggedIn, (req,res) => {
@@ -338,24 +389,71 @@ router.get('/lista_productos', isLoggedIn, (req,res) => {
 	    	});
 			};
 		});
+
 });
 
 router.get('/crear_venta', isLoggedIn, async (req,res) => {
 	await venta.find({} , async (err, venta) => {
 
-		if( venta.length == null || venta.length == 0 ){
-			let aux = await new Venta({numero_venta: 1} );
+		if( venta.length == null && venta.length == 0 ){
+			/*let num_venta = 1;
+			let aux = req.body.fecha;
+			let fecha = aux.concat("T00:00:00-04:00");
+			let metodo_pago = req.body.metodo_pago.toUpperCase();
+			let descuento = req.body.descuento;
+			let total = req.body.total;
+			let id_vendedor = req.body.id_vendedor.toUpperCase();
+			let cliente = req.body.cliente.toUpperCase();
+
+			venta.create({num_venta: num_venta, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento,total: total, id_vendedor: id_vendedor, cliente: cliente}, (err) =>{
+				if (err){
+					res.sendStatus(404);
+				}
+				else{
+					producto.find((err, producto) => {
+				 	res.render('productos_venta',{
+						 user: req.user,
+						 producto: producto,
+						 numero_venta: aux.numero_venta
+					 });
+				}
+			});*/
+			let aux = await new Venta({numero_venta: 1})
 			await aux.save( (err, aux)=> {
-				producto.find((err, producto) => {
-					 res.render('productos_venta',{
-							 user: req.user,
-							 producto: producto,
-							 numero_venta: aux.numero_venta
+			producto.find((err, producto) => {
+				 res.render('productos_venta',{
+						 user: req.user,
+						 producto: producto,
+						 numero_venta: aux.numero_venta
 					 });
 			 	});
 			});
 	}else{
-		let aux = await new Venta({numero_venta: venta.length} );
+		/*let num_venta = venta.length;
+			let aux = req.body.fecha;
+			let fecha = aux.concat("T00:00:00-04:00");
+			let metodo_pago = req.body.metodo_pago.toUpperCase();
+			let descuento = req.body.descuento;
+			let total = req.body.total;
+			let id_vendedor = req.body.id_vendedor.toUpperCase();
+			let cliente = req.body.cliente.toUpperCase();
+
+			venta.create({num_venta: num_venta, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento,total: total, id_vendedor: id_vendedor, cliente: cliente}, (err) =>{
+				if (err){
+					res.sendStatus(404);
+				}
+				else{
+					producto.find((err, producto) => {
+				 	res.render('productos_venta',{
+						 user: req.user,
+						 producto: producto,
+						 numero_venta: aux.numero_venta
+					 });
+				}
+			});
+
+		*/
+let aux = await new Venta({numero_venta: venta.length});
 		await aux.save( (err, aux)=> {
 			producto.find((err, producto) => {
 				 res.render('productos_venta',{
@@ -374,7 +472,8 @@ router.get('/detalle_venta_crear/:codProd/:numero_venta', isLoggedIn, async (req
 	let num = req.params.numero_venta;
 	/*let det = await new Detalle_venta({numero_venta: num, cod_prod: req.params.codProd});
 	await det.save()*/
-	await detalle_venta.create({numero_venta: num, cod_prod: req.params.codProd})
+	let cod_producto = req.params.codProd;
+	await detalle_venta.create({numero_venta: num, cod_prod: cod_Prod})
 		producto.find((err, producto) => {
 			 res.render('productos_venta',{
 					 user: req.user,
@@ -398,9 +497,8 @@ router.get('/agregar_venta/:numVenta', isLoggedIn, (req,res) => {
 router.post('/agregar_venta/:id', function(req, res) {
     venta.findByIdAndUpdate(req.params.id, req.body, function (err) {
       if(err){
-        res.redirect('/inicio');
+        res.sendStatus(404);
     } else {
-
       res.redirect('../venta');
     }
     });
