@@ -314,7 +314,7 @@ router.get('/venta', async function(req,res) {
 				console.log(err);
 			}
 			else{
-				res.status(200).json(venta);				
+				res.status(200).json(venta);
 				/*res.render('venta',{
 					user: req.user,
 					venta: venta
@@ -352,7 +352,7 @@ router.get('/binput', isLoggedIn, (req,res) =>{
 router.post('/binput', (req, res, next) => {
     const fecha1 = req.body.fechaInicial; // ejemplo: '2019/03/26'
 	const fecha2 = req.body.fechaFinal;
-	
+
 	/*if (fecha1 == fecha2){
 		const fi= fecha1.concat("T00:00:00-04:00");
 		const ff =fecha2.concat("T23:00:00-04:00");
@@ -369,9 +369,7 @@ router.post('/binput', (req, res, next) => {
 		else{
 			res.render('busca_periodo',{
 				user: req.user,
-				venta: venta,
-				fechai: new Date (fi),
-				fechaf: new Date (ff)
+				venta: venta
 			})
 		}
     });
@@ -389,7 +387,7 @@ router.get('/lista_productos', isLoggedIn, (req,res) => {
 	    	});
 			};
 		});
-		
+
 });
 
 router.get('/crear_venta', isLoggedIn, async (req,res) => {
