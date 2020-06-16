@@ -29,12 +29,13 @@ router.use(passport.session());
 
 	router.post('/login', function (req,res) {
 				passport.authenticate('local-login', function(err, user) {
-				if (err) { return res.sendStatus(404); }
+				if (err) { return res.next(404); }
 				if (!user) { return res.sendStatus(404); }
+				console.log("Usuario recibido")
 
 				req.logIn(user, function(err) {
 				if (err) { return next(err); }
-					return res.json(user);
+					return res.sendStatus(201);
 				});
 
 			}) (req, res);
