@@ -33,7 +33,7 @@ router.use(passport.session());
 				if (!user) { return res.sendStatus(404); }
 
 				req.logIn(user, function(err) {
-					if (err) { return next(err); }
+				if (err) { return next(err); }
 					return res.json(user);
 				});
 
@@ -84,7 +84,7 @@ router.get('/productos', async function(req, res){  //lista de productos, tiene 
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
         await producto.find({codigo: regex}, function(err, producto){
            if(err){
-               console.log(err);
+               res.sendStatus(404);
            } else {
 
 							/*res.render({
@@ -105,29 +105,6 @@ router.get('/productos', async function(req, res){  //lista de productos, tiene 
         });
     }
 });
-
-router.get('/asd', function(req, res) {
-
-	 res.json([{
-	   id: "5ec49fc573d1885c64d14065",
-	   codigo:'1132238',//
-	   tipo: 'collar',
-	   material: 'Oro',
-	   piedra: 'No tiene',
-	   cantidad: 5,
-	   precio: 50000,
-	   descripcion: "aaaaaaaaaaaaasd"
-	 }, {
-		id: "5ec49fc573d188asdadasd5c64d14065",
-		codigo:'1132238',//
-		tipo: 'asdasdsad',
-		material: 'Oro',
-		piedra: 'No tiene',
-		cantidad: 5,
-		precio: 50000,
-		descripcion: "asd"
-	 }]);
-   });
 
 router.get('/agregar_prod', isLoggedIn, (req,res) =>{
 
@@ -150,7 +127,7 @@ router.post('/agregar_prod', (req,res) => {
 		if(!err){
      	res.sendStatus(201);
 	}else{
-			console.log(err);
+     	res.sendStatus(404);
 	}
   });
 });
@@ -159,36 +136,34 @@ router.get('/delete_producto/:id', isLoggedIn, (req,res) =>{
     let id = req.params.id;
     producto.remove({_id: id}, (err, task) =>{
 			if(!err){
-        res.redirect('/productos');
+     		res.sendStatus(201);
 			}
 			else{
-					res.redirect('/inicio');
+     		res.sendStatus(404);
 			}
     });
 });
 
 router.get('/editar_prod/:id', (req,res) =>{
     producto.findById(req.params.id, (err,producto) => {
-        if(!err){
-            res.render('editar_prod',{
-                title: 'Actualizar',
-                producto: producto
-            });
-        }
-				else{
-					res.redirect('/inicio');
-				}
+			if(!err){
+     		res.sendStatus(201);
+			}
+			else{
+     		res.sendStatus(404);
+			}
 
     });
 });
 
 router.post('/editar_prod/:id', function(req, res) {
     producto.findByIdAndUpdate(req.params.id, req.body, function (err) {
-      if(err){
-        res.redirect('editar_prod/'+req.params.id);
-    } else {
-      res.redirect('/producto');
-    }
+			if(!err){
+     		res.sendStatus(201);
+			}
+			else{
+     		res.sendStatus(404);
+			}
     });
   });
 
@@ -199,19 +174,17 @@ router.get('/pedidos', async function(req, res){  //lista de productos, tiene bu
         const regex = new RegExp(escapeRegex(req.query.search), 'gi');
         await pedido.find({codigo: regex}, function(err, pedido){
            if(err){
-               console.log(err);
+               res.sendStatus(404)
            } else {
-              res.render("pedidas",{user: req.user, producto: producto});
 							res.json({
-								user: req.user,
-								producto: producto
+								pedido: pedido
 							})
 					 }
         });
     } else {
         await pedido.find({}, function(err, pedido){
            if(err){
-               console.log(err);
+               res.sendStatus(404)
            } else {
               //res.render("productos",{user: req.user, pedido: pedido});
 							res.json(pedido);
@@ -228,7 +201,13 @@ router.get('/agregar_pedido', isLoggedIn, (req,res) =>{
 });
 
 router.post('/agregar_pedido', isLoggedIn, (req,res) => {
-    let body = req.body;
+		let fecha = req.body.fecha.toUpperCase();
+		let cliente = req.body.cliente.toUpperCase();
+		let sucursal = req.body.sucursal.toUpperCase();
+		let  = req.body.piedra.toUpperCase();
+		let precio = req.body.precio;
+		let descripcion = req.body.descripcion.toUpperCase();
+		let sucursal = req.body.sucursal;
     pedido.create(body, (err) =>{
 			if(!err){
        res.redirect('/pedidos');
