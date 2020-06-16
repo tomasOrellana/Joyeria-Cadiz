@@ -136,6 +136,8 @@ export default class InventarioTableList extends React.Component {
 
   handleChange(event, newValue) {
     this.setState({tabIndex: newValue});
+
+    console.log(this.state.tabIndex)
   }
 
   actualizarTexto(event, id, value) {
