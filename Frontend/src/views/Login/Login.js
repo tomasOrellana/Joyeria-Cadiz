@@ -108,7 +108,6 @@ export default class Login extends React.Component {
         console.log('FALLO EL INGRESO')
         this.setState({estado: 'Fallo el inicio de sesion!'})
       }
-      
     })
     .catch((error) => {
       console.log(error)
