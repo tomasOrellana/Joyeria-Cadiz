@@ -34,7 +34,7 @@ router.use(passport.session());
 
 				req.logIn(user, function(err) {
 				if (err) { return next(err); }
-					return res.sendStatus(404);
+					return res.sendStatus(201);
 				});
 
 			}) (req, res);
