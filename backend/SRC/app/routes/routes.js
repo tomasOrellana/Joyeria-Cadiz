@@ -34,7 +34,7 @@ router.use(passport.session());
 
 				req.logIn(user, function(err) {
 				if (err) { return next(err); }
-					return res.json(user);
+					return res.sendStatus(201);// res.sendStatus(201) para mandar 201 y res.json(user) para mandar usuario
 				});
 
 			}) (req, res);
