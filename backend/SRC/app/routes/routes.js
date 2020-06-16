@@ -29,12 +29,12 @@ router.use(passport.session());
 
 	router.post('/login', function (req,res) {
 				passport.authenticate('local-login', function(err, user) {
-				if (err) { return next(err); }
+				if (err) { return res.sendStatus(404); }
 				if (!user) { return res.sendStatus(404); }
 
 				req.logIn(user, function(err) {
 				if (err) { return next(err); }
-					return res.json(user);
+					return res.sendStatus(404);
 				});
 
 			}) (req, res);
@@ -53,6 +53,7 @@ router.use(passport.session());
 		failureRedirect: '/signup',
 		failureFlash: true // allow flash messages
 	}));
+
 
 	//profile view
 	router.get('/profile', isLoggedIn, (req, res) => {
@@ -248,16 +249,39 @@ router.get('/editar_pedido/:id', (req,res) =>{
     });
 });
 
-router.post('/editar_pedido/:id', function(req, res) {
-    pedido.findByIdAndUpdate(req.params.id, req.body, function (err) {
+router.post('/editar_descripcion_pedido/:id', function(req, res) {
+		let fecha = req.body.fecha;
+		let cliente = req.body.cliente.toUpperCase();
+		let sucursal = req.body.sucursal.toUpperCase();
+		let descripcion = req.body.descripcion.toUpperCase();
+		let estado = req.body.estado.toUpperCase();
+		let total = req.body.total;
+    pedido.findByIdAndUpdate(req.parmas.id,{cliente: cliente, sucursal: sucursal, descripción: descripcion, total: total}, function (err) {
 			if(!err){
 				res.sendStatus(201)
 			}
 			else{
 				res.sendStatus(404)
-			}
-    });
+		}
   });
+});
+
+router.post('/editar_estado_pedido/:id', function(req, res) {
+		let fecha = req.body.fecha;
+		let cliente = req.body.cliente.toUpperCase();
+		let sucursal = req.body.sucursal.toUpperCase();
+		let descripcion = req.body.descripcion.toUpperCase();
+		let estado = req.body.estado.toUpperCase();
+		let total = req.body.total;
+    pedido.findByIdAndUpdate(req.params.id,{estado: estado}, function (err) {
+			if(!err){
+				res.sendStatus(201)
+			}
+			else{
+				res.sendStatus(404)
+		}
+  });
+});
 
 
 
@@ -429,7 +453,7 @@ router.get('/crear_venta', isLoggedIn, async (req,res) => {
 			});
 
 		*/
-		let aux = await new Venta({numero_venta: venta.length});
+let aux = await new Venta({numero_venta: venta.length});
 		await aux.save( (err, aux)=> {
 			producto.find((err, producto) => {
 				 res.render('productos_venta',{
