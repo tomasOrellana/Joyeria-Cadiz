@@ -87,7 +87,7 @@ export default class Login extends React.Component {
     console.log('usuario: ' + this.state.usuario)
     console.log('password: ' + this.state.password)
 
-    fetch('http://localhost:8000/login', {
+    fetch('/login', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -100,6 +100,14 @@ export default class Login extends React.Component {
     })
     .then( (response) => {
       console.log(response)
+      if(response.status === 201) {
+        console.log("LOGEADO")
+        this.setState({estado: 'Logeado Correctamente!'})
+        ReactDOM.render(<Inicio/>, document.getElementById('root'))
+      } else {
+        console.log('FALLO EL INGRESO')
+        this.setState({estado: 'Fallo el inicio de sesion!'})
+      }
     })
     .catch((error) => {
       console.log(error)
