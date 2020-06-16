@@ -372,18 +372,64 @@ router.get('/lista_productos', isLoggedIn, (req,res) => {
 router.get('/crear_venta', isLoggedIn, async (req,res) => {
 	await venta.find({} , async (err, venta) => {
 
-	if( venta.length == null && venta.length == 0 ){
-			let aux = await new Venta({numero_venta: 1});
+		if( venta.length == null && venta.length == 0 ){
+			/*let num_venta = 1;
+			let aux = req.body.fecha;
+			let fecha = aux.concat("T00:00:00-04:00");
+			let metodo_pago = req.body.metodo_pago.toUpperCase();
+			let descuento = req.body.descuento;
+			let total = req.body.total;
+			let id_vendedor = req.body.id_vendedor.toUpperCase();
+			let cliente = req.body.cliente.toUpperCase();
+		
+			venta.create({num_venta: num_venta, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento,total: total, id_vendedor: id_vendedor, cliente: cliente}, (err) =>{
+				if (err){
+					res.sendStatus(404);
+				}
+				else{
+					producto.find((err, producto) => {
+				 	res.render('productos_venta',{
+						 user: req.user,
+						 producto: producto,
+						 numero_venta: aux.numero_venta
+					 });
+				}
+			});*/
+			let aux = await new Venta({numero_venta: 1})
 			await aux.save( (err, aux)=> {
-				producto.find((err, producto) => {
-					 res.render('productos_venta',{
-							 user: req.user,
-							 producto: producto,
-							 numero_venta: aux.numero_venta
+			producto.find((err, producto) => {
+				 res.render('productos_venta',{
+						 user: req.user,
+						 producto: producto,
+						 numero_venta: aux.numero_venta
 					 });
 			 	});
 			});
 	}else{
+		/*let num_venta = venta.length;
+			let aux = req.body.fecha;
+			let fecha = aux.concat("T00:00:00-04:00");
+			let metodo_pago = req.body.metodo_pago.toUpperCase();
+			let descuento = req.body.descuento;
+			let total = req.body.total;
+			let id_vendedor = req.body.id_vendedor.toUpperCase();
+			let cliente = req.body.cliente.toUpperCase();
+		
+			venta.create({num_venta: num_venta, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento,total: total, id_vendedor: id_vendedor, cliente: cliente}, (err) =>{
+				if (err){
+					res.sendStatus(404);
+				}
+				else{
+					producto.find((err, producto) => {
+				 	res.render('productos_venta',{
+						 user: req.user,
+						 producto: producto,
+						 numero_venta: aux.numero_venta
+					 });
+				}
+			});
+
+		*/
 		let aux = await new Venta({numero_venta: venta.length});
 		await aux.save( (err, aux)=> {
 			producto.find((err, producto) => {
@@ -403,7 +449,8 @@ router.get('/detalle_venta_crear/:codProd/:numero_venta', isLoggedIn, async (req
 	let num = req.params.numero_venta;
 	/*let det = await new Detalle_venta({numero_venta: num, cod_prod: req.params.codProd});
 	await det.save()*/
-	await detalle_venta.create({numero_venta: num, cod_prod: req.params.codProd})
+	let cod_producto = req.params.codProd;
+	await detalle_venta.create({numero_venta: num, cod_prod: cod_Prod})
 		producto.find((err, producto) => {
 			 res.render('productos_venta',{
 					 user: req.user,
@@ -427,7 +474,7 @@ router.get('/agregar_venta/:numVenta', isLoggedIn, (req,res) => {
 router.post('/agregar_venta/:id', function(req, res) {
     venta.findByIdAndUpdate(req.params.id, req.body, function (err) {
       if(err){
-        res.redirect('/inicio');
+        res.sendStatus(404);
     } else {
 
       res.redirect('../venta');
