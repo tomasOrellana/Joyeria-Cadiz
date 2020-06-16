@@ -276,28 +276,37 @@ router.get('/lista_venta', isLoggedIn, (req,res) =>{
 
 
 router.get('/venta', async function(req,res) {
-	if (req.query.search){
-		const fecha1 = req.body.desde; // ejemplo: '2019/03/26'
-		const fecha2 = req.body.hasta;
+	/*if (req.query.search){
+		const fecha1 = req.body.fechaInicial; // ejemplo: '2019/03/26'
+		const fecha2 = req.body.fechaFinal;
+		if (fecha1 == fecha2){
+			const fi= fecha1.concat("T00:00:00-04:00");
+			const ff =fecha2.concat("T23:00:00-04:00");
+		}
+		else{
+			const fi= fecha1.concat("T00:00:00-04:00");
+			const ff =fecha2.concat("T00:00:00-04:00");
+		}
 
-		await venta.find({$and: [{fecha: {$gte: new Date(fecha1)}},{fecha: {$lt: new Date(fecha2)}}]}, (err, venta) => {
+		await venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
 			if(err) {
 				console.log(err);
 			}
 			else{
-				res.render('venta',{
+				res.status(200).json(venta);
+				/*res.render('venta',{
 					user: req.user,
 					venta: venta
 				})
-				//res.json(venta);
+
 			}
 		});
        			/*res.render('venta', {
 				 user: req.user,
 				 venta: venta
-				 });*/
+				 });
 	}
-	else{
+	else{*/
 		await venta.find({}, function(err,venta){
 			if (err){
 				console.log(err);
@@ -310,7 +319,39 @@ router.get('/venta', async function(req,res) {
 				//res.json(venta);
 			}
 		});
+	//}
+});
+router.get('/binput', isLoggedIn, (req,res) =>{
+	res.render('binput',{
+					user: req.user,
+					venta: venta
+	});
+});
+
+router.post('/binput', (req, res, next) => {
+    const fecha1 = req.body.fechaInicial; // ejemplo: '2019/03/26'
+	const fecha2 = req.body.fechaFinal;
+
+	/*if (fecha1 == fecha2){
+		const fi= fecha1.concat("T00:00:00-04:00");
+		const ff =fecha2.concat("T23:00:00-04:00");
 	}
+	else{*/
+		const fi = fecha1.concat("T00:00:00-04:00");
+		const ff =fecha2.concat("T00:00:00-04:00");
+	//}
+
+    venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
+        if(err) {
+            console.log(err);
+		}
+		else{
+			res.render('busca_periodo',{
+				user: req.user,
+				venta: venta
+			})
+		}
+    });
 });
 
 router.get('/lista_productos', isLoggedIn, (req,res) => {
@@ -325,13 +366,14 @@ router.get('/lista_productos', isLoggedIn, (req,res) => {
 	    	});
 			};
 		});
+
 });
 
 router.get('/crear_venta', isLoggedIn, async (req,res) => {
 	await venta.find({} , async (err, venta) => {
 
-		if( venta.length == null || venta.length == 0 ){
-			let aux = await new Venta({numero_venta: 1} );
+	if( venta.length == null && venta.length == 0 ){
+			let aux = await new Venta({numero_venta: 1});
 			await aux.save( (err, aux)=> {
 				producto.find((err, producto) => {
 					 res.render('productos_venta',{
@@ -342,7 +384,7 @@ router.get('/crear_venta', isLoggedIn, async (req,res) => {
 			 	});
 			});
 	}else{
-		let aux = await new Venta({numero_venta: venta.length} );
+		let aux = await new Venta({numero_venta: venta.length});
 		await aux.save( (err, aux)=> {
 			producto.find((err, producto) => {
 				 res.render('productos_venta',{
