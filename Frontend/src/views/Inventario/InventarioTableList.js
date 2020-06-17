@@ -199,7 +199,7 @@ export default class InventarioTableList extends React.Component {
   render() {
 
     if(this.state.ready === true) {
-    return (
+      return (
         <div style={styles.root}>
             <Card>
                 <AppBar position="static" color="primary" >
@@ -218,7 +218,7 @@ export default class InventarioTableList extends React.Component {
                             { title: 'Piedra', field: 'piedra' },
                             { title: 'Precio', field: 'precio' ,type: 'numeric'},
                             { title: 'Descripcion', field: 'descripcion' },
-                            { title: 'Sucursal', field:'sucursal'}]}
+                            { title: 'Sucursal', field:'sucursal', editable:'never '}]}
                   data={this.state.ListaProductos}
                   editable={{
                     onRowAdd: (newData) =>
