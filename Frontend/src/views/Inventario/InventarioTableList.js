@@ -108,6 +108,7 @@ export default class InventarioTableList extends React.Component {
     super(props);
     this.state = {
       tabIndex: 0,
+      SucurIndex: null,
       estado: 0,
       ListaProductos: null,
       sucursal : null,
@@ -118,23 +119,6 @@ export default class InventarioTableList extends React.Component {
       piedra: null,
       precio: null,
       descripcion: null,
-      colums: [
-        { title: 'Name', field: 'name' },
-        { title: 'Surname', field: 'surname' },
-        { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-        {
-          title: 'Birth Place',
-          field: 'birthCity',
-          lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-        },],
-      data: [
-        { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-        {
-          name: 'Zerya Betül',
-          surname: 'Baran',
-          birthYear: 2017,
-          birthCity: 34,
-        },]
     }
     this.handleChange = this.handleChange.bind(this)
     this.MostrarNuevoMenu = this.MostrarNuevoMenu.bind(this)
@@ -155,6 +139,13 @@ export default class InventarioTableList extends React.Component {
 
   handleChange(event, newValue) {
     this.setState({tabIndex: newValue});
+    if(this.state.tabIndex === 0) {
+      this.setState({SucurIndex: 'Lo castillo'})
+    } else if(this.state.tabIndex === 1) {
+      this.setState({SucurIndex: 'Apumanque'})
+    } else if(this.state.tabIndex === 2) {
+      this.setState({SucurIndex: 'Vitacura'})
+    }
   }
 
   actualizarTexto(event, id, value) {
@@ -211,7 +202,7 @@ export default class InventarioTableList extends React.Component {
                 </AppBar>
               <CardBody>
                 <MaterialTable
-                  title="Editable Example"
+                  title="Inventario"
                   columns={ [{ title: 'Codigo', field: 'codigo' },
                             { title: 'Material', field: 'material' },
                             { title: 'Tipo', field: 'tipo'},
