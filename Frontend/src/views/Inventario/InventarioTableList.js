@@ -199,7 +199,7 @@ export default class InventarioTableList extends React.Component {
                             { title: 'Piedra', field: 'piedra' },
                             { title: 'Precio', field: 'precio' ,type: 'numeric'},
                             { title: 'Descripcion', field: 'descripcion' },
-                            { title: 'Sucursal', field:'sucursal', editable:'never '}]}
+                            { title: 'Sucursal', field:'sucursal'}]}
                   data={this.state.ListaProductos.filter(({sucursal}) => sucursal === '0')}
                   editable={{
                     onRowAdd: (newData) =>
@@ -250,7 +250,7 @@ export default class InventarioTableList extends React.Component {
                             { title: 'Piedra', field: 'piedra' },
                             { title: 'Precio', field: 'precio' ,type: 'numeric'},
                             { title: 'Descripcion', field: 'descripcion' },
-                            { title: 'Sucursal', field:'sucursal', editable:'never '}]}
+                            { title: 'Sucursal', field:'sucursal'}]}
                   data={this.state.ListaProductos.filter(({sucursal}) => sucursal === '1')}
                   editable={{
                     onRowAdd: (newData) =>
@@ -301,7 +301,7 @@ export default class InventarioTableList extends React.Component {
                             { title: 'Piedra', field: 'piedra' },
                             { title: 'Precio', field: 'precio' ,type: 'numeric'},
                             { title: 'Descripcion', field: 'descripcion' },
-                            { title: 'Sucursal', field:'sucursal', editable:'never '}]}
+                            { title: 'Sucursal', field:'sucursal'}]}
                   data={this.state.ListaProductos.filter(({sucursal}) => sucursal === '2')}
                   editable={{
                     onRowAdd: (newData) =>
