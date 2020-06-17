@@ -111,6 +111,8 @@ export default class InventarioTableList extends React.Component {
     this.MostrarNuevoMenu = this.MostrarNuevoMenu.bind(this)
     this.AgregarProducto = this.AgregarProducto.bind(this)
     this.ActualizarInventario = this.ActualizarInventario.bind(this)
+    this.EditarProducto = this.EditarProducto.bind(this)
+    this.EliminarProducto = this.EliminarProducto.bind(this)
   }
 
   ActualizarInventario() {

@@ -198,9 +198,7 @@ router.get('/pedidos', async function(req, res){  //lista de productos, tiene bu
            if(err){
                res.sendStatus(404)
            } else {
-							res.json({
-								pedido: pedido
-							})
+							res.json(pedido)
 					 }
         });
     } else {
@@ -222,24 +220,26 @@ router.get('/agregar_pedido', isLoggedIn, (req,res) =>{
 
 });
 
-router.post('/agregar_pedido', isLoggedIn, (req,res) => {
-		let fecha = req.body.fecha;
-		let cliente = req.body.cliente.toUpperCase();
-		let sucursal = req.body.sucursal.toUpperCase();
-		let descripcion = req.body.descripcion.toUpperCase();
-		let estado = req.body.estado.toUpperCase();
-		let total = req.body.total;
-    pedido.create({fecha: fecha, cliente: cliente, sucursal: sucursal, descripción: descripcion, estado: estado, total: total}, (err) =>{
+router.post('/agregar_pedido', (req,res) => {
+	let fecha = req.body.fecha;
+	let cliente = req.body.cliente.toUpperCase();
+	let descripcion = req.body.descripcion.toUpperCase();
+	let sucursal = req.body.sucursal;
+	let estado = req.body.estado;
+	let total = req.body.total;
+    pedido.create({fecha: fecha, cliente: cliente, sucursal: sucursal, descripcion: descripcion, estado: estado, total: total}, (err) =>{
 			if(!err){
 	     res.sendStatus(201)
 			}
 			else{
 				res.sendStatus(404)
+				console.log(err)
+				console.log(estado)
 			}
     });
 });
 
-router.get('/delete_pedido/:id', isLoggedIn, (req,res) =>{
+router.get('/delete_pedido/:id', (req,res) =>{
     let id = req.params.id;
     pedido.remove({_id: id}, (err, task) =>{
 			if(!err){
@@ -261,6 +261,36 @@ router.get('/editar_pedido/:id', (req,res) =>{
 				}
 
     });
+});
+
+router.post('/eliminar_pedido/:id', (req,res) =>{
+    let id = req.params.id;
+    pedido.remove({_id: id}, (err, task) =>{
+			if(!err){
+     		res.sendStatus(201);
+			}
+			else{
+     		res.sendStatus(404);
+			}
+    });
+});
+
+router.post('/editar_pedido/:id', function(req, res) {
+	let id = req.body.id
+	let fecha = req.body.fecha;
+	let cliente = req.body.cliente.toUpperCase();
+	let sucursal = req.body.sucursal;
+	let descripcion = req.body.descripcion.toUpperCase();
+	let estado = req.body.estado.toUpperCase();
+	let total = req.body.total;
+	pedido.findByIdAndUpdate(id,{fecha: fecha, cliente: cliente, sucursal: sucursal, descripción: descripcion, estado: estado, total: total}, function (err) {
+		if(!err){
+			res.sendStatus(201)
+		}
+		else{
+			res.sendStatus(404)
+	}
+});
 });
 
 router.post('/editar_descripcion_pedido/:id', function(req, res) {

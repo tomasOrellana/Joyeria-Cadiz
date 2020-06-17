@@ -6,10 +6,8 @@ import UserProfile from "views/Perfil/Perfil.js";
 import InventarioTableList from "views/Inventario/InventarioTableList.js";
 import TableListEmpleados from "views/Empleados/TableListEmpleados.js";
 import TableListPedidos from "views/TablaPedidos/TableListPedidos.js";
-import Taller from "views/Taller/Taller.js";
 import Maps from "views/Maps/Maps.js";
 import ListaDeVentas from "views/TablaVentas/Ventas.js";
-import Ventas from "views/Ventas/Ventas.js"
 
 const dashboardRoutes = [
   {
@@ -18,6 +16,14 @@ const dashboardRoutes = [
     rtlName: "لوحة القيادة",
     icon: Dashboard,
     component: Inicio,
+    layout: "/admin"
+  },
+  {
+    path: "/tiendas",
+    name: "Tiendas",
+    rtlName: "لوحة القيادة",
+    icon: "store",
+    component: Maps,
     layout: "/admin"
   },
   {
@@ -42,30 +48,6 @@ const dashboardRoutes = [
     rtlName: "لوحة القيادة",
     icon: "person_pin",
     component: TableListEmpleados,
-    layout: "/admin"
-  },
-  {
-    path: "/tiendas",
-    name: "Tiendas",
-    rtlName: "لوحة القيادة",
-    icon: "store",
-    component: Maps,
-    layout: "/admin"
-  },
-  {
-    path: "/ventas",
-    name: "Ventas",
-    rtlName: "لوحة القيادة",
-    icon: "shop",
-    component: Ventas,
-    layout: "/admin"
-  },
-  {
-    path: "/taller",
-    name: "Taller",
-    rtlName: "لوحة القيادة",
-    icon: "palette",
-    component: Taller,
     layout: "/admin"
   },
   {

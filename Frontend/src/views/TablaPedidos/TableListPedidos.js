@@ -3,15 +3,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+import MaterialTable from 'material-table';
 import Box from '@material-ui/core/Box';
-import Table from "components/Table/TableInv.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Button from "components/CustomButtons/Button.js";
-import AddIcon from '@material-ui/icons/Add';
-import { Input } from '@material-ui/core';
 
 const styles = {
   cardCategoryWhite: {
@@ -106,49 +101,34 @@ export default class InventarioTableList extends React.Component {
     super(props);
     this.state = {
       tabIndex: 0,
-      estado: 0,
-      ListaPedidos: null,
-      sucursal : null,
       ready: false,
-      numero: null,
-      estado2: null,
-      fecha : null,
-      cliente : null,
-      total : null,
-      descripcion: null
+      ListaPedidos: null,
 
     }
     this.handleChange = this.handleChange.bind(this)
-    this.MostrarNuevoMenu = this.MostrarNuevoMenu.bind(this)
     this.AgregarPedido = this.AgregarPedido.bind(this)
+    this.ActualizarPedidos = this.ActualizarPedidos.bind(this)
   }
-//
-  componentDidMount() {
-    fetch('/productos')
+
+  ActualizarPedidos() {
+    fetch('/pedidos')
       .then(res => {
-          console.log(res);
           return res.json()
       })
       .then(users => {
           this.setState({ListaPedidos: users, ready: true})
+          console.log(this.state.ListaPedidos);
       });
-  }
+    }
 
-  handleChange(event, newValue) {
-    this.setState({tabIndex: newValue});
-  }
+  AgregarPedido(newData) {
+    let estados = null;
+    if(newData.estado === true) {
+      estados = 1;
+    } else {
+      estados = 0;
+    }
 
-  actualizarTexto(event, id, value) {
-    this.setState({id: value});
-  }
-
-  MostrarNuevoMenu() {
-    if(this.state.estado === 0) this.setState({estado: 1})
-    if(this.state.estado === 1) this.setState({estado: 0})
-  }
-
-  AgregarPedido() {
-    console.log(this.state.tabIndex)
     fetch('/agregar_pedido', {
     method: 'POST',
     headers: {
@@ -156,12 +136,11 @@ export default class InventarioTableList extends React.Component {
         'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      numero: this.state.numero,
-      fecha: this.state.fecha,
-      estado: this.state.estado2,
-      total: this.state.total,
-      cliente: this.state.cliente,
-      descripcion: this.state.descripcion,
+      fecha: newData.fecha,
+      cliente: newData.cliente,
+      descripcion: newData.descripcion,
+      estado: estados,
+      total: newData.total,
       sucursal: this.state.tabIndex
     })
     })
@@ -177,80 +156,203 @@ export default class InventarioTableList extends React.Component {
     });
   }
 
+  EditarPedido(newData) {
+    console.log(newData._id)
+    fetch('/editar_pedido/' + newData._id, {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ 
+      id: newData._id,
+      fecha: newData.fecha,
+      cliente: newData.cliente,
+      descripcion: newData.descripcion,
+      estado: newData.estado,
+      total: newData.total,
+      sucursal: this.state.tabIndex
+    })
+    })
+    .then( (response) => {
+        if(response.status === 201) {
+            console.log("Editado correctamente")
+        } else {
+            console.log('Hubo un error')
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+  }
+
+  EliminarPedido(oldData) {
+    console.log(oldData._id)
+    fetch('/eliminar_pedido/' + oldData._id, {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id: oldData._id,
+    })
+    })
+    .then( (response) => {
+        if(response.status === 201) {
+            console.log("Eliminado correctamente")
+        } else {
+            console.log('Hubo un error')
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+  }
+
+  componentDidMount() {
+    this.ActualizarPedidos()
+    console.log(this.state.ListaPedidos)
+  }
+
+  handleChange(event, newValue) {
+    this.setState({tabIndex: newValue});
+  }
+
+  actualizarTexto(event, id, value) {
+    this.setState({id: value});
+  }
+
   render() {
 
     if(this.state.ready === true) {
-      let Lista = this.state.ListaPedidos.map((val,) => {
-        return (
-            [val.numero, val.fecha, val.estado, val.total, val.cliente, val.descripcion]
-        )
-      }
-      );
       return (
         <div style={styles.root}>
             <Card>
-                <AppBar position="static" color="primary" >
-                  <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example" >
-                    <Tab label="Lo Castillo" {...a11yProps(0)}/>
-                    <Tab label="Apumanque" {...a11yProps(1)}/>
-                    <Tab label="Vitacura" {...a11yProps(2)}/>
-                  </Tabs>
-                </AppBar>
-              <CardBody>
-                <div style={{ paddingLeft: 40, paddingTop: 20 }}>
-                  <Grid item={true} container direction='row' spacing={1} justify='center' alignItems='center'>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="numero" label="Numero" placeholder="numero" /></Grid>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="fecha" label="Fecha" placeholder="fecha"/></Grid>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="estado" label="Estado" placeholder="estado"/></Grid>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="total" label="Total" placeholder="total"/></Grid>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="descripcion" label="Descripcion" placeholder="descripcion"/></Grid>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="cliente" label="Cliente" placeholder="cliente"/></Grid>
-                    <Grid xs={2} sm={2} md={2}><Button className={styles.boton} color="primary">Buscar</Button></Grid>
-                  </Grid>
-                </div>
+              <AppBar position="static" color="primary" >
+                <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example" >
+                  <Tab label="Lo Castillo" {...a11yProps(0)}/>
+                  <Tab label="Apumanque" {...a11yProps(1)}/>
+                  <Tab label="Vitacura" {...a11yProps(2)}/>
+                </Tabs>
+              </AppBar>
 
+              <CardBody>
                 <TabPanel value={this.state.tabIndex} index={0}>
-                  <Table
-                      tableHeaderColor="primary"
-                      tableHead={["N° de Pedido", "Fecha", "Estado", "Cliente","Descripción"]}
-                      tableData={Lista}
+                <MaterialTable
+                    title='Lo Castillo'
+                    columns={ [{ title: 'fecha', field: 'fecha', type: 'date' },
+                              { title: 'Cliente', field: 'cliente' },
+                              { title: 'Descripcion', field: 'descripcion'},
+                              { title: 'Estado', field: 'estado', type: 'boolean' },
+                              { title: 'total', field: 'total' ,type: 'numeric'}]}
+                    data={this.state.ListaPedidos.filter(({sucursal}) => sucursal === '0')}
+                    editable={{
+                      onRowAdd: newData =>
+                        new Promise((resolve, reject) => {
+                          setTimeout(() => {
+                            resolve();
+                            this.ActualizarPedidos();
+                          }, 2000)
+                          this.AgregarPedido(newData);
+                        }),
+                      onRowUpdate: (newData, oldData) =>
+                        new Promise((resolve) => {
+                          setTimeout(() => {
+                            resolve();
+                            this.ActualizarPedidos();
+                          }, 2000)
+                          this.EditarPedido(newData)
+                        }),
+                      onRowDelete: (oldData) =>
+                        new Promise((resolve) => {
+                          setTimeout(() => {
+                            resolve();
+                            this.ActualizarPedidos();
+                          }, 2000)
+                          this.EliminarPedido(oldData)
+                        }),
+                    }}
                   />
-                  </TabPanel>
+                </TabPanel>
+
                 <TabPanel value={this.state.tabIndex} index={1}>
-                  <Table
-                      tableHeaderColor="primary"
-                      tableHead={["N° de Pedido", "Fecha", "Estado", "Cliente","Descripción"]}
-                      tableData={Lista}
+                <MaterialTable
+                    title='Apumanque'
+                    columns={ [{ title: 'fecha', field: 'fecha', type: 'date' },
+                              { title: 'Cliente', field: 'cliente' },
+                              { title: 'Descripcion', field: 'descripcion'},
+                              { title: 'Estado', field: 'estado', type: 'boolean' },
+                              { title: 'total', field: 'total' ,type: 'numeric'}]}
+                    data={this.state.ListaPedidos.filter(({sucursal}) => sucursal === '1')}
+                    editable={{
+                      onRowAdd: (newData) =>
+                        new Promise((resolve) => {
+                          setTimeout(() => {
+                            resolve();
+                            this.ActualizarPedidos();
+                          }, 2000);
+                          this.AgregarPedido(newData);
+                        }),
+                        onRowUpdate: (newData, oldData) =>
+                        new Promise((resolve) => {
+                          setTimeout(() => {
+                            resolve();
+                            this.ActualizarPedidos();
+                          }, 2000)
+                          this.EditarPedido(newData)
+                        }),
+                      onRowDelete: (oldData) =>
+                        new Promise((resolve) => {
+                          setTimeout(() => {
+                            resolve();
+                            this.ActualizarPedidos();
+                          }, 2000)
+                          this.EliminarPedido(oldData)
+                        }),
+                    }}
                   />
                 </TabPanel>
 
                 <TabPanel value={this.state.tabIndex} index={2}>
-                  <Table
-                      tableHeaderColor="primary"
-                      tableHead={["N° de Pedido", "Fecha", "Estado", "Cliente","Descripción"]}
-                      tableData={Lista}
+                <MaterialTable
+                    title='Vitacura'
+                    columns={ [{ title: 'fecha', field: 'fecha', type: 'date' },
+                              { title: 'Cliente', field: 'cliente' },
+                              { title: 'Descripcion', field: 'descripcion'},
+                              { title: 'Estado', field: 'estado', type: 'boolean' },
+                              { title: 'total', field: 'total' ,type: 'numeric'}]}
+                    data={this.state.ListaPedidos.filter(({sucursal}) => sucursal === '2')}
+                    editable={{
+                      onRowAdd: (newData) =>
+                        new Promise((resolve) => {
+                          setTimeout(() => {
+                            resolve();
+                            this.ActualizarPedidos();
+                          }, 2000);
+                          this.AgregarPedido(newData);
+                        }),
+                      onRowUpdate: (newData, oldData) =>
+                        new Promise((resolve) => {
+                          setTimeout(() => {
+                            resolve();
+                            this.ActualizarPedidos();
+                          }, 2000)
+                          this.EditarPedido(newData)
+                        }),
+                      onRowDelete: (oldData) =>
+                        new Promise((resolve) => {
+                          setTimeout(() => {
+                            resolve();
+                            this.ActualizarPedidos();
+                          }, 2000)
+                          this.EliminarPedido(oldData)
+                        }),
+                    }}
                   />
                 </TabPanel>
               </CardBody>
-
-              <div style={styles.botonera}>
-                <Button style={styles.botonañadir} color="primary" onClick={this.MostrarNuevoMenu}><AddIcon/>Añadir</Button>
-              </div>
             </Card>
-
-            {this.state.estado === 1 &&
-              <Card >
-                <div style={styles.añadirestilo}>
-                    <Input style={styles.formañadir} id="numero" label="Numero" placeholder="numero" onChange={(event) => this.setState({numero:event.target.value})}/>
-                    <Input style={styles.formañadir} id="fecha" label="Fecha" placeholder="fecha" onChange={(event) => this.setState({fecha:event.target.value})}/>
-                    <Input style={styles.formañadir} id="estado" label="Estado" placeholder="estado" onChange={(event) => this.setState({estado2:event.target.value})}/>
-                    <Input style={styles.formañadir} id="total" label="Total" placeholder="total" onChange={(event) => this.setState({piedra:event.target.value})}/>
-                    <Input style={styles.formañadir} id="cliente" label="Cliente" placeholder="cliente" onChange={(event) => this.setState({precio:event.target.value})}/>
-                    <Input style={styles.formañadir} id="descripcion" label="Descripcion" placeholder="descripcion" onChange={(event) => this.setState({descripcion:event.target.value})}/>
-                    <Button style={styles.boton} onClick={this.AgregarProducto} color="primary"><AddIcon/></Button>
-                  </div>
-              </Card>
-            }
         </div>
       )
     } else if(this.state.ready === false) {
