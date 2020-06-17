@@ -5,14 +5,8 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import MaterialTable from 'material-table';
-import Table from "components/Table/TableInv.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Button from "components/CustomButtons/Button.js";
-import AddIcon from '@material-ui/icons/Add';
-import { Input } from '@material-ui/core';
 
 const styles = {
   cardCategoryWhite: {
@@ -108,7 +102,6 @@ export default class InventarioTableList extends React.Component {
     super(props);
     this.state = {
       tabIndex: 0,
-      SucurIndex: null,
       estado: 0,
       ListaProductos: null,
       sucursal : null,
@@ -139,13 +132,7 @@ export default class InventarioTableList extends React.Component {
 
   handleChange(event, newValue) {
     this.setState({tabIndex: newValue});
-    if(this.state.tabIndex === 0) {
-      this.setState({SucurIndex: 'Lo castillo'})
-    } else if(this.state.tabIndex === 1) {
-      this.setState({SucurIndex: 'Apumanque'})
-    } else if(this.state.tabIndex === 2) {
-      this.setState({SucurIndex: 'Vitacura'})
-    }
+    console.log(this.state.tabIndex)
   }
 
   actualizarTexto(event, id, value) {
@@ -194,15 +181,17 @@ export default class InventarioTableList extends React.Component {
         <div style={styles.root}>
             <Card>
                 <AppBar position="static" color="primary" >
-                  <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example" >
+                  <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="Sucursales" >
                     <Tab label="Lo Castillo" {...a11yProps(0)}/>
                     <Tab label="Apumanque" {...a11yProps(1)}/>
                     <Tab label="Vitacura" {...a11yProps(2)}/>
                   </Tabs>
                 </AppBar>
               <CardBody>
-                <MaterialTable
-                  title="Inventario"
+
+              <TabPanel value={this.state.tabIndex} index={0}>
+              <MaterialTable
+                  title='Lo Castillo'
                   columns={ [{ title: 'Codigo', field: 'codigo' },
                             { title: 'Material', field: 'material' },
                             { title: 'Tipo', field: 'tipo'},
@@ -210,7 +199,7 @@ export default class InventarioTableList extends React.Component {
                             { title: 'Precio', field: 'precio' ,type: 'numeric'},
                             { title: 'Descripcion', field: 'descripcion' },
                             { title: 'Sucursal', field:'sucursal', editable:'never '}]}
-                  data={this.state.ListaProductos}
+                  data={this.state.ListaProductos.filter(({sucursal}) => sucursal === '0')}
                   editable={{
                     onRowAdd: (newData) =>
                       new Promise((resolve) => {
@@ -249,6 +238,110 @@ export default class InventarioTableList extends React.Component {
                       }),
                   }}
                 />
+              </TabPanel>
+
+              <TabPanel value={this.state.tabIndex} index={1}>
+              <MaterialTable
+                  title='Apumanque'
+                  columns={ [{ title: 'Codigo', field: 'codigo' },
+                            { title: 'Material', field: 'material' },
+                            { title: 'Tipo', field: 'tipo'},
+                            { title: 'Piedra', field: 'piedra' },
+                            { title: 'Precio', field: 'precio' ,type: 'numeric'},
+                            { title: 'Descripcion', field: 'descripcion' },
+                            { title: 'Sucursal', field:'sucursal', editable:'never '}]}
+                  data={this.state.ListaProductos.filter(({sucursal}) => sucursal === '1')}
+                  editable={{
+                    onRowAdd: (newData) =>
+                      new Promise((resolve) => {
+                        setTimeout(() => {
+                          resolve();
+                          this.setState((prevState) => {
+                            const data = [...prevState.data];
+                            data.push(newData);
+                            return { ...prevState, data };
+                          });
+                        }, 600);
+                      }),
+                    onRowUpdate: (newData, oldData) =>
+                      new Promise((resolve) => {
+                        setTimeout(() => {
+                          resolve();
+                          if (oldData) {
+                            this.setState((prevState) => {
+                              const data = [...prevState.data];
+                              data[data.indexOf(oldData)] = newData;
+                              return { ...prevState, data };
+                            });
+                          }
+                        }, 600);
+                      }),
+                    onRowDelete: (oldData) =>
+                      new Promise((resolve) => {
+                        setTimeout(() => {
+                          resolve();
+                          this.setState((prevState) => {
+                            const data = [...prevState.data];
+                            data.splice(data.indexOf(oldData), 1);
+                            return { ...prevState, data };
+                          });
+                        }, 600);
+                      }),
+                  }}
+                />
+              </TabPanel>
+              
+              <TabPanel value={this.state.tabIndex} index={2}>
+              <MaterialTable
+                  title='Vitacura'
+                  columns={ [{ title: 'Codigo', field: 'codigo' },
+                            { title: 'Material', field: 'material' },
+                            { title: 'Tipo', field: 'tipo'},
+                            { title: 'Piedra', field: 'piedra' },
+                            { title: 'Precio', field: 'precio' ,type: 'numeric'},
+                            { title: 'Descripcion', field: 'descripcion' },
+                            { title: 'Sucursal', field:'sucursal', editable:'never '}]}
+                  data={this.state.ListaProductos.filter(({sucursal}) => sucursal === '2')}
+                  editable={{
+                    onRowAdd: (newData) =>
+                      new Promise((resolve) => {
+                        setTimeout(() => {
+                          resolve();
+                          this.setState((prevState) => {
+                            const data = [...prevState.data];
+                            data.push(newData);
+                            return { ...prevState, data };
+                          });
+                        }, 600);
+                      }),
+                    onRowUpdate: (newData, oldData) =>
+                      new Promise((resolve) => {
+                        setTimeout(() => {
+                          resolve();
+                          if (oldData) {
+                            this.setState((prevState) => {
+                              const data = [...prevState.data];
+                              data[data.indexOf(oldData)] = newData;
+                              return { ...prevState, data };
+                            });
+                          }
+                        }, 600);
+                      }),
+                    onRowDelete: (oldData) =>
+                      new Promise((resolve) => {
+                        setTimeout(() => {
+                          resolve();
+                          this.setState((prevState) => {
+                            const data = [...prevState.data];
+                            data.splice(data.indexOf(oldData), 1);
+                            return { ...prevState, data };
+                          });
+                        }, 600);
+                      }),
+                  }}
+                />
+              </TabPanel>
+
               </CardBody>
             </Card>
         </div>
