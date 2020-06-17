@@ -202,9 +202,9 @@ export default class InventarioTableList extends React.Component {
                       new Promise((resolve, reject) => {
                         setTimeout(() => {
                           resolve();
-                          this.AgregarProducto(newData);
                           this.ActualizarInventario();
-                        }, 1000)
+                        }, 2000)
+                        this.AgregarProducto(newData);
                       }),
                     onRowUpdate: (newData, oldData) =>
                       new Promise((resolve) => {
@@ -249,9 +249,9 @@ export default class InventarioTableList extends React.Component {
                       new Promise((resolve) => {
                         setTimeout(() => {
                           resolve();
-                          this.AgregarProducto(newData);
                           this.ActualizarInventario();
-                        }, 600);
+                        }, 2000);
+                        this.AgregarProducto(newData);
                       }),
                     onRowUpdate: (newData, oldData) =>
                       new Promise((resolve) => {
@@ -296,9 +296,9 @@ export default class InventarioTableList extends React.Component {
                       new Promise((resolve) => {
                         setTimeout(() => {
                           resolve();
-                          this.AgregarProducto(newData);
                           this.ActualizarInventario();
-                        }, 600);
+                        }, 2000);
+                        this.AgregarProducto(newData);
                       }),
                     onRowUpdate: (newData, oldData) =>
                       new Promise((resolve) => {
