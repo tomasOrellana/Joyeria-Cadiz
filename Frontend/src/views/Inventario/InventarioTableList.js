@@ -106,20 +106,14 @@ export default class InventarioTableList extends React.Component {
       ListaProductos: null,
       sucursal : null,
       ready: false,
-      codigo: null,
-      material: null,
-      tipo: null,
-      piedra: null,
-      precio: null,
-      descripcion: null,
-
     }
     this.handleChange = this.handleChange.bind(this)
     this.MostrarNuevoMenu = this.MostrarNuevoMenu.bind(this)
     this.AgregarProducto = this.AgregarProducto.bind(this)
+    this.ActualizarInventario = this.ActualizarInventario.bind(this)
   }
-//
-  componentDidMount() {
+
+  ActualizarInventario() {
     fetch('/productos')
       .then(res => {
           console.log(res);
@@ -129,6 +123,10 @@ export default class InventarioTableList extends React.Component {
           this.setState({ListaProductos: users, ready: true})
           console.log(this.state.ListaProductos)
       });
+  }
+
+  componentDidMount() {
+    this.ActualizarInventario();
   }
 
   handleChange(event, newValue) {
@@ -145,8 +143,7 @@ export default class InventarioTableList extends React.Component {
     if(this.state.estado === 1) this.setState({estado: 0})
   }
 
-  AgregarProducto() {
-    console.log(this.state.tabIndex)
+  AgregarProducto(newData) {
     fetch('/agregar_prod', {
     method: 'POST',
     headers: {
@@ -154,12 +151,12 @@ export default class InventarioTableList extends React.Component {
         'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      codigo: this.state.codigo,
-      material: this.state.material,
-      tipo: this.state.tipo,
-      piedra: this.state.piedra,
-      precio: this.state.precio,
-      descripcion: this.state.descripcion,
+      codigo: newData.codigo,
+      material: newData.material,
+      tipo: newData.tipo,
+      piedra: newData.piedra,
+      precio: newData.precio,
+      descripcion: newData.descripcion,
       sucursal: this.state.tabIndex
     })
     })
@@ -198,20 +195,16 @@ export default class InventarioTableList extends React.Component {
                             { title: 'Tipo', field: 'tipo'},
                             { title: 'Piedra', field: 'piedra' },
                             { title: 'Precio', field: 'precio' ,type: 'numeric'},
-                            { title: 'Descripcion', field: 'descripcion' },
-                            { title: 'Sucursal', field:'sucursal', editable:'never '}]}
+                            { title: 'Descripcion', field: 'descripcion' }]}
                   data={this.state.ListaProductos.filter(({sucursal}) => sucursal === '0')}
                   editable={{
-                    onRowAdd: (newData) =>
-                      new Promise((resolve) => {
+                    onRowAdd: newData =>
+                      new Promise((resolve, reject) => {
                         setTimeout(() => {
                           resolve();
-                          this.setState((prevState) => {
-                            const data = [...prevState.data];
-                            data.push(newData);
-                            return { ...prevState, data };
-                          });
-                        }, 600);
+                          this.AgregarProducto(newData);
+                          this.ActualizarInventario();
+                        }, 1000)
                       }),
                     onRowUpdate: (newData, oldData) =>
                       new Promise((resolve) => {
@@ -249,19 +242,15 @@ export default class InventarioTableList extends React.Component {
                             { title: 'Tipo', field: 'tipo'},
                             { title: 'Piedra', field: 'piedra' },
                             { title: 'Precio', field: 'precio' ,type: 'numeric'},
-                            { title: 'Descripcion', field: 'descripcion' },
-                            { title: 'Sucursal', field:'sucursal', editable:'never '}]}
+                            { title: 'Descripcion', field: 'descripcion' }]}
                   data={this.state.ListaProductos.filter(({sucursal}) => sucursal === '1')}
                   editable={{
                     onRowAdd: (newData) =>
                       new Promise((resolve) => {
                         setTimeout(() => {
                           resolve();
-                          this.setState((prevState) => {
-                            const data = [...prevState.data];
-                            data.push(newData);
-                            return { ...prevState, data };
-                          });
+                          this.AgregarProducto(newData);
+                          this.ActualizarInventario();
                         }, 600);
                       }),
                     onRowUpdate: (newData, oldData) =>
@@ -300,19 +289,15 @@ export default class InventarioTableList extends React.Component {
                             { title: 'Tipo', field: 'tipo'},
                             { title: 'Piedra', field: 'piedra' },
                             { title: 'Precio', field: 'precio' ,type: 'numeric'},
-                            { title: 'Descripcion', field: 'descripcion' },
-                            { title: 'Sucursal', field:'sucursal', editable:'never '}]}
+                            { title: 'Descripcion', field: 'descripcion' }]}
                   data={this.state.ListaProductos.filter(({sucursal}) => sucursal === '2')}
                   editable={{
                     onRowAdd: (newData) =>
                       new Promise((resolve) => {
                         setTimeout(() => {
                           resolve();
-                          this.setState((prevState) => {
-                            const data = [...prevState.data];
-                            data.push(newData);
-                            return { ...prevState, data };
-                          });
+                          this.AgregarProducto(newData);
+                          this.ActualizarInventario();
                         }, 600);
                       }),
                     onRowUpdate: (newData, oldData) =>
