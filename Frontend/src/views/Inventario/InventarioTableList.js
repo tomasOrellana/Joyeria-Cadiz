@@ -199,12 +199,6 @@ export default class InventarioTableList extends React.Component {
   render() {
 
     if(this.state.ready === true) {
-      let Lista = this.state.ListaProductos.map((val,) => {
-        return (
-            [val.codigo, val.tipo, val.material, val.piedra, val.precio, val.descripcion]
-        )
-      }
-    );
     return (
         <div style={styles.root}>
             <Card>
@@ -217,7 +211,7 @@ export default class InventarioTableList extends React.Component {
                 </AppBar>
               <CardBody>
                 <MaterialTable
-                  title="Editable Example"
+                  title="Inventario"
                   columns={ [{ title: 'Codigo', field: 'codigo' },
                             { title: 'Material', field: 'material' },
                             { title: 'Tipo', field: 'tipo'},
