@@ -172,6 +172,61 @@ export default class InventarioTableList extends React.Component {
     });
   }
 
+  EditarProducto(newData) {
+    console.log(newData._id)
+    fetch('/editar_prod/' + newData._id, {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id: newData._id,
+      codigo: newData.codigo,
+      material: newData.material,
+      tipo: newData.tipo,
+      piedra: newData.piedra,
+      precio: newData.precio,
+      descripcion: newData.descripcion,
+      sucursal: this.state.tabIndex
+    })
+    })
+    .then( (response) => {
+        if(response.status === 201) {
+            console.log("Editado correctamente")
+        } else {
+            console.log('Hubo un error')
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+  }
+
+  EliminarProducto(oldData) {
+    console.log(oldData._id)
+    fetch('/delete_producto/' + oldData._id, {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id: oldData._id,
+    })
+    })
+    .then( (response) => {
+        if(response.status === 201) {
+            console.log("Eliminado correctamente")
+        } else {
+            console.log('Hubo un error')
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+  }
+
   render() {
 
     if(this.state.ready === true) {
@@ -210,25 +265,17 @@ export default class InventarioTableList extends React.Component {
                       new Promise((resolve) => {
                         setTimeout(() => {
                           resolve();
-                          if (oldData) {
-                            this.setState((prevState) => {
-                              const data = [...prevState.data];
-                              data[data.indexOf(oldData)] = newData;
-                              return { ...prevState, data };
-                            });
-                          }
-                        }, 600);
+                          this.ActualizarInventario();
+                        }, 2000)
+                        this.EditarProducto(newData)
                       }),
                     onRowDelete: (oldData) =>
                       new Promise((resolve) => {
                         setTimeout(() => {
                           resolve();
-                          this.setState((prevState) => {
-                            const data = [...prevState.data];
-                            data.splice(data.indexOf(oldData), 1);
-                            return { ...prevState, data };
-                          });
-                        }, 600);
+                          this.ActualizarInventario();
+                        }, 2000)
+                        this.EliminarProducto(oldData)
                       }),
                   }}
                 />
@@ -253,29 +300,21 @@ export default class InventarioTableList extends React.Component {
                         }, 2000);
                         this.AgregarProducto(newData);
                       }),
-                    onRowUpdate: (newData, oldData) =>
+                      onRowUpdate: (newData, oldData) =>
                       new Promise((resolve) => {
                         setTimeout(() => {
                           resolve();
-                          if (oldData) {
-                            this.setState((prevState) => {
-                              const data = [...prevState.data];
-                              data[data.indexOf(oldData)] = newData;
-                              return { ...prevState, data };
-                            });
-                          }
-                        }, 600);
+                          this.ActualizarInventario();
+                        }, 2000)
+                        this.EditarProducto(newData)
                       }),
                     onRowDelete: (oldData) =>
                       new Promise((resolve) => {
                         setTimeout(() => {
                           resolve();
-                          this.setState((prevState) => {
-                            const data = [...prevState.data];
-                            data.splice(data.indexOf(oldData), 1);
-                            return { ...prevState, data };
-                          });
-                        }, 600);
+                          this.ActualizarInventario();
+                        }, 2000)
+                        this.EliminarProducto(oldData)
                       }),
                   }}
                 />
@@ -304,25 +343,17 @@ export default class InventarioTableList extends React.Component {
                       new Promise((resolve) => {
                         setTimeout(() => {
                           resolve();
-                          if (oldData) {
-                            this.setState((prevState) => {
-                              const data = [...prevState.data];
-                              data[data.indexOf(oldData)] = newData;
-                              return { ...prevState, data };
-                            });
-                          }
-                        }, 600);
+                          this.ActualizarInventario();
+                        }, 2000)
+                        this.EditarProducto(newData)
                       }),
                     onRowDelete: (oldData) =>
                       new Promise((resolve) => {
                         setTimeout(() => {
                           resolve();
-                          this.setState((prevState) => {
-                            const data = [...prevState.data];
-                            data.splice(data.indexOf(oldData), 1);
-                            return { ...prevState, data };
-                          });
-                        }, 600);
+                          this.ActualizarInventario();
+                        }, 2000)
+                        this.EliminarProducto(oldData)
                       }),
                   }}
                 />

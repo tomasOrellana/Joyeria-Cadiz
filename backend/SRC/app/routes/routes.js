@@ -158,6 +158,7 @@ router.get('/editar_prod/:id', (req,res) =>{
 });
 
 router.post('/editar_prod/:id', function(req, res) {
+	let id = req.params.id;
 	let codigo = req.body.codigo.toUpperCase();
 	let material = req.body.material.toUpperCase();
 	let tipo = req.body.tipo.toUpperCase();
@@ -165,15 +166,28 @@ router.post('/editar_prod/:id', function(req, res) {
 	let precio = req.body.precio;
 	let descripcion = req.body.descripcion.toUpperCase();
 	let sucursal = req.body.sucursal;
-  producto.findByIdAndUpdate(req.params.id, {material: material, tipo: tipo, piedra: piedra, precio: precio, descripcion: descripcion, sucursal: sucursal}, function (err) {
+  producto.findByIdAndUpdate(id, {codigo: codigo, material: material, tipo: tipo, piedra: piedra, precio: precio, descripcion: descripcion, sucursal: sucursal}, function (err) {
 		if(!err){
    		res.sendStatus(201);
 		}
 		else{
-   		res.sendStatus(404);
+		   res.sendStatus(404);
+		   console.log(err)
 		}
   });
-  });
+ });
+
+ router.post('/delete_producto/:id', (req,res) =>{
+    let id = req.params.id;
+    producto.remove({_id: id}, (err, task) =>{
+			if(!err){
+     		res.sendStatus(201);
+			}
+			else{
+     		res.sendStatus(404);
+			}
+    });
+});
 
 
 //Gestionar pedidos
