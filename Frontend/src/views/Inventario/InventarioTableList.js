@@ -4,6 +4,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import MaterialTable from 'material-table';
 import Table from "components/Table/TableInv.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
@@ -100,6 +101,7 @@ function a11yProps(index) {
   };
 }
 
+
 export default class InventarioTableList extends React.Component {
 
   constructor(props) {
@@ -115,7 +117,24 @@ export default class InventarioTableList extends React.Component {
       tipo: null,
       piedra: null,
       precio: null,
-      descripcion: null
+      descripcion: null,
+      colums: [
+        { title: 'Name', field: 'name' },
+        { title: 'Surname', field: 'surname' },
+        { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
+        {
+          title: 'Birth Place',
+          field: 'birthCity',
+          lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
+        },],
+      data: [
+        { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
+        {
+          name: 'Zerya Betül',
+          surname: 'Baran',
+          birthYear: 2017,
+          birthCity: 34,
+        },]
     }
     this.handleChange = this.handleChange.bind(this)
     this.MostrarNuevoMenu = this.MostrarNuevoMenu.bind(this)
@@ -130,6 +149,7 @@ export default class InventarioTableList extends React.Component {
       })
       .then(users => {
           this.setState({ListaProductos: users, ready: true})
+          console.log(this.state.ListaProductos)
       });
   }
 
@@ -196,59 +216,56 @@ export default class InventarioTableList extends React.Component {
                   </Tabs>
                 </AppBar>
               <CardBody>
-                <div style={{ paddingLeft: 40, paddingTop: 20 }}>
-                  <Grid item={true} container direction='row' spacing={1} justify='center' alignItems='center'>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="codigo" label="Codigo" placeholder="codigo" /></Grid>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="tipo" label="Tipo" placeholder="producto"/></Grid>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="material" label="Material" placeholder="material"/></Grid>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="piedra" label="Piedra" placeholder="piedra"/></Grid>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="descripcion" label="Descripcion" placeholder="precio"/></Grid>
-                    <Grid xs={2} sm={2} md={2}><Button className={styles.boton} color="primary">Buscar</Button></Grid>
-                  </Grid>
-                </div>
-
-                <TabPanel value={this.state.tabIndex} index={0}>
-                  <Table
-                      tableHeaderColor="primary"
-                      tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
-                      tableData={Lista}
-                  />
-                  </TabPanel>
-                <TabPanel value={this.state.tabIndex} index={1}>
-                  <Table
-                      tableHeaderColor="primary"
-                      tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
-                      tableData={Lista}
-                  />
-                </TabPanel>
-
-                <TabPanel value={this.state.tabIndex} index={2}>
-                  <Table
-                      tableHeaderColor="primary"
-                      tableHead={["Código", "Tipo", "Material", "Piedra", "Precio","Descripción"]}
-                      tableData={Lista}
-                  />
-                </TabPanel>
+                <MaterialTable
+                  title="Editable Example"
+                  columns={ [{ title: 'Codigo', field: 'codigo' },
+                            { title: 'Material', field: 'material' },
+                            { title: 'Tipo', field: 'tipo'},
+                            { title: 'Piedra', field: 'piedra' },
+                            { title: 'Precio', field: 'precio' ,type: 'numeric'},
+                            { title: 'Descripcion', field: 'descripcion' },
+                            { title: 'Sucursal', field:'sucursal'}]}
+                  data={this.state.ListaProductos}
+                  editable={{
+                    onRowAdd: (newData) =>
+                      new Promise((resolve) => {
+                        setTimeout(() => {
+                          resolve();
+                          this.setState((prevState) => {
+                            const data = [...prevState.data];
+                            data.push(newData);
+                            return { ...prevState, data };
+                          });
+                        }, 600);
+                      }),
+                    onRowUpdate: (newData, oldData) =>
+                      new Promise((resolve) => {
+                        setTimeout(() => {
+                          resolve();
+                          if (oldData) {
+                            this.setState((prevState) => {
+                              const data = [...prevState.data];
+                              data[data.indexOf(oldData)] = newData;
+                              return { ...prevState, data };
+                            });
+                          }
+                        }, 600);
+                      }),
+                    onRowDelete: (oldData) =>
+                      new Promise((resolve) => {
+                        setTimeout(() => {
+                          resolve();
+                          this.setState((prevState) => {
+                            const data = [...prevState.data];
+                            data.splice(data.indexOf(oldData), 1);
+                            return { ...prevState, data };
+                          });
+                        }, 600);
+                      }),
+                  }}
+                />
               </CardBody>
-
-              <div style={styles.botonera}>
-                <Button style={styles.botonañadir} color="primary" onClick={this.MostrarNuevoMenu}><AddIcon/>Añadir</Button>
-              </div>
             </Card>
-
-            {this.state.estado === 1 &&
-              <Card >
-                <div style={styles.añadirestilo}>
-                    <Input style={styles.formañadir} id="codigo" label="Codigo" placeholder="codigo" onChange={(event) => this.setState({codigo:event.target.value})}/>
-                    <Input style={styles.formañadir} id="material" label="Material" placeholder="material" onChange={(event) => this.setState({material:event.target.value})}/>
-                    <Input style={styles.formañadir} id="tipo" label="Tipo" placeholder="tipo" onChange={(event) => this.setState({tipo:event.target.value})}/>
-                    <Input style={styles.formañadir} id="piedra" label="Piedra" placeholder="piedra" onChange={(event) => this.setState({piedra:event.target.value})}/>
-                    <Input style={styles.formañadir} id="precio" label="Precio" placeholder="precio" onChange={(event) => this.setState({precio:event.target.value})}/>
-                    <Input style={styles.formañadir} id="descripcion" label="Descripcion" placeholder="descripcion" onChange={(event) => this.setState({descripcion:event.target.value})}/>
-                    <Button type="submit" style={styles.boton} onClick={this.AgregarProducto} color="primary"><AddIcon/></Button>
-                  </div>
-              </Card>
-            }
         </div>
       )
     } else if(this.state.ready === false) {
