@@ -124,7 +124,6 @@ router.post('/agregar_prod', (req,res) => {
 	let precio = req.body.precio;
 	let descripcion = req.body.descripcion.toUpperCase();
 	let sucursal = req.body.sucursal;
-
   producto.create({codigo: codigo, material: material, tipo: tipo, piedra: piedra, precio: precio, descripcion: descripcion, sucursal: sucursal}, (err) =>{
 		if(!err){
      	res.sendStatus(201);
