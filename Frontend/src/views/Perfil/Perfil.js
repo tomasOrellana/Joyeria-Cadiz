@@ -37,6 +37,26 @@ const styles = {
 };
 
 export default class UserProfile extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      Perfil: null,
+      
+    }
+  }
+
+  componentDidMount() {
+    fetch('/profile')
+      .then(res => {
+          console.log(res);
+          return res.json()
+      })
+      .then(users => {
+          this.setState({Perfil: users, ready: true})
+          console.log(this.state.Perfil)
+      });
+  }
+
   render() {
     return (
       <div>
