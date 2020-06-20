@@ -388,7 +388,7 @@ router.get('/lista_productos', isLoggedIn, (req,res) => {
 
 });
 
-router.get('/crear_venta', isLoggedIn, async (req,res) => {
+/*router.get('/crear_venta', isLoggedIn, async (req,res) => {
 	await venta.find({} , async (err, venta) => {
 
 		if( venta.length == null && venta.length == 0 ){
@@ -413,7 +413,7 @@ router.get('/crear_venta', isLoggedIn, async (req,res) => {
 						 numero_venta: aux.numero_venta
 					 });
 				}
-			});*/
+			});
 			let aux = await new Venta({numero_venta: 1})
 			await aux.save( (err, aux)=> {
 			producto.find((err, producto) => {
@@ -448,7 +448,7 @@ router.get('/crear_venta', isLoggedIn, async (req,res) => {
 				}
 			});
 
-		*/
+
 let aux = await new Venta({numero_venta: venta.length});
 		await aux.save( (err, aux)=> {
 			producto.find((err, producto) => {
@@ -461,8 +461,42 @@ let aux = await new Venta({numero_venta: venta.length});
 		});
 	};
 });
+});*/
+
+
+router.post('/crear_venta', isLoggedIn, async (req,res) => {
+	let prods = req.body.lista;
+	await venta.find({} , async (err, venta) => {
+		if( venta.length == null && venta.length == 0 ){
+			let aux = await new Venta({numero_venta: 1})
+			await aux.save( (err, aux)=> {
+				for(i = 0; i < prods.length; i++){
+					detalle_venta.create({numero_venta: aux.numero_venta, cod_prod: prods[i]}, (err) => {
+						if (err){res.sendStatus(404)}
+					});
+				}
+				res.sendStatus(201)
+			});
+		}else{
+			let aux = await new Venta({numero_venta: venta.length})
+			await aux.save( (err, aux)=> {
+				for(i = 0; i < prods.length; i++){
+					detalle_venta.create({numero_venta: aux.numero_venta, cod_prod: prods[i]}, (err) => {
+						if (err){res.sendStatus(404)}
+					});
+				}
+				res.sendStatus(201)
+			});
+		};
+	});
 });
 
+
+function crear_detalle(num_venta, cod_producto, res){
+	detalle_venta.create({numero_venta: num_venta, cod_prod: cod_producto}, (err) => {
+
+	});
+}
 
 router.get('/detalle_venta_crear/:codProd/:numero_venta', isLoggedIn, async (req,res) => {
 	let num = req.params.numero_venta;
