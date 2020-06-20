@@ -354,7 +354,22 @@ router.get('/ventasdia', async function(req,res) {
 			}
 		});
 });
+router.get('/ventasperiodo', async function(req,res) {
+	if (req.query.search){
+		const fecha1 = req.body.desde;
+		const fecha2 = req.body.hasta;
 
+
+		await venta.find({$and: [{fecha: {$gte: new Date(fecha1)}},{fecha: {$lt: new Date(fecha2)}}]}, (err, venta) => {
+			if(err) {
+				res.sendStatus(404);
+			}
+			else{
+				res.json(venta);
+			}
+		});
+	}
+});
 
 
 
