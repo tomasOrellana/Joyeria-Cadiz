@@ -342,7 +342,7 @@ router.get('/lista_venta', isLoggedIn, (req,res) =>{
 
 
 
-router.get('/venta', async function(req,res) {
+router.get('/ListaVentas', async function(req,res) {
 	if (req.query.search){
 		const fecha1 = req.body.desde; // ejemplo: '2019/03/26'
 		const fecha2 = req.body.hasta;
