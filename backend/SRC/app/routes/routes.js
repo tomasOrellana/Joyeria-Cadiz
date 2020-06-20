@@ -342,13 +342,10 @@ router.get('/lista_venta', isLoggedIn, (req,res) =>{
 
 
 
-router.get('/ListaVentas', async function(req,res) {
-	if (req.query.search){
-		const fecha1 = req.body.desde; // ejemplo: '2019/03/26'
-		const fecha2 = req.body.hasta;
-		const fi = fecha1.concat("T00:00:00-04:00");
-		const ff = fecha2.concat("T00:00:00-04:00");
-		await venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
+router.get('/ventasdia', async function(req,res) {
+		const fecha1 = new Date ();
+		const fecha2 = fecha1;
+		await venta.find({$and: [{fecha: {$gte: new Date(fecha1)}},{fecha: {$lt: new Date(fecha2)}}]}, (err, venta) => {
 			if(err) {
 				res.sendStatus(404);
 			}
@@ -356,17 +353,6 @@ router.get('/ListaVentas', async function(req,res) {
 				res.json(venta);
 			}
 		});
-	}
-	else{
-		await venta.find({}, function(err,venta){
-			if (err){
-				res.sendStatus(404);
-			}
-			else{
-				res.json(venta);
-			}
-		});
-	}
 });
 
 
