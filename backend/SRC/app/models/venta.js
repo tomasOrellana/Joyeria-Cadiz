@@ -8,7 +8,7 @@ var venta = new Schema   ({
       descuento: {type: Number, require: true},
       total: {type: Number, require: true},
       id_vendedor: {type: String, require: true},
-      cliente: {type: String, require: true}
+      sucursal: {type: Number, require: true}
     },
       {collection: 'venta'}
     );
