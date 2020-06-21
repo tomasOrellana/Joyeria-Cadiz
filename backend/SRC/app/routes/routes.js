@@ -507,9 +507,16 @@ router.post('/crear_venta', async (req,res) => {
 	let fecha = Date.now();
 	let metodo_pago = req.body.metodo_pago.toUpperCase();
 	let descuento = req.body.descuento;
-	let sucursal = req.body.sucursal;
+	let sucursal = req.body.sucursal.toString();
 	let vendedor = req.body.vendedor.toUpperCase();
 	let total = req.body.total;
+	console.log(prods)
+	console.log(fecha)
+	console.log(metodo_pago)
+	console.log(descuento)
+	console.log(sucursal)
+	console.log(vendedor)
+	console.log(total)
 
 	await venta.find({} , async (err, venta) => {
 		if( venta.length == null && venta.length == 0 ){
@@ -523,7 +530,7 @@ router.post('/crear_venta', async (req,res) => {
 				res.sendStatus(201)
 			});
 		}else{
-			let aux = await new Venta({numero_venta: venta.length})
+			let aux = await new Venta({numero_venta: 1, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento, sucursal: sucursal, vendedor: vendedor, total: total})
 			await aux.save( (err, aux)=> {
 				for(i = 0; i < prods.length; i++){
 					detalle_venta.create({numero_venta: aux.numero_venta, cod_prod: prods[i]}, (err) => {
