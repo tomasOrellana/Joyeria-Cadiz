@@ -170,7 +170,7 @@ export default class Ventas extends React.Component {
                 <Tab label="Vitacura" {...a11yProps(2)} />
               </Tabs>
             </AppBar>
-            <CardHeader color="primary">
+            <CardHeader color="primary" style={{marginTop:20}}>
               <h4 style={styles.cardTitleWhite}>Ventas de día</h4>
             </CardHeader>
               <CardBody>

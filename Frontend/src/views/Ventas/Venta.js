@@ -1,5 +1,6 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
+import Alert from '@material-ui/lab/Alert';
 import MenuItem from '@material-ui/core/MenuItem';
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
@@ -34,7 +35,8 @@ export default class Ventas extends React.Component {
       total: 0,
       suma: 0,
       indexMetodo: 0,
-      indexSucursal: 0
+      indexSucursal: 0,
+      completado: 0
     }
     this.handleChange = this.handleChange.bind(this)
     this.ActualizarInventario = this.ActualizarInventario.bind(this)
@@ -113,13 +115,6 @@ export default class Ventas extends React.Component {
 
 
   imprimir = () => {
-    console.log('descuento: ' + this.state.descuento)
-    console.log('metodo: ' + this.state.metodo_pago)
-    console.log('vendedor: ' + this.state.vendedor)
-    console.log('sucursal: ' + this.state.sucursal)
-    console.log('total: ' + this.state.total)
-    console.log(this.state.targetKeys)
-
     fetch('/crear_venta', {
       method: 'POST',
       headers: {
@@ -138,8 +133,10 @@ export default class Ventas extends React.Component {
       .then( (response) => {
           if(response.status === 201) {
               console.log("Añadido correctamente")
+              this.setState({completado: 1})
           } else {
               console.log('Hubo un error')
+              this.setState({completado: 2})
           }
       })
       .catch((error) => {
@@ -151,6 +148,14 @@ export default class Ventas extends React.Component {
 
 
   render() {
+    
+    let mensajito;
+    if(this.state.completado === 1) {
+      mensajito = <Alert severity="success">Venta completada</Alert>
+    } else if(this.state.completado === 2) {
+      mensajito = <Alert severity="error">Hubo un error con la venta</Alert>
+    }
+    
     return (
       <div>
         <Card>
@@ -231,9 +236,9 @@ export default class Ventas extends React.Component {
                 <Button style={{ float: 'right', margin: 5 }} onClick={this.imprimir}>
                   Finalizar venta
                 </Button>
+                {mensajito}
               </Grid>
             </Grid>
-
           </CardBody>
         </Card>
       </div>
