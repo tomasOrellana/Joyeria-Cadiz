@@ -57,6 +57,30 @@ export default class Ventas extends React.Component {
     targetKeys: [],
   };
 
+  EliminarProducto(oldData) {
+    console.log(oldData._id)
+    fetch('/delete_producto/' + oldData._id, {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id: oldData._id,
+    })
+    })
+    .then( (response) => {
+        if(response.status === 201) {
+            console.log("Eliminado correctamente")
+        } else {
+            console.log('Hubo un error')
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+  }
+
   componentDidMount() {
     this.ActualizarInventario()
   }

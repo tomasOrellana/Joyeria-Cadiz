@@ -145,7 +145,6 @@ export default class Login extends React.Component {
               fullWidth
               name="contraseña"
               label="Contraseña"
-              type="password"
               id="contraseña"
               autoComplete="current-password"
               onChange={(event) => this.setState({password:event.target.value})}
