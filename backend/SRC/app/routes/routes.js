@@ -379,13 +379,26 @@ router.get('/ventasdia', async function(req,res) {
 	}
 });
 
-router.get('/ventas', async function(req,res) {
+
+router.get('/ventasdia', async function(req,res) {
+		const fecha1 = new Date ();
+		const fecha2 = fecha1;
+		await venta.find({$and: [{fecha: {$gte: new Date(fecha1)}},{fecha: {$lt: new Date(fecha2)}}]}, (err, venta) => {
+			if(err) {
+				res.sendStatus(404);
+			}
+			else{
+				res.json(venta);
+			}
+		});
+});
+router.get('/ventasperiodo', async function(req,res) {
 	if (req.query.search){
-		const fecha1 = req.body.desde; // ejemplo: '2019/03/26'
+		const fecha1 = req.body.desde;
 		const fecha2 = req.body.hasta;
-		const fi = fecha1.concat("T00:00:00-04:00");
-		const ff = fecha2.concat("T00:00:00-04:00");
-		await venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
+
+
+		await venta.find({$and: [{fecha: {$gte: new Date(fecha1)}},{fecha: {$lt: new Date(fecha2)}}]}, (err, venta) => {
 			if(err) {
 				res.sendStatus(404);
 			}
@@ -394,18 +407,7 @@ router.get('/ventas', async function(req,res) {
 			}
 		});
 	}
-	else{
-		await venta.find({}, function(err,venta){
-			if (err){
-				res.sendStatus(404);
-			}
-			else{
-				res.json(venta);
-			}
-		});
-	}
 });
-
 
 
 
@@ -424,7 +426,7 @@ router.get('/lista_productos', isLoggedIn, (req,res) => {
 
 });
 
-router.get('/crear_venta', isLoggedIn, async (req,res) => {
+/*router.get('/crear_venta', isLoggedIn, async (req,res) => {
 	await venta.find({} , async (err, venta) => {
 
 		if( venta.length == null && venta.length == 0 ){
@@ -449,7 +451,7 @@ router.get('/crear_venta', isLoggedIn, async (req,res) => {
 						 numero_venta: aux.numero_venta
 					 });
 				}
-			});*/
+			});
 			let aux = await new Venta({numero_venta: 1})
 			await aux.save( (err, aux)=> {
 			producto.find((err, producto) => {
@@ -484,7 +486,7 @@ router.get('/crear_venta', isLoggedIn, async (req,res) => {
 				}
 			});
 
-		*/
+
 let aux = await new Venta({numero_venta: venta.length});
 		await aux.save( (err, aux)=> {
 			producto.find((err, producto) => {
@@ -497,8 +499,42 @@ let aux = await new Venta({numero_venta: venta.length});
 		});
 	};
 });
+});*/
+
+
+router.post('/crear_venta', isLoggedIn, async (req,res) => {
+	let prods = req.body.lista;
+	await venta.find({} , async (err, venta) => {
+		if( venta.length == null && venta.length == 0 ){
+			let aux = await new Venta({numero_venta: 1})
+			await aux.save( (err, aux)=> {
+				for(i = 0; i < prods.length; i++){
+					detalle_venta.create({numero_venta: aux.numero_venta, cod_prod: prods[i]}, (err) => {
+						if (err){res.sendStatus(404)}
+					});
+				}
+				res.sendStatus(201)
+			});
+		}else{
+			let aux = await new Venta({numero_venta: venta.length})
+			await aux.save( (err, aux)=> {
+				for(i = 0; i < prods.length; i++){
+					detalle_venta.create({numero_venta: aux.numero_venta, cod_prod: prods[i]}, (err) => {
+						if (err){res.sendStatus(404)}
+					});
+				}
+				res.sendStatus(201)
+			});
+		};
+	});
 });
 
+
+function crear_detalle(num_venta, cod_producto, res){
+	detalle_venta.create({numero_venta: num_venta, cod_prod: cod_producto}, (err) => {
+
+	});
+}
 
 router.get('/detalle_venta_crear/:codProd/:numero_venta', isLoggedIn, async (req,res) => {
 	let num = req.params.numero_venta;
