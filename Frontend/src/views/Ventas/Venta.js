@@ -4,7 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
-import {  Transfer, 
+import {  Transfer,
           Form,
           Input,
           Button,
@@ -233,7 +233,7 @@ export default class Ventas extends React.Component {
                 </Button>
               </Grid>
             </Grid>
-              
+
           </CardBody>
         </Card>
       </div>

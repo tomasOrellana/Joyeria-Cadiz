@@ -183,7 +183,7 @@ export default class Ventas extends React.Component {
                               { title: 'Pago', field: 'metodo_pago' },
                               { title: 'Total', field: 'total' ,type: 'numeric'},
                               { title: 'Vendedor', field: 'vendedor'} ]}
-                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === '0')}
+                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 0)}
                     editable={{
                         onRowDelete: (oldData) =>
                           new Promise((resolve) => {
@@ -206,7 +206,7 @@ export default class Ventas extends React.Component {
                               { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
                               { title: 'Total', field: 'total' ,type: 'numeric'},
                               { title: 'Vendedor', field: 'vendedor'} ]}
-                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === '1')}
+                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 1)}
                     editable={{
                         onRowDelete: (oldData) =>
                         new Promise((resolve) => {
@@ -229,7 +229,7 @@ export default class Ventas extends React.Component {
                               { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
                               { title: 'Total', field: 'total' ,type: 'numeric'},
                               { title: 'Vendedor', field: 'vendedor'} ]}
-                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === '2')}
+                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 2)}
                     editable={{
                       onRowDelete: (oldData) =>
                       new Promise((resolve) => {
