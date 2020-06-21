@@ -275,6 +275,18 @@ router.post('/eliminar_pedido/:id', (req,res) =>{
     });
 });
 
+router.post('/eliminar_venta/:id', (req,res) =>{
+    let id = req.params.id;
+    venta.remove({_id: id}, (err, task) =>{
+			if(!err){
+     		res.sendStatus(201);
+			}
+			else{
+     		res.sendStatus(404);
+			}
+    });
+});
+
 router.post('/editar_pedido/:id', function(req, res) {
 	let id = req.body.id
 	let fecha = req.body.fecha;
@@ -340,6 +352,32 @@ router.get('/lista_venta', isLoggedIn, (req,res) =>{
     });
 });
 
+router.get('/ventasdia', async function(req,res) {
+	if (req.query.search){
+		const fecha1 = new Date().getDay(); // ejemplo: '2019/03/26'
+		const fecha2 = new Date().getDay();
+		const fi = fecha1.concat("T00:00:00-04:00");
+		const ff = fecha2.concat("T23:59:00-04:00");
+		await venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
+			if(err) {
+				res.sendStatus(404);
+			}
+			else{
+				res.json(venta);
+			}
+		});
+	}
+	else{
+		await venta.find({}, function(err,venta){
+			if (err){
+				res.sendStatus(404);
+			}
+			else{
+				res.json(venta);
+			}
+		});
+	}
+});
 
 
 router.get('/ventasdia', async function(req,res) {

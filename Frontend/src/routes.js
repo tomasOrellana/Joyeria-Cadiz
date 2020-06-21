@@ -7,7 +7,8 @@ import InventarioTableList from "views/Inventario/InventarioTableList.js";
 import TableListEmpleados from "views/Empleados/TableListEmpleados.js";
 import TableListPedidos from "views/TablaPedidos/TableListPedidos.js";
 import Maps from "views/Maps/Maps.js";
-import ListaDeVentas from "views/TablaVentas/Ventas.js";
+import ListaDeVentas from "views/TablaVentas/TablaVentas.js";
+import Venta from "views/Ventas/Venta.js";
 
 const dashboardRoutes = [
   {
@@ -64,6 +65,14 @@ const dashboardRoutes = [
     rtlName: "لوحة القيادة",
     icon: "list_alt",
     component: ListaDeVentas,
+    layout: "/admin"
+  },
+  {
+    path: "/venta",
+    name: "Crear venta",
+    rtlName: "لوحة القيادة",
+    icon: "list_alt",
+    component: Venta,
     layout: "/admin"
   }
 ];

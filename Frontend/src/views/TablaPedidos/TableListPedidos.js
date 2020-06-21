@@ -244,7 +244,7 @@ export default class InventarioTableList extends React.Component {
                     columns={ [{ title: 'fecha', field: 'fecha', type: 'date' },
                               { title: 'Cliente', field: 'cliente' },
                               { title: 'Descripcion', field: 'descripcion'},
-                              { title: 'Estado', field: 'estado', type: 'boolean' },
+                              { title: 'Estado', field: 'estado'},
                               { title: 'total', field: 'total' ,type: 'numeric'}]}
                     data={this.state.ListaPedidos.filter(({sucursal}) => sucursal === '0')}
                     editable={{
@@ -282,7 +282,7 @@ export default class InventarioTableList extends React.Component {
                     columns={ [{ title: 'fecha', field: 'fecha', type: 'date' },
                               { title: 'Cliente', field: 'cliente' },
                               { title: 'Descripcion', field: 'descripcion'},
-                              { title: 'Estado', field: 'estado', type: 'boolean' },
+                              { title: 'Estado', field: 'estado' },
                               { title: 'total', field: 'total' ,type: 'numeric'}]}
                     data={this.state.ListaPedidos.filter(({sucursal}) => sucursal === '1')}
                     editable={{
@@ -320,7 +320,7 @@ export default class InventarioTableList extends React.Component {
                     columns={ [{ title: 'fecha', field: 'fecha', type: 'date' },
                               { title: 'Cliente', field: 'cliente' },
                               { title: 'Descripcion', field: 'descripcion'},
-                              { title: 'Estado', field: 'estado', type: 'boolean' },
+                              { title: 'Estado', field: 'estado' },
                               { title: 'total', field: 'total' ,type: 'numeric'}]}
                     data={this.state.ListaPedidos.filter(({sucursal}) => sucursal === '2')}
                     editable={{

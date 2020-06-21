@@ -19,6 +19,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import 'antd/dist/antd.css';
 
 //core
 import Login from './views/Login/Login';
