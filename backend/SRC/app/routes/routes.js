@@ -502,7 +502,7 @@ let aux = await new Venta({numero_venta: venta.length});
 });*/
 
 
-router.post('/crear_venta', isLoggedIn, async (req,res) => {
+router.post('/crear_venta', async (req,res) => {
 	let prods = req.body.lista;
 	await venta.find({} , async (err, venta) => {
 		if( venta.length == null && venta.length == 0 ){
