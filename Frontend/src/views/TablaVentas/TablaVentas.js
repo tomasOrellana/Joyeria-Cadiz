@@ -103,11 +103,11 @@ export default class Ventas extends React.Component {
     this.state = {
       tabIndex: 0,
       ready: false,
+      ready2: false,
       ListaVentasDia: null,
       ListaVentasPeriodo: null
     }
     this.handleChange = this.handleChange.bind(this)
-
     this.ActualizarVentasDia = this.ActualizarVentasDia.bind(this)
 
   }
@@ -116,14 +116,16 @@ export default class Ventas extends React.Component {
     fetch('/ventasdia')
       .then(res => {
           return res.json()
+          console.log(res.json())
+          console.log("Hola")
       })
       .then(users => {
           this.setState({ListaVentasDia: users, ready: true})
           console.log(this.state.ListaVentasDia);
       });
     }
-    
-  EliminarPedido(oldData) {
+
+  EliminarVenta(oldData) {
     console.log(oldData._id)
     fetch('/eliminar_venta/' + oldData._id, {
     method: 'POST',
@@ -153,11 +155,11 @@ export default class Ventas extends React.Component {
 
   componentDidMount() {
     this.ActualizarVentasDia()
-    console.log(this.state.ListaVentasDia)
   }
 
   render() {
     if(this.state.ready === true) {
+      console.log(this.state.ListaVentasDia)
       return (
         <div style={styles.root}>
           <Card>
@@ -168,31 +170,45 @@ export default class Ventas extends React.Component {
                 <Tab label="Vitacura" {...a11yProps(2)} />
               </Tabs>
             </AppBar>
-          </Card>
-          <Card>
             <CardHeader color="primary">
               <h4 style={styles.cardTitleWhite}>Ventas de día</h4>
             </CardHeader>
-            <CardBody>
-              
-            <TabPanel value={this.state.tabIndex} index={0}>
-              <MaterialTable
-                  title='Lo Castillo'
-                  columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
-                            { title: 'Descuento', field: 'descuento',type: 'numeric' },
-                            { title: 'Fecha', field: 'fecha', type: 'date'},
-                            { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
-                            { title: 'Total', field: 'total' ,type: 'numeric'},
-                            { title: 'Vendedor', field: 'vendedor'} ]}
-                  data={this.state.ListaVentasDia}
-                  editable={{
-                    onRowAdd: newData =>
-                      new Promise((resolve, reject) => {
-                        setTimeout(() => {
-                          resolve();
-                        }, 2000)
-                      }),
-                      onRowDelete: (oldData) =>
+              <CardBody>
+              <TabPanel value={this.state.tabIndex} index={0}>
+                <MaterialTable
+                    title='Lo Castillo'
+                    columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
+                              { title: 'Descuento', field: 'descuento',type: 'numeric' },
+                              { title: 'Fecha', field: 'fecha', type: 'date'},
+                              { title: 'Pago', field: 'metodo_pago' },
+                              { title: 'Total', field: 'total' ,type: 'numeric'},
+                              { title: 'Vendedor', field: 'vendedor'} ]}
+                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === '0')}
+                    editable={{
+                        onRowDelete: (oldData) =>
+                          new Promise((resolve) => {
+                            setTimeout(() => {
+                              resolve();
+                              this.ActualizarVentasDia();
+                            }, 2000)
+                            this.EliminarVenta(oldData)
+                          }),
+                    }}
+                  />
+                </TabPanel>
+
+                <TabPanel value={this.state.tabIndex} index={1}>
+                <MaterialTable
+                    title='Apumanque'
+                    columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
+                              { title: 'Descuento', field: 'descuento',type: 'numeric' },
+                              { title: 'Fecha', field: 'fecha', type: 'date'},
+                              { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
+                              { title: 'Total', field: 'total' ,type: 'numeric'},
+                              { title: 'Vendedor', field: 'vendedor'} ]}
+                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === '1')}
+                    editable={{
+                        onRowDelete: (oldData) =>
                         new Promise((resolve) => {
                           setTimeout(() => {
                             resolve();
@@ -200,69 +216,33 @@ export default class Ventas extends React.Component {
                           }, 2000)
                           this.EliminarVenta(oldData)
                         }),
-                  }}
-                />
-              </TabPanel>
+                      }}
+                  />
+                </TabPanel>
 
-              <TabPanel value={this.state.tabIndex} index={1}>
-              <MaterialTable
-                  title='Apumanque'
-                  columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
-                            { title: 'Descuento', field: 'descuento',type: 'numeric' },
-                            { title: 'Fecha', field: 'fecha', type: 'date'},
-                            { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
-                            { title: 'Total', field: 'total' ,type: 'numeric'},
-                            { title: 'Vendedor', field: 'vendedor'} ]}
-                  data={this.state.ListaVentasDia}
-                  editable={{
-                    onRowAdd: (newData) =>
-                      new Promise((resolve) => {
-                        setTimeout(() => {
-                          resolve();
-                          this.ActualizarVentasDia();
-                        }, 2000);
-                      }),
+                <TabPanel value={this.state.tabIndex} index={2}>
+                <MaterialTable
+                    title='Vitacura'
+                    columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
+                              { title: 'Descuento', field: 'descuento',type: 'numeric' },
+                              { title: 'Fecha', field: 'fecha', type: 'date'},
+                              { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
+                              { title: 'Total', field: 'total' ,type: 'numeric'},
+                              { title: 'Vendedor', field: 'vendedor'} ]}
+                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === '2')}
+                    editable={{
                       onRowDelete: (oldData) =>
                       new Promise((resolve) => {
                         setTimeout(() => {
                           resolve();
                           this.ActualizarVentasDia();
                         }, 2000)
+                        this.EliminarVenta(oldData)
                       }),
                     }}
-                />
-              </TabPanel>
-
-              <TabPanel value={this.state.tabIndex} index={2}>
-              <MaterialTable
-                  title='Vitacura'
-                  columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
-                            { title: 'Descuento', field: 'descuento',type: 'numeric' },
-                            { title: 'Fecha', field: 'fecha', type: 'date'},
-                            { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
-                            { title: 'Total', field: 'total' ,type: 'numeric'},
-                            { title: 'Vendedor', field: 'vendedor'} ]}
-                  data={this.state.ListaVentasDia}
-                  editable={{
-                    onRowAdd: (newData) =>
-                      new Promise((resolve) => {
-                        setTimeout(() => {
-                          resolve();
-                          
-                        }, 2000);
-                      }),
-                    onRowDelete: (oldData) =>
-                      new Promise((resolve) => {
-                        setTimeout(() => {
-                          resolve();
-                          this.ActualizarVentasDia();
-                        }, 2000)
-                      }),
-                  }}
-                />
-              </TabPanel>
-
-            </CardBody>
+                  />
+                </TabPanel>
+              </CardBody>
           </Card>
 
           <Card>
@@ -271,7 +251,7 @@ export default class Ventas extends React.Component {
             </CardHeader>
             <CardBody>
 
-            
+
 
             </CardBody>
           </Card>
