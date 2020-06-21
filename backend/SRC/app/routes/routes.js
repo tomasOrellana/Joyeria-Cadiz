@@ -504,7 +504,7 @@ let aux = await new Venta({numero_venta: venta.length});
 
 router.post('/crear_venta', async (req,res) => {
 	let prods = req.body.lista;
-	let fecha = req.body.fecha;
+	let fecha = Date.now();
 	let metodo_pago = req.body.metodo_pago.toUpperCase();
 	let descuento = req.body.descuento;
 	let sucursal = req.body.sucursal;
