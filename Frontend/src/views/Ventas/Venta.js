@@ -95,6 +95,14 @@ export default class Ventas extends React.Component {
     })
   };
 
+  handleInputChange(property) {
+    return e => {
+      this.setState({
+        [property]: e.target.value
+      });
+    };
+  }
+
   renderFooter = () => (
     <Button size="small" style={{ float: 'right', margin: 5 }} onClick={this.getMock}>
       Actualizar
@@ -143,18 +151,30 @@ export default class Ventas extends React.Component {
                 Precio total: {this.state.total}
               </Grid>
               <Grid item xs={6}>
-                <input value={this.state.descuento} label="Descuento %" onChange={ this.handleChange }/>
-                <select value={this.state.metodo_pago} onChange={this.handleChange}>
-                  <option value="Efectivo">Efectivo</option>
-                  <option value="Debito">Debito</option>
-                  <option value="Credito">Credito</option>
-                </select>
-                <input id="VendedorId" value={this.state.vendedor} label="Vendedor" onChange={ this.handleChange }/>
-                <select value={this.state.sucursal} onChange={this.handleChange}>
-                  <option value="0">Lo Castillo</option>
-                  <option value="1">Apumanque</option>
-                  <option value="2">Vitacura</option>
-                </select>
+                <TextField id="standard-basic" value={this.state.descuento} label="Descuento %" onChange={this.handleInputChange('descuento')}/>
+                <TextField
+                  select
+                  label="Metodo de pago"
+                  value={this.state.metodo_pago}
+                  onChange={this.handleInputChange('metodo_pago')}
+                  helperText="Selecciona la forma de pagar"
+                >
+                  <MenuItem key={'efectivo'} value={'efectivo'}>{'efectivo'}</MenuItem>
+                  <MenuItem key={'credito'} value={'credito'}>{'credito'}</MenuItem>
+                  <MenuItem key={'debito'} value={'debito'}>{'debito'}</MenuItem>
+                </TextField>
+                <TextField id="standard-basic" value={this.state.vendedor} label="Vendedor" onChange={this.handleInputChange('vendedor')}/>
+                <TextField
+                  select
+                  label="Sucursal"
+                  value={this.state.sucursal}
+                  onChange={this.handleInputChange('sucursal')}
+                  helperText="Selecciona sucursal"
+                >
+                  <MenuItem key={'0'} value={'0'}>{'Lo Castillo'}</MenuItem>
+                  <MenuItem key={'1'} value={'1'}>{'Apumanque'}</MenuItem>
+                  <MenuItem key={'2'} value={'2'}>{'Vitacura'}</MenuItem>
+                </TextField>
                 <Button style={{ float: 'right', margin: 5 }} onClick={this.imprimir}>
                   Finalizar venta
                 </Button>
