@@ -95,10 +95,6 @@ export default class Ventas extends React.Component {
     })
   };
 
-  handleChange = (event) => {
-    this.setState({value: event.target.value});
-  }
-
   renderFooter = () => (
     <Button size="small" style={{ float: 'right', margin: 5 }} onClick={this.getMock}>
       Actualizar
@@ -153,7 +149,7 @@ export default class Ventas extends React.Component {
                   <option value="Debito">Debito</option>
                   <option value="Credito">Credito</option>
                 </select>
-                <input value={this.state.vendedor} label="Vendedor" onChange={ this.handleChange }/>
+                <input id="VendedorId" value={this.state.vendedor} label="Vendedor" onChange={ this.handleChange }/>
                 <select value={this.state.sucursal} onChange={this.handleChange}>
                   <option value="0">Lo Castillo</option>
                   <option value="1">Apumanque</option>
