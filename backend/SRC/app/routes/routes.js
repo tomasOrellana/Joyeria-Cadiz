@@ -466,9 +466,16 @@ let aux = await new Venta({numero_venta: venta.length});
 
 router.post('/crear_venta', isLoggedIn, async (req,res) => {
 	let prods = req.body.lista;
+	let fecha = req.body.fecha;
+	let metodo_pago = req.body.metodo_pago.toUpperCase();
+	let descuento = req.body.descuento;
+	let sucursal = req.body.sucursal;
+	let vendedor = req.body.vendedor.toUpperCase();
+	let total = req.body.total;
+
 	await venta.find({} , async (err, venta) => {
 		if( venta.length == null && venta.length == 0 ){
-			let aux = await new Venta({numero_venta: 1})
+			let aux = await new Venta({numero_venta: 1, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento, sucursal: sucursal, vendedor: vendedor, total: total})
 			await aux.save( (err, aux)=> {
 				for(i = 0; i < prods.length; i++){
 					detalle_venta.create({numero_venta: aux.numero_venta, cod_prod: prods[i]}, (err) => {
