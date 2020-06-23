@@ -20,43 +20,11 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/tiendas",
-    name: "Tiendas",
+    path: "/venta",
+    name: "Crear Venta",
     rtlName: "لوحة القيادة",
     icon: "store",
-    component: Maps,
-    layout: "/admin"
-  },
-  {
-    path: "/usuario",
-    name: "Perfil de usuario",
-    rtlName: "ملف تعريفي للمستخدم",
-    icon: Person,
-    component: UserProfile,
-    layout: "/admin"
-  },
-  {
-    path: "/inventario",
-    name: "Inventario",
-    rtlName: "لوحة القيادة",
-    icon: "content_paste",
-    component: InventarioTableList,
-    layout: "/admin"
-  },
-  {
-    path: "/empleados",
-    name: "Empleados",
-    rtlName: "لوحة القيادة",
-    icon: "person_pin",
-    component: TableListEmpleados,
-    layout: "/admin"
-  },
-  {
-    path: "/pedidos",
-    name: "Pedidos",
-    rtlName: "لوحة القيادة",
-    icon: "list_alt",
-    component: TableListPedidos,
+    component: Venta,
     layout: "/admin"
   },
   {
@@ -67,12 +35,44 @@ const dashboardRoutes = [
     component: ListaDeVentas,
     layout: "/admin"
   },
+  /*{
+    path: "/usuario",
+    name: "Perfil de usuario",
+    rtlName: "ملف تعريفي للمستخدم",
+    icon: Person,
+    component: UserProfile,
+    layout: "/admin"
+  },*/
   {
-    path: "/venta",
-    name: "Crear venta",
+    path: "/pedidos",
+    name: "Pedidos",
     rtlName: "لوحة القيادة",
-    icon: "list_alt",
-    component: Venta,
+    icon: "shopping_cart",
+    component: TableListPedidos,
+    layout: "/admin"
+  },
+  {
+    path: "/inventario",
+    name: "Inventario",
+    rtlName: "لوحة القيادة",
+    icon: "content_paste",
+    component: InventarioTableList,
+    layout: "/admin"
+  },/*
+  {
+    path: "/empleados",
+    name: "Empleados",
+    rtlName: "لوحة القيادة",
+    icon: "person_pin",
+    component: TableListEmpleados,
+    layout: "/admin"
+  },*/
+  {
+    path: "/tiendas",
+    name: "Tiendas",
+    rtlName: "لوحة القيادة",
+    icon: "location_on",
+    component: Maps,
     layout: "/admin"
   }
 ];
