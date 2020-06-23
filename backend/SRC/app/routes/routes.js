@@ -357,6 +357,7 @@ router.get('/ventasdia', async function(req,res) {
 		});
 	}
 	else{
+		console.log("1")
 		await venta.find({}, function(err,venta){
 			if (err){
 				res.sendStatus(404);
