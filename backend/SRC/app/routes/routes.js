@@ -544,11 +544,19 @@ router.post('/crear_venta', async (req,res) => {
 });
 
 
-function crear_detalle(num_venta, cod_producto, res){
-	detalle_venta.create({numero_venta: num_venta, cod_prod: cod_producto}, (err) => {
-
+router.get('/delete_venta/:id', isLoggedIn, (req,res) =>{
+    let id = req.params.id;
+    venta.remove({_id: id}, (err) =>{
+			if(!err){
+	        res.sendStatus(201);
+	    }
+			else{
+				res.sendStatus(404);
+			}
 	});
-}
+});
+
+
 
 router.get('/detalle_venta_crear/:codProd/:numero_venta', isLoggedIn, async (req,res) => {
 	let num = req.params.numero_venta;
@@ -608,7 +616,6 @@ router.get('/delete_empleado/:id', isLoggedIn, (req,res) =>{
 			res.redirect('/inicio');
 		}
 	});
-
 });
 
 router.get('/editar_empleado/:id', (req,res) =>{
