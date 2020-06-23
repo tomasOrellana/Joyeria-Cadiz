@@ -275,18 +275,6 @@ router.post('/eliminar_pedido/:id', (req,res) =>{
     });
 });
 
-router.post('/eliminar_venta/:id', (req,res) =>{
-    let id = req.params.id;
-    venta.remove({_id: id}, (err, task) =>{
-			if(!err){
-     		res.sendStatus(201);
-			}
-			else{
-     		res.sendStatus(404);
-			}
-    });
-});
-
 router.post('/editar_pedido/:id', function(req, res) {
 	let id = req.body.id
 	let fecha = req.body.fecha;
@@ -383,6 +371,8 @@ router.get('/ventasdia', async function(req,res) {
 router.get('/ventasdia', async function(req,res) {
 		const fecha1 = new Date ();
 		const fecha2 = fecha1;
+		const fi = fecha1.concat("T00:00:00-04:00");
+		const ff = fecha2.concat("T23:59:00-04:00");
 		await venta.find({$and: [{fecha: {$gte: new Date(fecha1)}},{fecha: {$lt: new Date(fecha2)}}]}, (err, venta) => {
 			if(err) {
 				res.sendStatus(404);
@@ -392,6 +382,7 @@ router.get('/ventasdia', async function(req,res) {
 			}
 		});
 });
+
 router.get('/ventasperiodo', async function(req,res) {
 	if (req.query.search){
 		const fecha1 = req.body.desde;
@@ -544,17 +535,18 @@ router.post('/crear_venta', async (req,res) => {
 });
 
 
-router.get('/delete_venta/:id', isLoggedIn, (req,res) =>{
+router.post('/eliminar_venta/:id', (req,res) =>{
     let id = req.params.id;
-    venta.remove({_id: id}, (err) =>{
+    venta.remove({_id: id}, (err, task) =>{
 			if(!err){
-	        res.sendStatus(201);
-	    }
-			else{
-				res.sendStatus(404);
+     		res.sendStatus(201);
 			}
-	});
+			else{
+     		res.sendStatus(404);
+			}
+    });
 });
+
 
 
 
