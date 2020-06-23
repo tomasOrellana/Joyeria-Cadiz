@@ -164,7 +164,7 @@ export default class InventarioTableList extends React.Component {
         Accept: 'application/json',
         'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ 
+    body: JSON.stringify({
       id: newData._id,
       fecha: newData.fecha,
       cliente: newData.cliente,
@@ -241,11 +241,11 @@ export default class InventarioTableList extends React.Component {
                 <TabPanel value={this.state.tabIndex} index={0}>
                 <MaterialTable
                     title='Lo Castillo'
-                    columns={ [{ title: 'fecha', field: 'fecha', type: 'date' },
+                    columns={ [{ title: 'Fecha', field: 'fecha', type: 'date' },
                               { title: 'Cliente', field: 'cliente' },
                               { title: 'Descripcion', field: 'descripcion'},
-                              { title: 'Estado', field: 'estado'},
-                              { title: 'total', field: 'total' ,type: 'numeric'}]}
+                              { title: 'Estado', field: 'estado', lookup: { 0: 'En Proceso', 1: 'Listo para retiro' ,2: 'Entregado'}},
+                              { title: 'Total', field: 'total' ,type: 'numeric'}]}
                     data={this.state.ListaPedidos.filter(({sucursal}) => sucursal === '0')}
                     editable={{
                       onRowAdd: newData =>

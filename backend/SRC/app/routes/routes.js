@@ -346,6 +346,7 @@ router.get('/ventasdia', async function(req,res) {
 		const fecha2 = new Date().getDay();
 		const fi = fecha1.concat("T00:00:00-04:00");
 		const ff = fecha2.concat("T23:59:00-04:00");
+		console.log("1")
 		await venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
 			if(err) {
 				res.sendStatus(404);
