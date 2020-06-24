@@ -263,7 +263,7 @@ export default class Ventas extends React.Component {
                   id="hasta"
                   label="Hasta"
                   type="date"
-                  defaultValue="today"
+                  defaultValue= "today-7"
                   style={styles.textField}
                   InputLabelProps={{
                     shrink: true,
