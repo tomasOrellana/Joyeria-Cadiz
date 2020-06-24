@@ -391,14 +391,15 @@ router.get('/ventasdia', async function(req,res) {
 router.post('/ventasperiodo', async function(req,res) {
 		const fecha1 = req.body.desde;
 		const fecha2 = req.body.hasta;
-
-		await venta.find({$and: [{fecha: {$gte: new Date(fecha1)}},{fecha: {$lt: new Date(fecha2)}}]}, (err, venta) => {
+		const fi = fecha1.concat("T00:00:00-04:00");
+		const ff = fecha2.concat("T23:59:00-04:00");
+		await venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
 			if(err) {
 				res.sendStatus(404);
 			}
 			else{
-				console.log(fecha1);
-				console.log(fecha2);
+				console.log(fi);
+				console.log(ff);
 				res.json(venta);
 			}
 		});
