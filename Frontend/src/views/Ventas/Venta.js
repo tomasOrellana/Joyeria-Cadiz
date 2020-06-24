@@ -69,7 +69,7 @@ const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
   </Transfer>
 );
 
-const leftTableColumns = [ 
+const leftTableColumns = [
   {
     dataIndex: 'codigo',
     title: 'Codigo',
@@ -94,7 +94,7 @@ const leftTableColumns = [
     title: 'Precio',
     render: precio => <Tag color="red">{precio}</Tag>,
   },
-  
+
 ];
 
 const rightTableColumns = [
@@ -195,7 +195,7 @@ export default class Ventas extends React.Component {
 
   getMock = () => {
     const targetKeys = [];
-    const mockData = []; 
+    const mockData = [];
     for (let i = 0; i < this.state.ListaProductos.length; i++) {
       // codigo, tipo, material, piedra, descripcion, precio
       const data = {
@@ -212,7 +212,7 @@ export default class Ventas extends React.Component {
       }
       mockData.push(data);
     }
-    
+
     const filterMock = mockData.filter(({sucursal}) => sucursal === this.state.sucursal);
     console.log(mockData)
     console.log(filterMock)
@@ -242,7 +242,7 @@ export default class Ventas extends React.Component {
   handleSelectChange(property) {
     return e => {
       new Promise((resolve) => {
-        setTimeout(() => { this.getMock()}, 500) 
+        setTimeout(() => { this.getMock()}, 500)
         this.setState({[property]: e.target.value});
       })
     };
@@ -290,6 +290,10 @@ export default class Ventas extends React.Component {
           if(response.status === 201) {
               console.log("Añadido correctamente")
               this.setState({completado: 1})
+              for(let i = 0; i<this.state.targetKeys.length;i++) {
+                this.EliminarProducto(this.state.targetKeys[i])
+                this.ActualizarInventario()
+              }
           } else {
               console.log('Hubo un error')
               this.setState({completado: 2})
@@ -304,14 +308,14 @@ export default class Ventas extends React.Component {
 
 
   render() {
-    
+
     let mensajito;
     if(this.state.completado === 1) {
       mensajito = <Alert severity="success">Venta completada</Alert>
     } else if(this.state.completado === 2) {
       mensajito = <Alert severity="error">Hubo un error con la venta</Alert>
     }
-    
+
     return (
       <div>
         <Card>
@@ -325,7 +329,7 @@ export default class Ventas extends React.Component {
                 <h4 style={{ color: "#FFFFFF",marginTop: "0px",minHeight: "auto",fontWeight: "300",fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",marginBottom: "3px",textDecoration: "none"}}>Crear venta</h4>
               </Grid>
               <Grid item xs={2}>
-                
+
               </Grid>
             </Grid>
           </CardHeader>
@@ -333,7 +337,7 @@ export default class Ventas extends React.Component {
             <TableTransfer
               dataSource={this.state.filterMock}
               showSearch
-              
+
               operations={['Incluir', 'Descartar']}
               targetKeys={this.state.targetKeys}
               onChange={this.handleChange} // codigo tipo, material, piedra, precio
@@ -343,7 +347,7 @@ export default class Ventas extends React.Component {
               leftColumns={leftTableColumns}
               rightColumns={rightTableColumns}
               footer={this.renderFooter}
-              
+
             />
             <Grid
             container
@@ -389,7 +393,7 @@ export default class Ventas extends React.Component {
                     <TextField id="standard-basic" value={this.state.vendedor} label="Vendedor" onChange={this.handleInputChange('vendedor')}/>
                   </Grid>
                   <Grid item xs={6}>
-                    
+
                   </Grid>
                 </Grid>
                 <Button style={{ float: 'right', margin: 5 }} onClick={this.imprimir}>

@@ -103,7 +103,6 @@ export default class InventarioTableList extends React.Component {
       tabIndex: 0,
       ready: false,
       ListaPedidos: null,
-
     }
     this.handleChange = this.handleChange.bind(this)
     this.AgregarPedido = this.AgregarPedido.bind(this)
@@ -224,7 +223,6 @@ export default class InventarioTableList extends React.Component {
   }
 
   render() {
-
     if(this.state.ready === true) {
       return (
         <div style={styles.root}>
