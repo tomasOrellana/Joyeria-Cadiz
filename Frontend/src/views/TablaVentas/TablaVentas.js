@@ -9,6 +9,7 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import TextField from '@material-ui/core/TextField';
+import { Grid } from '@material-ui/core';
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -104,6 +105,7 @@ export default class Ventas extends React.Component {
     this.state = {
       tabIndex: 0,
       ready: false,
+      total: 0,
       ListaVentasDia: null,
       ListaVentasPeriodo: null
     }
@@ -120,9 +122,16 @@ export default class Ventas extends React.Component {
       .then(users => {
           this.setState({ListaVentasDia: users, ready: true})
           console.log(this.state.ListaVentasDia);
+          this.CalcularTotal()
       });
     }
-
+  CalcularTotal(){
+    let tot = 0;
+    for(let i = 0; i<this.state.ListaVentasDia.length;i++) {
+      tot = tot + this.state.ListaVentasDia[i].total;
+    }
+    this.setState({total:tot})
+  }
   EliminarVenta(oldData) {
     console.log(oldData._id)
     fetch('/eliminar_venta/' + oldData._id, {
@@ -242,6 +251,16 @@ export default class Ventas extends React.Component {
                 </TabPanel>
               </CardBody>
           </Card>
+          <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+          spacing={3}>
+            <Grid item xs={6}>
+              Total de Ventas: ${this.state.total}
+            </Grid>
+          </Grid>
         </div>
       );
     } else if(this.state.ready === false) {

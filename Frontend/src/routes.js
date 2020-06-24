@@ -37,7 +37,7 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/ListaVentasPeriodo",
+    path: "/VentasporPeriodo",
     name: "Ventas por Periodo",
     rtlName: "لوحة القيادة",
     icon: "list_alt",
