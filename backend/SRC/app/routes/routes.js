@@ -339,7 +339,7 @@ router.get('/lista_venta', isLoggedIn, (req,res) =>{
 					}
     });
 });
-
+/*
 router.get('/ventasdia', async function(req,res) {
 	if (req.query.search){
 		const fecha1 = new Date().getDay(); // ejemplo: '2019/03/26'
@@ -367,7 +367,7 @@ router.get('/ventasdia', async function(req,res) {
 			}
 		});
 	}
-});
+});*/
 
 
 router.get('/ventasdia', async function(req,res) {
