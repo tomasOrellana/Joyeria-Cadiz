@@ -96,7 +96,7 @@ function a11yProps(index) {
   };
 }
 
-export default class Ventas extends React.Component {
+export default class TablaVentasPeriodo extends React.Component {
 
 
   constructor(props) {
