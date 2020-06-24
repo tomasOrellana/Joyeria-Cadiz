@@ -117,8 +117,6 @@ export default class Ventas extends React.Component {
     fetch('/ventasdia')
       .then(res => {
           return res.json()
-          console.log(res.json())
-          console.log("Hola")
       })
       .then(users => {
           this.setState({ListaVentasDia: users, ready: true})

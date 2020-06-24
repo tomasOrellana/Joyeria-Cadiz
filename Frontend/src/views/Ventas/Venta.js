@@ -9,6 +9,8 @@ import {  Transfer,
           Form,
           Input,
           Button,
+          Tag,
+          Table,
           Radio,
           Select,
           Cascader,
@@ -16,8 +18,111 @@ import {  Transfer,
           InputNumber,
           TreeSelect,
           Switch  } from 'antd';
+import difference from 'lodash/difference';
 import { Grid } from '@material-ui/core';
 
+const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
+  <Transfer {...restProps} showSelectAll={false}>
+    {({
+      direction,
+      filteredItems,
+      onItemSelectAll,
+      onItemSelect,
+      selectedKeys: listSelectedKeys,
+      disabled: listDisabled,
+    }) => {
+      const columns = direction === 'left' ? leftColumns : rightColumns;
+
+      const rowSelection = {
+        getCheckboxProps: item => ({ disabled: listDisabled || item.disabled }),
+        onSelectAll(selected, selectedRows) {
+          const treeSelectedKeys = selectedRows
+            .filter(item => !item.disabled)
+            .map(({ key }) => key);
+          const diffKeys = selected
+            ? difference(treeSelectedKeys, listSelectedKeys)
+            : difference(listSelectedKeys, treeSelectedKeys);
+          onItemSelectAll(diffKeys, selected);
+        },
+        onSelect({ key }, selected) {
+          onItemSelect(key, selected);
+        },
+        selectedRowKeys: listSelectedKeys,
+      };
+
+      return (
+        <Table
+          rowSelection={rowSelection}
+          columns={columns}
+          dataSource={filteredItems}
+          size="small"
+          style={{ pointerEvents: listDisabled ? 'none' : null }}
+          onRow={({ key, disabled: itemDisabled }) => ({
+            onClick: () => {
+              if (itemDisabled || listDisabled) return;
+              onItemSelect(key, !listSelectedKeys.includes(key));
+            },
+          })}
+        />
+      );
+    }}
+  </Transfer>
+);
+
+const leftTableColumns = [ 
+  {
+    dataIndex: 'codigo',
+    title: 'Codigo',
+    render: codigo => <Tag>{codigo}</Tag>,
+  },
+  {
+    dataIndex: 'tipo',
+    title: 'Tipo',
+  },
+  {
+    dataIndex: 'material',
+    title: 'Material',
+    render: material => <Tag color="purple">{material}</Tag>,
+  },
+  {
+    dataIndex: 'piedra',
+    title: 'piedra',
+    render: piedra => <Tag color="green">{piedra}</Tag>,
+  },
+  {
+    dataIndex: 'precio',
+    title: 'Precio',
+    render: precio => <Tag color="red">{precio}</Tag>,
+  },
+  
+];
+
+const rightTableColumns = [
+  {
+    dataIndex: 'codigo',
+    title: 'Codigo',
+    render: codigo => <Tag>{codigo}</Tag>,
+  },
+  {
+    dataIndex: 'tipo',
+    title: 'Tipo',
+  },
+  {
+    dataIndex: 'material',
+    title: 'Material',
+    render: material => <Tag color="purple">{material}</Tag>,
+  },
+  {
+    dataIndex: 'piedra',
+    title: 'piedra',
+    render: piedra => <Tag color="green">{piedra}</Tag>,
+  },
+  {
+    dataIndex: 'precio',
+    title: 'Precio',
+    render: precio => <Tag color="red">{precio}</Tag>,
+  },
+];
 
 export default class Ventas extends React.Component {
 
@@ -25,7 +130,6 @@ export default class Ventas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tabIndex: 0,
       ready: false,
       ListaProductos: "",
       descuento: '',
@@ -49,6 +153,7 @@ export default class Ventas extends React.Component {
           return res.json()
       })
       .then(users => {
+        console.log(users)
           this.setState({ListaProductos: users, ready: true})
           this.getMock();
       });
@@ -56,6 +161,7 @@ export default class Ventas extends React.Component {
 
   state = {
     mockData: [],
+    filterMock: [],
     targetKeys: [],
   };
 
@@ -89,18 +195,28 @@ export default class Ventas extends React.Component {
 
   getMock = () => {
     const targetKeys = [];
-    const mockData = [];
+    const mockData = []; 
     for (let i = 0; i < this.state.ListaProductos.length; i++) {
+      // codigo, tipo, material, piedra, descripcion, precio
       const data = {
         key: this.state.ListaProductos[i],
-        title: `${this.state.ListaProductos[i].tipo} ${this.state.ListaProductos[i].material} ${this.state.ListaProductos[i].descripcion} ${this.state.ListaProductos[i].piedra} $${this.state.ListaProductos[i].precio}`,
+        codigo: `${this.state.ListaProductos[i].codigo}`,
+        tipo: `${this.state.ListaProductos[i].tipo}`,
+        material: `${this.state.ListaProductos[i].material}`,
+        piedra: `${this.state.ListaProductos[i].piedra}`,
+        precio: `${this.state.ListaProductos[i].precio}`,
+        sucursal: `${this.state.ListaProductos[i].sucursal}`,
       };
       if (data.chosen) {
         targetKeys.push(data.key);
       }
       mockData.push(data);
     }
-    this.setState({ mockData, targetKeys });
+    
+    const filterMock = mockData.filter(({sucursal}) => sucursal === this.state.sucursal);
+    console.log(mockData)
+    console.log(filterMock)
+    this.setState({ filterMock, targetKeys });
   };
 
   CalcularTotal = () => {
@@ -108,7 +224,7 @@ export default class Ventas extends React.Component {
     for(let i = 0; i<this.state.targetKeys.length;i++) {
       tot = tot + this.state.targetKeys[i].precio;
     }
-    let resultado = tot*(1-(this.state.descuento/100));
+    let resultado = Math.trunc(tot*(1-(this.state.descuento/100)));
     this.setState({total:resultado})
     this.setState({suma:tot})
   }
@@ -123,18 +239,34 @@ export default class Ventas extends React.Component {
     })
   };
 
+  handleSelectChange(property) {
+    return e => {
+      new Promise((resolve) => {
+        setTimeout(() => { this.getMock()}, 500) 
+        this.setState({[property]: e.target.value});
+      })
+    };
+  }
+
   handleInputChange(property) {
     return e => {
-      this.setState({
-        [property]: e.target.value
-      });
+      this.setState({[property]: e.target.value});
     };
   }
 
   renderFooter = () => (
-    <Button size="small" style={{ float: 'right', margin: 5 }} onClick={this.getMock}>
-      Actualizar
-    </Button>
+    <TextField
+        select
+        value={this.state.sucursal}
+        onChange={this.handleSelectChange('sucursal')}
+        color='secondary'
+        variant='outlined'
+        size='small'
+      >
+      <MenuItem key={'0'} value={'0'}>{'Lo Castillo'}</MenuItem>
+      <MenuItem key={'1'} value={'1'}>{'Apumanque'}</MenuItem>
+      <MenuItem key={'2'} value={'2'}>{'Vitacura'}</MenuItem>
+    </TextField>
   );
 
 
@@ -184,21 +316,34 @@ export default class Ventas extends React.Component {
       <div>
         <Card>
           <CardHeader color="primary">
-            <h4 style={{ color: "#FFFFFF",marginTop: "0px",minHeight: "auto",fontWeight: "300",fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",marginBottom: "3px",textDecoration: "none"}}>Crear venta</h4>
+            <Grid
+              container
+              direction="row"
+              alignItems="center"
+              spacing={1}>
+              <Grid item xs={2}>
+                <h4 style={{ color: "#FFFFFF",marginTop: "0px",minHeight: "auto",fontWeight: "300",fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",marginBottom: "3px",textDecoration: "none"}}>Crear venta</h4>
+              </Grid>
+              <Grid item xs={2}>
+                
+              </Grid>
+            </Grid>
           </CardHeader>
           <CardBody>
-            <Transfer
-              dataSource={this.state.mockData}
+            <TableTransfer
+              dataSource={this.state.filterMock}
               showSearch
-              pagination
-              listStyle={{
-                width: 500,
-                height: 300,
-              }}
+              
               operations={['Incluir', 'Descartar']}
               targetKeys={this.state.targetKeys}
-              onChange={this.handleChange}
-              render={item => `${item.title}`}
+              onChange={this.handleChange} // codigo tipo, material, piedra, precio
+              filterOption={(inputValue, item) =>
+                item.codigo.indexOf(inputValue) !== -1 || item.tipo.indexOf(inputValue.toUpperCase()) !== -1 || item.material.indexOf(inputValue.toUpperCase()) !== -1 || item.piedra.indexOf(inputValue.toUpperCase()) !== -1 || item.precio.indexOf(inputValue) !== -1
+              }
+              leftColumns={leftTableColumns}
+              rightColumns={rightTableColumns}
+              footer={this.renderFooter}
+              
             />
             <Grid
             container
@@ -207,8 +352,8 @@ export default class Ventas extends React.Component {
             alignItems="center"
             spacing={3}>
               <Grid item xs={6}>
-                Precio (sin dcto): {this.state.suma}{"\n"}
-                Precio final: {this.state.total}
+                Precio (sin dcto): ${this.state.suma}{"\n"}
+                Precio final: ${this.state.total}
               </Grid>
               <Grid item xs={6}>
                 <Grid
@@ -244,19 +389,9 @@ export default class Ventas extends React.Component {
                     <TextField id="standard-basic" value={this.state.vendedor} label="Vendedor" onChange={this.handleInputChange('vendedor')}/>
                   </Grid>
                   <Grid item xs={6}>
-                    <TextField
-                      select
-                      label="Sucursal"
-                      value={this.state.sucursal}
-                      onChange={this.handleInputChange('sucursal')}
-                      helperText="Selecciona sucursal"
-                    >
-                      <MenuItem key={'0'} value={'0'}>{'Lo Castillo'}</MenuItem>
-                      <MenuItem key={'1'} value={'1'}>{'Apumanque'}</MenuItem>
-                      <MenuItem key={'2'} value={'2'}>{'Vitacura'}</MenuItem>
-                    </TextField>
-                    </Grid>
+                    
                   </Grid>
+                </Grid>
                 <Button style={{ float: 'right', margin: 5 }} onClick={this.imprimir}>
                   Finalizar venta
                 </Button>
