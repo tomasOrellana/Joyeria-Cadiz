@@ -340,47 +340,21 @@ router.get('/lista_venta', isLoggedIn, (req,res) =>{
     });
 });
 
-router.get('/ventasdia', async function(req,res) {
-	if (req.query.search){
-		const fecha1 = new Date().getDay(); // ejemplo: '2019/03/26'
-		const fecha2 = new Date().getDay();
-		const fi = fecha1.concat("T00:00:00-04:00");
-		const ff = fecha2.concat("T23:59:00-04:00");
-		console.log("1")
-		await venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
-			if(err) {
-				res.sendStatus(404);
-			}
-			else{
-				res.json(venta);
-			}
-		});
-	}
-	else{
-		console.log("1")
-		await venta.find({}, function(err,venta){
-			if (err){
-				res.sendStatus(404);
-			}
-			else{
-				res.json(venta);
-			}
-		});
-	}
-});
 
 
 router.get('/ventasdia', async function(req,res) {
-		const fecha1 = new Date ();
-		const fi = fecha1.substring(0,10).concet("T00:00:00+04:00");
-		const ff = fecha1.substring(0,10).concet("T23:59:00+04:00");
+	
+		const fecha = new Date();
+		const f = fecha.toString();
+		const fi = f.substring(0,10).concat("T00:00:00-04:00");
+		const ff = f.substring(0,10).concat("T23:59:00-04:00");
 		await venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
 			if(err) {
-				res.sendStatus(404);
-			}
-			else{
 				console.log(fi);
 				console.log(ff);
+				res.sendStatus(404);
+			}
+			else{
 				res.json(venta);
 			}
 		});
