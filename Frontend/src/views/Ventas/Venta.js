@@ -239,21 +239,26 @@ export default class Ventas extends React.Component {
     })
   };
 
-  handleInputChange(property) {
+  handleSelectChange(property) {
     return e => {
       new Promise((resolve) => {
         setTimeout(() => { this.getMock()}, 500) 
         this.setState({[property]: e.target.value});
       })
     };
-    
+  }
+
+  handleInputChange(property) {
+    return e => {
+      this.setState({[property]: e.target.value});
+    };
   }
 
   renderFooter = () => (
     <TextField
         select
         value={this.state.sucursal}
-        onChange={this.handleInputChange('sucursal')}
+        onChange={this.handleSelectChange('sucursal')}
         color='secondary'
         variant='outlined'
         size='small'
