@@ -372,14 +372,17 @@ router.get('/ventasdia', async function(req,res) {
 
 router.get('/ventasdia', async function(req,res) {
 
-		const fecha = new Date();
-		const f = fecha.toString();
-		const fi = f.substring(0,10).concat("T00:00:00-04:00");
-		const ff = f.substring(0,10).concat("T23:59:00-04:00");
-		await venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
+		let fecha = Date.now();
+		let dias = fecha/ (24*60*60*1000); //paso a dias
+		let dia_actual = dias%1;
+		let aux = dia_actual*(24*60*60*1000);
+
+		dias = dias*(24*60*60*1000);// paso a milisegundos
+		let dia_inicio = dias - aux;
+		await venta.find({$and: [{fecha: {$gte: new Date(dia_inicio)}},{fecha: {$lt: new Date(dias)}}]}, (err, venta) => {
 			if(err) {
-				console.log(fi);
-				console.log(ff);
+				console.log(dia_inicio);
+				console.log(dias);
 				res.sendStatus(404);
 			}
 			else{
