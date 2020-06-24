@@ -371,16 +371,18 @@ router.get('/ventasdia', async function(req,res) {
 
 
 router.get('/ventasdia', async function(req,res) {
-		const fecha1 = new Date ();
-		const fi = fecha1.substring(0,10).concet("T00:00:00+04:00");
-		const ff = fecha1.substring(0,10).concet("T23:59:00+04:00");
+
+		const fecha = new Date();
+		const f = fecha.toString();
+		const fi = f.substring(0,10).concat("T00:00:00-04:00");
+		const ff = f.substring(0,10).concat("T23:59:00-04:00");
 		await venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
 			if(err) {
+				console.log(fi);
+				console.log(ff);
 				res.sendStatus(404);
 			}
 			else{
-				console.log(fi);
-				console.log(ff);
 				res.json(venta);
 			}
 		});
