@@ -234,7 +234,7 @@ export default class Ventas extends React.Component {
       setTimeout(() => {
         resolve();
         this.CalcularTotal();
-      }, 300)
+      }, 100)
       this.setState({ targetKeys });
     })
   };
@@ -242,7 +242,7 @@ export default class Ventas extends React.Component {
   handleSelectChange(property) {
     return e => {
       new Promise((resolve) => {
-        setTimeout(() => { this.getMock()}, 300) 
+        setTimeout(() => { this.getMock()}, 100) 
         this.setState({[property]: e.target.value});
       })
     };
@@ -253,7 +253,7 @@ export default class Ventas extends React.Component {
       new Promise((resolve) => {
         setTimeout(() => {
           this.CalcularTotal();
-        }, 300)
+        }, 100)
         this.setState({[property]: e.target.value});
       })
     };
