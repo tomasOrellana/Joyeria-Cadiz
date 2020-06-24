@@ -397,8 +397,6 @@ router.post('/ventasperiodo', async function(req,res) {
 				res.sendStatus(404);
 			}
 			else{
-				console.log(fecha1);
-				console.log(fecha2);
 				res.json(venta);
 			}
 		});
