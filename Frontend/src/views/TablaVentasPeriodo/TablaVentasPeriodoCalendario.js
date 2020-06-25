@@ -9,7 +9,7 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import TextField from '@material-ui/core/TextField';
-import { Grid } from '@material-ui/core';
+import {Button} from 'antd';
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -97,7 +97,7 @@ function a11yProps(index) {
   };
 }
 
-export default class Ventas extends React.Component {
+export default class TablaVentasPeriodo extends React.Component {
 
 
   constructor(props) {
@@ -105,47 +105,38 @@ export default class Ventas extends React.Component {
     this.state = {
       tabIndex: 0,
       ready: false,
-      total0: 0,
-      total1: 0,
-      total2: 0,
-      ListaVentasDia: null,
-      ListaVentasPeriodo: null
+      ListaVentasPeriodo: null,
+      desde : "2020-06-15",
+      hasta : "2020-06-24"
     }
     this.handleChange = this.handleChange.bind(this)
-    this.ActualizarVentasDia = this.ActualizarVentasDia.bind(this)
+    this.handleChangefecha1 = this.handleChangefecha1.bind(this)
+    this.handleChangefecha2 = this.handleChangefecha2.bind(this)
+    this.ActualizarVentasPeriodo = this.ActualizarVentasPeriodo.bind(this)
 
   }
 
-  ActualizarVentasDia() {
-    fetch('/ventasdia')
+    ActualizarVentasPeriodo() {
+      fetch('/ventasperiodo', {
+      method: 'POST',
+      headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        desde : this.state.desde,
+        hasta : this.state.hasta
+      })
+      })
       .then(res => {
           return res.json()
       })
       .then(users => {
-          this.setState({ListaVentasDia: users, ready: true})
-          console.log(this.state.ListaVentasDia);
-          this.CalcularTotal()
+          this.setState({ListaVentasPeriodo: users, ready: true})
+          console.log(this.state.ListaVentasPeriodo);
       });
     }
-  CalcularTotal(){
-    let tot0 = 0;
-    let tot1 = 0;
-    let tot2 = 0;
-    for(let i = 0; i<this.state.ListaVentasDia.length;i++) {
-      if(this.state.ListaVentasDia.sucursal === 0){
-        tot0 = tot0 + this.state.ListaVentasDia[i].total;
-      }
-      if(this.state.ListaVentasDia.sucursal === 1){
-        tot1 = tot1 + this.state.ListaVentasDia[i].total;
-      }
-      if(this.state.ListaVentasDia.sucursal === 2){
-        tot2 = tot2 + this.state.ListaVentasDia[i].total;
-      }
-    }
-    this.setState({total0:tot0})
-    this.setState({total1:tot1})
-    this.setState({total2:tot2})
-  }
+
   EliminarVenta(oldData) {
     console.log(oldData._id)
     fetch('/eliminar_venta/' + oldData._id, {
@@ -174,13 +165,18 @@ export default class Ventas extends React.Component {
     this.setState({tabIndex: newValue});
   }
 
-  componentDidMount() {
-    this.ActualizarVentasDia()
+  handleChangefecha1(event, newValue) {
+    this.setState({desde: newValue});
   }
+
+  handleChangefecha2(event, newValue) {
+    this.setState({hasta: newValue});
+  }
+
 
   render() {
     if(this.state.ready === true) {
-      console.log(this.state.ListaVentasDia)
+      console.log(this.state.ListaVentasPeriodo)
       return (
         <div style={styles.root}>
           <Card>
@@ -192,9 +188,38 @@ export default class Ventas extends React.Component {
               </Tabs>
             </AppBar>
             <CardHeader color="primary" style={{marginTop:20}}>
-              <h4 style={styles.cardTitleWhite}>Ventas de día</h4>
+              <h4 style={styles.cardTitleWhite}>Ventas por Periodo</h4>
             </CardHeader>
               <CardBody>
+                <form style={styles.container} noValidate>
+                  <TextField
+                    id="desde"
+                    label="Desde"
+                    type="date"
+                    defaultValue="2020-06-15"
+                    value={this.state.desde}
+                    style={styles.textField}
+                    onChange={this.handleChangefecha1}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                  <TextField
+                    id="hasta"
+                    label="hasta"
+                    type="date"
+                    defaultValue="2020-06-24"
+                    value={this.state.hasta}
+                    style={styles.textField}
+                    onChange={this.handleChangefecha2}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                </form>
+                <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
+                  Listo
+                </Button>
               <TabPanel value={this.state.tabIndex} index={0}>
                 <MaterialTable
                     title='Lo Castillo'
@@ -204,13 +229,13 @@ export default class Ventas extends React.Component {
                               { title: 'Pago', field: 'metodo_pago' },
                               { title: 'Total', field: 'total' ,type: 'numeric'},
                               { title: 'Vendedor', field: 'vendedor'} ]}
-                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 0)}
+                    data={this.state.ListaVentasPeriodo.filter(({sucursal}) => sucursal === 0)}
                     editable={{
                         onRowDelete: (oldData) =>
                           new Promise((resolve) => {
                             setTimeout(() => {
                               resolve();
-                              this.ActualizarVentasDia();
+                              this.ActualizarVentasPeriodo();
                             }, 2000)
                             this.EliminarVenta(oldData)
                           }),
@@ -227,13 +252,13 @@ export default class Ventas extends React.Component {
                               { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
                               { title: 'Total', field: 'total' ,type: 'numeric'},
                               { title: 'Vendedor', field: 'vendedor'} ]}
-                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 1)}
+                    data={this.state.ListaVentasPeriodo.filter(({sucursal}) => sucursal === 1)}
                     editable={{
                         onRowDelete: (oldData) =>
                         new Promise((resolve) => {
                           setTimeout(() => {
                             resolve();
-                            this.ActualizarVentasDia();
+                            this.ActualizarVentasPeriodo();
                           }, 2000)
                           this.EliminarVenta(oldData)
                         }),
@@ -250,13 +275,13 @@ export default class Ventas extends React.Component {
                               { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
                               { title: 'Total', field: 'total' ,type: 'numeric'},
                               { title: 'Vendedor', field: 'vendedor'} ]}
-                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 2)}
+                    data={this.state.ListaVentasPeriodo.filter(({sucursal}) => sucursal === 2)}
                     editable={{
                       onRowDelete: (oldData) =>
                       new Promise((resolve) => {
                         setTimeout(() => {
                           resolve();
-                          this.ActualizarVentasDia();
+                          this.ActualizarVentasPeriodo();
                         }, 2000)
                         this.EliminarVenta(oldData)
                       }),
@@ -265,22 +290,60 @@ export default class Ventas extends React.Component {
                 </TabPanel>
               </CardBody>
           </Card>
-          <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-          spacing={3}>
-            <Grid item xs={6}>
-              Total en Lo Castillo: ${this.state.total0}  Total en Apumanque: ${this.state.total1}  Total en Vitacura: ${this.state.total2}
-            </Grid>
-          </Grid>
         </div>
       );
     } else if(this.state.ready === false) {
-      return(
+      return (
         <div style={styles.root}>
-          <p></p>
+          <Card>
+            <AppBar position="static" color="primary" style={styles.Barrita}>
+              <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example">
+                <Tab label="Lo Castillo" {...a11yProps(0)} />
+                <Tab label="Apumanque" {...a11yProps(1)} />
+                <Tab label="Vitacura" {...a11yProps(2)} />
+              </Tabs>
+            </AppBar>
+            <CardHeader color="primary" style={{marginTop:20}}>
+              <h4 style={styles.cardTitleWhite}>Ventas por Periodo</h4>
+            </CardHeader>
+              <CardBody>
+                <form style={styles.container} noValidate>
+                  <TextField
+                    id="desde"
+                    label="Desde"
+                    type="date"
+                    defaultValue=""
+                    value={this.state.desde}
+                    style={styles.textField}
+                    onChange={this.handleChangefecha1}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                  <TextField
+                    id="Hasta"
+                    label="Hasta"
+                    type="date"
+                    defaultValue=""
+                    value={this.state.Hasta}
+                    style={styles.textField}
+                    onChange={this.handleChangefecha2}
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                </form>
+                <Button style={{ float: 'right', margin: 5 }} onClick={this.ActualizarVentasPeriodo()}>
+                  Listo
+                </Button>
+              <TabPanel value={this.state.tabIndex} index={0}>
+              </TabPanel>
+              <TabPanel value={this.state.tabIndex} index={1}>
+              </TabPanel>
+              <TabPanel value={this.state.tabIndex} index={2}>
+              </TabPanel>
+            </CardBody>
+          </Card>
         </div>
       )
     }
