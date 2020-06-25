@@ -15,9 +15,46 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 	// index routes
-	router.get('/', (req, res) => {
-		res.render('index');
+	router.get('/inicio', (req, res) => {
+		let dia = dia()
+		let semana = semama();
+		res.json({
+			dia: dia,
+			semana: semana
+		})
+
 	});
+
+	function dia(){
+		let fecha = Date.now();
+		let dias = fecha/ (24*60*60*1000); //paso a dias
+		let dia_actual = dias%1;
+		let aux = dia_actual*(24*60*60*1000);
+		dias = dias*(24*60*60*1000);// paso a milisegundos
+		let dia_inicio = dias - aux;
+		await venta.find({$and: [{fecha: {$gte: new Date(dia_inicio)}},{fecha: {$lt: new Date(dias)}}]}, (err, venta) => {
+			if(err) {
+				return 0;
+			}
+			else{
+				return venta.length;
+			}
+		});
+	}
+
+	function semana(){
+		let fecha = Date.now();
+		let semana = 7*(24*60*60*1000);
+		let dia_inicio = dias - semana;
+		await venta.find({$and: [{fecha: {$gte: new Date(dia_inicio)}},{fecha: {$lt: new Date(fecha)}}]}, (err, venta) => {
+			if(err) {
+				return 0;
+			}
+			else{
+				return venta.length;
+			}
+		});
+	}
 
 	//login view
 	router.get('/login', (req, res) => {
