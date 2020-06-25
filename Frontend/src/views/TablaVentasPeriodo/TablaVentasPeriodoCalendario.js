@@ -105,8 +105,8 @@ export default class TablaVentasPeriodo extends React.Component {
       tabIndex: 0,
       ready: false,
       ListaVentasPeriodo: null,
-      desde : "2020-06-15",
-      hasta : "2020-06-24"
+      desde : "",
+      hasta : ""
     }
     this.handleChange = this.handleChange.bind(this)
     this.onChange = this.onChange.bind(this)
@@ -189,9 +189,10 @@ export default class TablaVentasPeriodo extends React.Component {
               <h4 style={styles.cardTitleWhite}>Ventas por Periodo</h4>
             </CardHeader>
               <CardBody>
+                <h4>Desde</h4>
                 <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
+                <h4>Hasta</h4>
                 <DatePicker onChange={this.onChange2} format={"YYYY-MM-DD"} />
-
                 <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
                   Listo
                 </Button>
@@ -282,8 +283,10 @@ export default class TablaVentasPeriodo extends React.Component {
               <h4 style={styles.cardTitleWhite}>Ventas por Periodo</h4>
             </CardHeader>
               <CardBody>
-
-
+                <h4>Desde</h4>
+                <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
+                <h4>Hasta</h4>
+                <DatePicker onChange={this.onChange2} format={"YYYY-MM-DD"} />
                 <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
                   Listo
                 </Button>
