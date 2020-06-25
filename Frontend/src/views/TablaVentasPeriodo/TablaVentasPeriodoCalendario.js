@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { TextField } from '@material-ui/core';
-import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -10,7 +9,7 @@ import MaterialTable from 'material-table';
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
-import {Button} from 'antd';
+import {Button, DatePicker } from 'antd';
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -90,20 +89,6 @@ function TabPanel(props) {
   );
 }
 
-function BasicDatePicker() {
-  const [selectedDate, handleDateChange] = useState(new Date());
-
-  return (
-    <DatePicker
-      label="Basic example"
-      value={selectedDate}
-      onChange={date => handleDateChange(date)}
-      renderInput={props => <TextField {...props} />}
-    />
-  );
-}
-
-
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
@@ -111,8 +96,8 @@ function a11yProps(index) {
   };
 }
 
-export default class TablaVentasPeriodo extends React.Component {
 
+export default class TablaVentasPeriodo extends React.Component {
 
   constructor(props) {
     super(props);
@@ -124,10 +109,9 @@ export default class TablaVentasPeriodo extends React.Component {
       hasta : "2020-06-24"
     }
     this.handleChange = this.handleChange.bind(this)
-    this.handleChangefecha1 = this.handleChangefecha1.bind(this)
-    this.handleChangefecha2 = this.handleChangefecha2.bind(this)
+    this.onChange = this.onChange.bind(this)
+    this.onChange2 = this.onChange2.bind(this)
     this.ActualizarVentasPeriodo = this.ActualizarVentasPeriodo.bind(this)
-
   }
 
     ActualizarVentasPeriodo() {
@@ -178,14 +162,13 @@ export default class TablaVentasPeriodo extends React.Component {
   handleChange(event, newValue) {
     this.setState({tabIndex: newValue});
   }
-
-  handleChangefecha1(event, newValue) {
-    this.setState({desde: newValue});
-    console.log(newValue)
+  onChange(date, dateString) {
+    this.setState({desde: dateString});
+    console.log(dateString)
   }
-
-  handleChangefecha2(event, newValue) {
-    this.setState({hasta: newValue});
+  onChange2(date, dateString) {
+    this.setState({hasta: dateString});
+    console.log(dateString)
   }
 
 
@@ -206,30 +189,9 @@ export default class TablaVentasPeriodo extends React.Component {
               <h4 style={styles.cardTitleWhite}>Ventas por Periodo</h4>
             </CardHeader>
               <CardBody>
-                <form style={styles.container} noValidate>
-                  <TextField
-                    id="desde"
-                    label="Desde"
-                    type="date"
-                    value={this.state.desde}
-                    style={styles.textField}
-                    onChange={this.handleChangefecha1}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                  />
-                  <TextField
-                    id="hasta"
-                    label="hasta"
-                    type="date"
-                    value={this.state.hasta}
-                    style={styles.textField}
-                    onChange={this.handleChangefecha2}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                  />
-                </form>
+                <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
+                <DatePicker onChange={this.onChange2} format={"YYYY-MM-DD"} />
+
                 <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
                   Listo
                 </Button>
@@ -320,32 +282,8 @@ export default class TablaVentasPeriodo extends React.Component {
               <h4 style={styles.cardTitleWhite}>Ventas por Periodo</h4>
             </CardHeader>
               <CardBody>
-                <form style={styles.container} noValidate>
-                  <TextField
-                    id="desde"
-                    label="Desde"
-                    type="date"
-                    defaultValue=""
-                    value={this.state.desde}
-                    style={styles.textField}
-                    onChange={this.handleChangefecha1}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                  />
-                  <TextField
-                    id="Hasta"
-                    label="Hasta"
-                    type="date"
-                    defaultValue=""
-                    value={this.state.hasta}
-                    style={styles.textField}
-                    onChange={this.handleChangefecha2}
-                    InputLabelProps={{
-                      shrink: true
-                    }}
-                  />
-                </form>
+
+
                 <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
                   Listo
                 </Button>
