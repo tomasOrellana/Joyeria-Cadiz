@@ -112,7 +112,7 @@ export default class TablaVentasPeriodo extends React.Component {
       tabIndex: 0,
       ready: false,
       ListaVentasPeriodo: null,
-      dia1 : "15",
+      dia1 : "20",
       mes1 : "06",
       ano1 : "2020",
       dia2 : "23",
@@ -225,6 +225,7 @@ export default class TablaVentasPeriodo extends React.Component {
               <h4 style={styles.cardTitleWhite}>Ventas por Periodo</h4>
             </CardHeader>
               <CardBody>
+              <h4>Desde: </h4>
               <FormControl style={styles.formControl}>
                 <InputLabel id="demo-simple-select-label">Día</InputLabel>
                 <Select
@@ -311,7 +312,7 @@ export default class TablaVentasPeriodo extends React.Component {
                   <MenuItem value={"2031"}>2031</MenuItem>
                 </Select>
               </FormControl>
-
+              <h4>Hasta: </h4>
               <FormControl style={styles.formControl}>
                 <InputLabel id="demo-simple-select-label">Día</InputLabel>
                 <Select

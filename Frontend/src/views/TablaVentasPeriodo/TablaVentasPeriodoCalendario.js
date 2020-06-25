@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { TextField } from '@material-ui/core';
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -8,7 +10,6 @@ import MaterialTable from 'material-table';
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
-import TextField from '@material-ui/core/TextField';
 import {Button} from 'antd';
 const styles = {
   cardCategoryWhite: {
@@ -86,6 +87,19 @@ function TabPanel(props) {
         </Box>
       )}
     </div>
+  );
+}
+
+function BasicDatePicker() {
+  const [selectedDate, handleDateChange] = useState(new Date());
+
+  return (
+    <DatePicker
+      label="Basic example"
+      value={selectedDate}
+      onChange={date => handleDateChange(date)}
+      renderInput={props => <TextField {...props} />}
+    />
   );
 }
 
@@ -167,6 +181,7 @@ export default class TablaVentasPeriodo extends React.Component {
 
   handleChangefecha1(event, newValue) {
     this.setState({desde: newValue});
+    console.log(newValue)
   }
 
   handleChangefecha2(event, newValue) {
@@ -196,7 +211,6 @@ export default class TablaVentasPeriodo extends React.Component {
                     id="desde"
                     label="Desde"
                     type="date"
-                    defaultValue="2020-06-15"
                     value={this.state.desde}
                     style={styles.textField}
                     onChange={this.handleChangefecha1}
@@ -208,7 +222,6 @@ export default class TablaVentasPeriodo extends React.Component {
                     id="hasta"
                     label="hasta"
                     type="date"
-                    defaultValue="2020-06-24"
                     value={this.state.hasta}
                     style={styles.textField}
                     onChange={this.handleChangefecha2}
@@ -325,7 +338,7 @@ export default class TablaVentasPeriodo extends React.Component {
                     label="Hasta"
                     type="date"
                     defaultValue=""
-                    value={this.state.Hasta}
+                    value={this.state.hasta}
                     style={styles.textField}
                     onChange={this.handleChangefecha2}
                     InputLabelProps={{
@@ -333,7 +346,7 @@ export default class TablaVentasPeriodo extends React.Component {
                     }}
                   />
                 </form>
-                <Button style={{ float: 'right', margin: 5 }} onClick={this.ActualizarVentasPeriodo()}>
+                <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
                   Listo
                 </Button>
               <TabPanel value={this.state.tabIndex} index={0}>
