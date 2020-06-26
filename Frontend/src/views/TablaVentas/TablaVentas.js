@@ -118,19 +118,14 @@ export default class Ventas extends React.Component {
   }
 
   getUsuario = () => {
-    new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-        console.log(this.state.perfil)
-        console.log(this.state.perfil.nombre)
-      }, 100)
-      this.setState({
-        perfil: JSON.parse(localStorage.getItem('usuario')),
-        isReady: true
-      })
+    let info = JSON.parse(localStorage.getItem('usuario'));
+    this.setState({
+      perfil: info,
+      isReady: true,
+      tabIndex: info.sucursal
     })
   }
-
+  
   ActualizarVentasDia() {
     fetch('/ventasdia')
       .then(res => {
@@ -147,13 +142,13 @@ export default class Ventas extends React.Component {
     let tot1 = 0;
     let tot2 = 0;
     for(let i = 0; i<this.state.ListaVentasDia.length;i++) {
-      if(this.state.ListaVentasDia[i].sucursal === 0){
+      if(this.state.ListaVentasDia[i].sucursal === '0'){
         tot0 = tot0 + this.state.ListaVentasDia[i].total;
       }
-      else if(this.state.ListaVentasDia[i].sucursal === 1){
+      else if(this.state.ListaVentasDia[i].sucursal === '1'){
         tot1 = tot1 + this.state.ListaVentasDia[i].total;
       }
-      else if(this.state.ListaVentasDia[i].sucursal === 2){
+      else if(this.state.ListaVentasDia[i].sucursal === '2'){
         tot2 = tot2 + this.state.ListaVentasDia[i].total;
       }
     }

@@ -117,16 +117,11 @@ export default class InventarioTableList extends React.Component {
   }
 
   getUsuario = () => {
-    new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-        console.log(this.state.perfil)
-        console.log(this.state.perfil.nombre)
-      }, 100)
-      this.setState({
-        perfil: JSON.parse(localStorage.getItem('usuario')),
-        isReady: true
-      })
+    let info = JSON.parse(localStorage.getItem('usuario'));
+    this.setState({
+      perfil: info,
+      isReady: true,
+      tabIndex: info.sucursal
     })
   }
 

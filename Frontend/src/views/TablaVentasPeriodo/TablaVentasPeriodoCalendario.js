@@ -108,6 +108,7 @@ export default class TablaVentasPeriodo extends React.Component {
       ListaVentasPeriodo: null,
       total0: 0,
       total1: 0,
+      perfil: null,
       total2: 0,
       desde : "",
       hasta : ""
@@ -119,27 +120,36 @@ export default class TablaVentasPeriodo extends React.Component {
     this.CalcularTotal = this.CalcularTotal.bind(this)
   }
 
-    ActualizarVentasPeriodo() {
-      fetch('/ventasperiodo', {
-      method: 'POST',
-      headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        desde : this.state.desde,
-        hasta : this.state.hasta
-      })
-      })
-      .then(res => {
-          return res.json()
-      })
-      .then(users => {
-          this.setState({ListaVentasPeriodo: users, ready: true})
-          console.log(this.state.ListaVentasPeriodo);
-          this.CalcularTotal()
-      });
-    }
+  getUsuario = () => {
+    let info = JSON.parse(localStorage.getItem('usuario'));
+    this.setState({
+      perfil: info,
+      isReady: true,
+      tabIndex: info.sucursal
+    })
+  }
+
+  ActualizarVentasPeriodo() {
+    fetch('/ventasperiodo', {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      desde : this.state.desde,
+      hasta : this.state.hasta
+    })
+    })
+    .then(res => {
+        return res.json()
+    })
+    .then(users => {
+        this.setState({ListaVentasPeriodo: users, ready: true})
+        console.log(this.state.ListaVentasPeriodo);
+        this.CalcularTotal()
+    });
+  }
 
   EliminarVenta(oldData) {
     console.log(oldData._id)
@@ -165,6 +175,10 @@ export default class TablaVentasPeriodo extends React.Component {
     });
   }
 
+  componentDidMount() {
+    this.getUsuario();
+  }
+
   handleChange(event, newValue) {
     this.setState({tabIndex: newValue});
   }
@@ -182,13 +196,13 @@ export default class TablaVentasPeriodo extends React.Component {
     let tot1 = 0;
     let tot2 = 0;
     for(let i = 0; i<this.state.ListaVentasPeriodo.length;i++) {
-      if(this.state.ListaVentasPeriodo[i].sucursal === 0){
+      if(this.state.ListaVentasPeriodo[i].sucursal === '0'){
         tot0 = tot0 + this.state.ListaVentasPeriodo[i].total;
       }
-      else if(this.state.ListaVentasPeriodo[i].sucursal === 1){
+      else if(this.state.ListaVentasPeriodo[i].sucursal === '1'){
         tot1 = tot1 + this.state.ListaVentasPeriodo[i].total;
       }
-      else if(this.state.ListaVentasPeriodo[i].sucursal === 2){
+      else if(this.state.ListaVentasPeriodo[i].sucursal === '2'){
         tot2 = tot2 + this.state.ListaVentasPeriodo[i].total;
       }
     }
@@ -199,37 +213,61 @@ export default class TablaVentasPeriodo extends React.Component {
 
   render() {
     if(this.state.ready === true) {
-      console.log(this.state.ListaVentasPeriodo)
-      return (
-        <div style={styles.root}>
-          <Card>
-            <AppBar position="static" color="primary" style={styles.Barrita}>
-              <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example">
-                <Tab label="Lo Castillo" {...a11yProps(0)} />
-                <Tab label="Apumanque" {...a11yProps(1)} />
-                <Tab label="Vitacura" {...a11yProps(2)} />
-              </Tabs>
-            </AppBar>
-              <CardBody>
-                <h4>Desde</h4>
-                <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
-                <h4>Hasta</h4>
-                <DatePicker onChange={this.onChange2} format={"YYYY-MM-DD"} />
-                <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
-                  Listo
-                </Button>
-              <TabPanel value={this.state.tabIndex} index={0}>
-                <MaterialTable
-                    title='Lo Castillo'
-                    columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
-                              { title: 'Descuento', field: 'descuento',type: 'numeric' },
-                              { title: 'Fecha', field: 'fecha', type: 'date'},
-                              { title: 'Pago', field: 'metodo_pago' },
-                              { title: 'Total', field: 'total' ,type: 'numeric'},
-                              { title: 'Vendedor', field: 'vendedor'} ]}
-                    data={this.state.ListaVentasPeriodo.filter(({sucursal}) => sucursal === 0)}
-                    editable={{
-                        onRowDelete: (oldData) =>
+      if(this.state.perfil.rol === 'duena'){
+        console.log(this.state.ListaVentasPeriodo)
+        return (
+          <div style={styles.root}>
+            <Card>
+              <AppBar position="static" color="primary" style={styles.Barrita}>
+                <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example">
+                  <Tab label="Lo Castillo" {...a11yProps(0)} />
+                  <Tab label="Apumanque" {...a11yProps(1)} />
+                  <Tab label="Vitacura" {...a11yProps(2)} />
+                </Tabs>
+              </AppBar>
+                <CardBody>
+                  <h4>Desde</h4>
+                  <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
+                  <h4>Hasta</h4>
+                  <DatePicker onChange={this.onChange2} format={"YYYY-MM-DD"} />
+                  <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
+                    Listo
+                  </Button>
+                <TabPanel value={this.state.tabIndex} index={0}>
+                  <MaterialTable
+                      title='Lo Castillo'
+                      columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
+                                { title: 'Descuento', field: 'descuento',type: 'numeric' },
+                                { title: 'Fecha', field: 'fecha', type: 'date'},
+                                { title: 'Pago', field: 'metodo_pago' },
+                                { title: 'Total', field: 'total' ,type: 'numeric'},
+                                { title: 'Vendedor', field: 'vendedor'} ]}
+                      data={this.state.ListaVentasPeriodo.filter(({sucursal}) => sucursal === '0')}
+                      editable={{
+                          onRowDelete: (oldData) =>
+                            new Promise((resolve) => {
+                              setTimeout(() => {
+                                resolve();
+                                this.ActualizarVentasPeriodo();
+                              }, 2000)
+                              this.EliminarVenta(oldData)
+                            }),
+                      }}
+                    />
+                  </TabPanel>
+
+                  <TabPanel value={this.state.tabIndex} index={1}>
+                  <MaterialTable
+                      title='Apumanque'
+                      columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
+                                { title: 'Descuento', field: 'descuento',type: 'numeric' },
+                                { title: 'Fecha', field: 'fecha', type: 'date'},
+                                { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
+                                { title: 'Total', field: 'total' ,type: 'numeric'},
+                                { title: 'Vendedor', field: 'vendedor'} ]}
+                      data={this.state.ListaVentasPeriodo.filter(({sucursal}) => sucursal === '1')}
+                      editable={{
+                          onRowDelete: (oldData) =>
                           new Promise((resolve) => {
                             setTimeout(() => {
                               resolve();
@@ -237,21 +275,21 @@ export default class TablaVentasPeriodo extends React.Component {
                             }, 2000)
                             this.EliminarVenta(oldData)
                           }),
-                    }}
-                  />
-                </TabPanel>
+                        }}
+                    />
+                  </TabPanel>
 
-                <TabPanel value={this.state.tabIndex} index={1}>
-                <MaterialTable
-                    title='Apumanque'
-                    columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
-                              { title: 'Descuento', field: 'descuento',type: 'numeric' },
-                              { title: 'Fecha', field: 'fecha', type: 'date'},
-                              { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
-                              { title: 'Total', field: 'total' ,type: 'numeric'},
-                              { title: 'Vendedor', field: 'vendedor'} ]}
-                    data={this.state.ListaVentasPeriodo.filter(({sucursal}) => sucursal === 1)}
-                    editable={{
+                  <TabPanel value={this.state.tabIndex} index={2}>
+                  <MaterialTable
+                      title='Vitacura'
+                      columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
+                                { title: 'Descuento', field: 'descuento',type: 'numeric' },
+                                { title: 'Fecha', field: 'fecha', type: 'date'},
+                                { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
+                                { title: 'Total', field: 'total' ,type: 'numeric'},
+                                { title: 'Vendedor', field: 'vendedor'} ]}
+                      data={this.state.ListaVentasPeriodo.filter(({sucursal}) => sucursal === '2')}
+                      editable={{
                         onRowDelete: (oldData) =>
                         new Promise((resolve) => {
                           setTimeout(() => {
@@ -261,76 +299,132 @@ export default class TablaVentasPeriodo extends React.Component {
                           this.EliminarVenta(oldData)
                         }),
                       }}
-                  />
+                    />
+                  </TabPanel>
+                </CardBody>
+            </Card>
+            <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="center"
+            spacing={3}>
+              <Grid item xs={6} text-align= "center">
+                <h4>
+                -Total en Lo Castillo: ${this.state.total0} <br/> -Total en Apumanque: ${this.state.total1} <br/> -Total en Vitacura: ${this.state.total2}
+                </h4>
+              </Grid>
+            </Grid>
+          </div>
+        );
+      } else if(this.state.perfil.rol === 'jefe'){
+        return (
+          <div style={styles.root}>
+            <Card>
+                <CardBody>
+                  <h4>Desde</h4>
+                  <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
+                  <h4>Hasta</h4>
+                  <DatePicker onChange={this.onChange2} format={"YYYY-MM-DD"} />
+                  <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
+                    Listo
+                  </Button>
+                  <MaterialTable
+                      title='Lo Castillo'
+                      columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
+                                { title: 'Descuento', field: 'descuento',type: 'numeric' },
+                                { title: 'Fecha', field: 'fecha', type: 'date'},
+                                { title: 'Pago', field: 'metodo_pago' },
+                                { title: 'Total', field: 'total' ,type: 'numeric'},
+                                { title: 'Vendedor', field: 'vendedor'} ]}
+                      data={this.state.ListaVentasPeriodo.filter(({sucursal}) => sucursal === this.state.perfil.sucursal)}
+                      editable={{
+                          onRowDelete: (oldData) =>
+                            new Promise((resolve) => {
+                              setTimeout(() => {
+                                resolve();
+                                this.ActualizarVentasPeriodo();
+                              }, 2000)
+                              this.EliminarVenta(oldData)
+                            }),
+                      }}
+                    />
+                </CardBody>
+            </Card>
+            <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="center"
+            spacing={3}>
+              <Grid item xs={6} text-align= "center">
+                {this.state.perfil.sucursal === '0' &&
+                <h4>
+                -Total en Ventas: ${this.state.total0}
+                </h4>
+                }
+                {this.state.perfil.sucursal === '1' &&
+                <h4>
+                -Total en Ventas: ${this.state.total1}
+                </h4>
+                }
+                {this.state.perfil.sucursal === '2' &&
+                <h4>
+                -Total en Ventas: ${this.state.total2}
+                </h4>
+                }
+              </Grid>
+            </Grid>
+          </div>
+        );
+      }
+    } else if(this.state.ready === false) {
+      if(this.state.perfil.rol === 'duena'){
+        return (
+          <div style={styles.root}>
+            <Card>
+              <AppBar position="static" color="primary" style={styles.Barrita}>
+                <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example">
+                  <Tab label="Lo Castillo" {...a11yProps(0)} />
+                  <Tab label="Apumanque" {...a11yProps(1)} />
+                  <Tab label="Vitacura" {...a11yProps(2)} />
+                </Tabs>
+              </AppBar>
+                <CardBody>
+                  <h4>Desde</h4>
+                  <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
+                  <h4>Hasta</h4>
+                  <DatePicker onChange={this.onChange2} format={"YYYY-MM-DD"} />
+                  <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
+                    Listo
+                  </Button>
+                <TabPanel value={this.state.tabIndex} index={0}>
                 </TabPanel>
-
+                <TabPanel value={this.state.tabIndex} index={1}>
+                </TabPanel>
                 <TabPanel value={this.state.tabIndex} index={2}>
-                <MaterialTable
-                    title='Vitacura'
-                    columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
-                              { title: 'Descuento', field: 'descuento',type: 'numeric' },
-                              { title: 'Fecha', field: 'fecha', type: 'date'},
-                              { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
-                              { title: 'Total', field: 'total' ,type: 'numeric'},
-                              { title: 'Vendedor', field: 'vendedor'} ]}
-                    data={this.state.ListaVentasPeriodo.filter(({sucursal}) => sucursal === 2)}
-                    editable={{
-                      onRowDelete: (oldData) =>
-                      new Promise((resolve) => {
-                        setTimeout(() => {
-                          resolve();
-                          this.ActualizarVentasPeriodo();
-                        }, 2000)
-                        this.EliminarVenta(oldData)
-                      }),
-                    }}
-                  />
                 </TabPanel>
               </CardBody>
-          </Card>
-          <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-          spacing={3}>
-            <Grid item xs={6} text-align= "center">
-              <h4>
-              -Total en Lo Castillo: ${this.state.total0} <br/> -Total en Apumanque: ${this.state.total1} <br/> -Total en Vitacura: ${this.state.total2}
-              </h4>
-            </Grid>
-          </Grid>
-        </div>
-      );
-    } else if(this.state.ready === false) {
-      return (
-        <div style={styles.root}>
-          <Card>
-            <AppBar position="static" color="primary" style={styles.Barrita}>
-              <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example">
-                <Tab label="Lo Castillo" {...a11yProps(0)} />
-                <Tab label="Apumanque" {...a11yProps(1)} />
-                <Tab label="Vitacura" {...a11yProps(2)} />
-              </Tabs>
-            </AppBar>
-              <CardBody>
-                <h4>Desde</h4>
-                <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
-                <h4>Hasta</h4>
-                <DatePicker onChange={this.onChange2} format={"YYYY-MM-DD"} />
-                <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
-                  Listo
-                </Button>
-              <TabPanel value={this.state.tabIndex} index={0}>
-              </TabPanel>
-              <TabPanel value={this.state.tabIndex} index={1}>
-              </TabPanel>
-              <TabPanel value={this.state.tabIndex} index={2}>
-              </TabPanel>
-            </CardBody>
-          </Card>
-        </div>
-      )
+            </Card>
+          </div>
+        );
+      } else {
+        return (
+          <div style={styles.root}>
+            <Card>
+                <CardBody>
+                  <h4>Desde</h4>
+                  <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
+                  <h4>Hasta</h4>
+                  <DatePicker onChange={this.onChange2} format={"YYYY-MM-DD"} />
+                  <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
+                    Listo
+                  </Button>
+              </CardBody>
+            </Card>
+          </div>
+        );
+      }
     }
   }
 }
