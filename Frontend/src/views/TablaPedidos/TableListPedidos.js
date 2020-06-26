@@ -103,7 +103,6 @@ export default class InventarioTableList extends React.Component {
       tabIndex: 0,
       ready: false,
       ListaPedidos: null,
-
     }
     this.handleChange = this.handleChange.bind(this)
     this.AgregarPedido = this.AgregarPedido.bind(this)
@@ -224,7 +223,6 @@ export default class InventarioTableList extends React.Component {
   }
 
   render() {
-
     if(this.state.ready === true) {
       return (
         <div style={styles.root}>
@@ -244,7 +242,7 @@ export default class InventarioTableList extends React.Component {
                     columns={ [{ title: 'Fecha', field: 'fecha', type: 'date' },
                               { title: 'Cliente', field: 'cliente' },
                               { title: 'Descripcion', field: 'descripcion'},
-                              { title: 'Estado', field: 'estado', lookup: { 0: 'En Proceso', 1: 'Listo para retiro' ,2: 'Entregado'}},
+                              { title: 'Estado', field: 'estado', lookup: { 0: 'EN PROCESO', 1: 'LISTO PARA RETIRO' ,2: 'ENTREGADO'}},
                               { title: 'Total', field: 'total' ,type: 'numeric'}]}
                     data={this.state.ListaPedidos.filter(({sucursal}) => sucursal === '0')}
                     editable={{

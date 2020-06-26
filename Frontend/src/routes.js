@@ -9,6 +9,7 @@ import TableListPedidos from "views/TablaPedidos/TableListPedidos.js";
 import Maps from "views/Maps/Maps.js";
 import ListaDeVentas from "views/TablaVentas/TablaVentas.js";
 import Venta from "views/Ventas/Venta.js";
+import ListaDeVentasPeriodo from "views/TablaVentasPeriodo/TablaVentasPeriodoCalendario.js"
 
 const dashboardRoutes = [
   {
@@ -29,10 +30,18 @@ const dashboardRoutes = [
   },
   {
     path: "/ListaVentas",
-    name: "Lista de Ventas",
+    name: "Ventas por Día",
     rtlName: "لوحة القيادة",
     icon: "list_alt",
     component: ListaDeVentas,
+    layout: "/admin"
+  },
+  {
+    path: "/VentasporPeriodo",
+    name: "Ventas por Periodo",
+    rtlName: "لوحة القيادة",
+    icon: "list_alt",
+    component: ListaDeVentasPeriodo,
     layout: "/admin"
   },
   /*{

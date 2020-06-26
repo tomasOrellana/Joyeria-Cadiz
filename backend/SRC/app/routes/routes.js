@@ -15,9 +15,45 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 	// index routes
-	router.get('/', (req, res) => {
-		res.render('index');
-	});
+router.get('/inicio', isLoggedIn, (req, res) => {
+	let dia = dia()
+	let semana = semama();
+	res.json({
+		dia: dia,
+		semana: semana
+	})
+});
+
+	function dia(){
+		let fecha = Date.now();
+		let dias = fecha/ (24*60*60*1000); //paso a dias
+		let dia_actual = dias%1;
+		let aux = dia_actual*(24*60*60*1000);
+		dias = dias*(24*60*60*1000);// paso a milisegundos
+		let dia_inicio = dias - aux;
+		venta.find({$and: [{fecha: {$gte: new Date(dia_inicio)}},{fecha: {$lt: new Date(dias)}}]}, (err, venta) => {
+			if(err) {
+				return 0;
+			}
+			else{
+				return venta.length;
+			}
+		});
+	}
+
+	function semana(){
+		let fecha = Date.now();
+		let semana = 7*(24*60*60*1000);
+		let dia_inicio = dias - semana;
+		venta.find({$and: [{fecha: {$gte: new Date(dia_inicio)}},{fecha: {$lt: new Date(fecha)}}]}, (err, venta) => {
+			if(err) {
+				return 0;
+			}
+			else{
+				return venta.length;
+			}
+		});
+	}
 
 	//login view
 	router.get('/login', (req, res) => {
@@ -69,9 +105,7 @@ router.use(passport.session());
 		res.sendStatus(201);
 	});
 
-	router.get('/inicio', isLoggedIn, (req, res) =>{
-		res.render('inicio', {user: req.user});
-	});
+
 
 function isLoggedIn (req, res, next) {
 	if (req.isAuthenticated()) {
@@ -133,30 +167,6 @@ router.post('/agregar_prod', (req,res) => {
   });
 });
 
-router.get('/delete_producto/:id', isLoggedIn, (req,res) =>{
-    let id = req.params.id;
-    producto.remove({_id: id}, (err, task) =>{
-			if(!err){
-     		res.sendStatus(201);
-			}
-			else{
-     		res.sendStatus(404);
-			}
-    });
-});
-
-router.get('/editar_prod/:id', (req,res) =>{
-    producto.findById(req.params.id, (err,producto) => {
-			if(!err){
-     		res.sendStatus(201);
-			}
-			else{
-     		res.sendStatus(404);
-			}
-
-    });
-});
-
 router.post('/editar_prod/:id', function(req, res) {
 	let id = req.params.id;
 	let codigo = req.body.codigo.toUpperCase();
@@ -213,13 +223,6 @@ router.get('/pedidos', async function(req, res){  //lista de productos, tiene bu
     }
 });
 
-router.get('/agregar_pedido', isLoggedIn, (req,res) =>{
-    res.render('agregar_pedido',{
-        title: 'Agregar pedido'
-    });
-
-});
-
 router.post('/agregar_pedido', (req,res) => {
 	let fecha = req.body.fecha;
 	let cliente = req.body.cliente.toUpperCase();
@@ -251,17 +254,6 @@ router.get('/delete_pedido/:id', (req,res) =>{
     });
 });
 
-router.get('/editar_pedido/:id', (req,res) =>{
-    pedido.findById(req.params.id, (err,pedido) => {
-        if(!err){
-					res.sendStatus(201)
-        }
-				else{
-					res.sendStatus(404)
-				}
-
-    });
-});
 
 router.post('/eliminar_pedido/:id', (req,res) =>{
     let id = req.params.id;
@@ -339,41 +331,31 @@ router.get('/lista_venta', isLoggedIn, (req,res) =>{
 					}
     });
 });
-/*
+
+
 router.get('/ventasdia', async function(req,res) {
-	if (req.query.search){
-		const fecha1 = new Date().getDay(); // ejemplo: '2019/03/26'
-		const fecha2 = new Date().getDay();
+
+	let fecha = Date.now();
+	let dias = fecha/ (24*60*60*1000); //paso a dias
+	let dia_actual = dias%1;
+	let aux = dia_actual*(24*60*60*1000);
+	dias = dias*(24*60*60*1000);// paso a milisegundos
+	let dia_inicio = dias - aux;
+	await venta.find({$and: [{fecha: {$gte: new Date(dia_inicio)}},{fecha: {$lt: new Date(dias)}}]}, (err, venta) => {
+		if(err) {
+			res.sendStatus(404);
+		}
+		else{
+			res.json(venta);
+		}
+	});
+});
+
+router.post('/ventasperiodo', async function(req,res) {
+		const fecha1 = req.body.desde;
+		const fecha2 = req.body.hasta;
 		const fi = fecha1.concat("T00:00:00-04:00");
 		const ff = fecha2.concat("T23:59:00-04:00");
-		console.log("1")
-		await venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
-			if(err) {
-				res.sendStatus(404);
-			}
-			else{
-				res.json(venta);
-			}
-		});
-	}
-	else{
-		console.log("1")
-		await venta.find({}, function(err,venta){
-			if (err){
-				res.sendStatus(404);
-			}
-			else{
-				res.json(venta);
-			}
-		});
-	}
-});*/
-
-
-router.get('/ventasdia', async function(req,res) {
-		const fecha1 = new Date ();
-		const fi = fecha1.substring(0,10).concet("T00:00:00+04:00");
-		const ff = fecha1.substring(0,10).concet("T23:59:00+04:00");
 		await venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
 			if(err) {
 				res.sendStatus(404);
@@ -384,116 +366,9 @@ router.get('/ventasdia', async function(req,res) {
 				res.json(venta);
 			}
 		});
-});
-
-router.get('/ventasperiodo', async function(req,res) {
-	if (req.query.search){
-		const fecha1 = req.body.desde;
-		const fecha2 = req.body.hasta;
-
-
-		await venta.find({$and: [{fecha: {$gte: new Date(fecha1)}},{fecha: {$lt: new Date(fecha2)}}]}, (err, venta) => {
-			if(err) {
-				res.sendStatus(404);
-			}
-			else{
-				res.json(venta);
-			}
-		});
-	}
-});
-
-
-
-router.get('/lista_productos', isLoggedIn, (req,res) => {
-     producto.find(function (err,producto) {
-			 if(!err){
-				 lista.find((err, lista) => {
-		        res.render('lista_productos',{
-								user: req.user,
-		            producto: producto,
-								lista: lista
-		        });
-	    	});
-			};
-		});
 
 });
 
-/*router.get('/crear_venta', isLoggedIn, async (req,res) => {
-	await venta.find({} , async (err, venta) => {
-
-		if( venta.length == null && venta.length == 0 ){
-			/*let num_venta = 1;
-			let aux = req.body.fecha;
-			let fecha = aux.concat("T00:00:00-04:00");
-			let metodo_pago = req.body.metodo_pago.toUpperCase();
-			let descuento = req.body.descuento;
-			let total = req.body.total;
-			let id_vendedor = req.body.id_vendedor.toUpperCase();
-			let cliente = req.body.cliente.toUpperCase();
-
-			venta.create({num_venta: num_venta, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento,total: total, id_vendedor: id_vendedor, cliente: cliente}, (err) =>{
-				if (err){
-					res.sendStatus(404);
-				}
-				else{
-					producto.find((err, producto) => {
-				 	res.render('productos_venta',{
-						 user: req.user,
-						 producto: producto,
-						 numero_venta: aux.numero_venta
-					 });
-				}
-			});
-			let aux = await new Venta({numero_venta: 1})
-			await aux.save( (err, aux)=> {
-			producto.find((err, producto) => {
-				 res.render('productos_venta',{
-						 user: req.user,
-						 producto: producto,
-						 numero_venta: aux.numero_venta
-					 });
-			 	});
-			});
-	}else{
-		/*let num_venta = venta.length;
-			let aux = req.body.fecha;
-			let fecha = aux.concat("T00:00:00-04:00");
-			let metodo_pago = req.body.metodo_pago.toUpperCase();
-			let descuento = req.body.descuento;
-			let total = req.body.total;
-			let id_vendedor = req.body.id_vendedor.toUpperCase();
-			let cliente = req.body.cliente.toUpperCase();
-
-			venta.create({num_venta: num_venta, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento,total: total, id_vendedor: id_vendedor, cliente: cliente}, (err) =>{
-				if (err){
-					res.sendStatus(404);
-				}
-				else{
-					producto.find((err, producto) => {
-				 	res.render('productos_venta',{
-						 user: req.user,
-						 producto: producto,
-						 numero_venta: aux.numero_venta
-					 });
-				}
-			});
-
-
-let aux = await new Venta({numero_venta: venta.length});
-		await aux.save( (err, aux)=> {
-			producto.find((err, producto) => {
-				 res.render('productos_venta',{
-						 user: req.user,
-						 producto: producto,
-						 numero_venta: aux.numero_venta
-				 });
-		 	});
-		});
-	};
-});
-});*/
 
 
 router.post('/crear_venta', async (req,res) => {
@@ -513,7 +388,7 @@ router.post('/crear_venta', async (req,res) => {
 	console.log(total)
 
 	await venta.find({} , async (err, venta) => {
-		if( venta.length == null && venta.length == 0 ){
+		if( venta.length == null || venta.length == 0 ){
 			let aux = await new Venta({numero_venta: 1, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento, sucursal: sucursal, vendedor: vendedor, total: total})
 			await aux.save( (err, aux)=> {
 				for(i = 0; i < prods.length; i++){
@@ -524,7 +399,7 @@ router.post('/crear_venta', async (req,res) => {
 				res.sendStatus(201)
 			});
 		}else{
-			let aux = await new Venta({numero_venta: 1, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento, sucursal: sucursal, vendedor: vendedor, total: total})
+			let aux = await new Venta({numero_venta: venta.length, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento, sucursal: sucursal, vendedor: vendedor, total: total})
 			await aux.save( (err, aux)=> {
 				for(i = 0; i < prods.length; i++){
 					detalle_venta.create({numero_venta: aux.numero_venta, cod_prod: prods[i]}, (err) => {

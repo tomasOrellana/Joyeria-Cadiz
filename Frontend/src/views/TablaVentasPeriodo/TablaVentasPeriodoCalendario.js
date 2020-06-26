@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { TextField } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
+import { Grid } from '@material-ui/core';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
@@ -8,8 +10,7 @@ import MaterialTable from 'material-table';
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
-import TextField from '@material-ui/core/TextField';
-import { Grid } from '@material-ui/core';
+import {Button, DatePicker } from 'antd';
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -89,7 +90,6 @@ function TabPanel(props) {
   );
 }
 
-
 function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
@@ -97,56 +97,50 @@ function a11yProps(index) {
   };
 }
 
-export default class Ventas extends React.Component {
 
+export default class TablaVentasPeriodo extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       tabIndex: 0,
       ready: false,
+      ListaVentasPeriodo: null,
       total0: 0,
       total1: 0,
       total2: 0,
-      ListaVentasDia: null
+      desde : "",
+      hasta : ""
     }
     this.handleChange = this.handleChange.bind(this)
-    this.ActualizarVentasDia = this.ActualizarVentasDia.bind(this)
+    this.onChange = this.onChange.bind(this)
+    this.onChange2 = this.onChange2.bind(this)
+    this.ActualizarVentasPeriodo = this.ActualizarVentasPeriodo.bind(this)
     this.CalcularTotal = this.CalcularTotal.bind(this)
-
   }
 
-  ActualizarVentasDia() {
-    fetch('/ventasdia')
+    ActualizarVentasPeriodo() {
+      fetch('/ventasperiodo', {
+      method: 'POST',
+      headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        desde : this.state.desde,
+        hasta : this.state.hasta
+      })
+      })
       .then(res => {
           return res.json()
       })
       .then(users => {
-          this.setState({ListaVentasDia: users, ready: true})
-          console.log(this.state.ListaVentasDia);
+          this.setState({ListaVentasPeriodo: users, ready: true})
+          console.log(this.state.ListaVentasPeriodo);
           this.CalcularTotal()
       });
     }
-  CalcularTotal(){
-    let tot0 = 0;
-    let tot1 = 0;
-    let tot2 = 0;
-    for(let i = 0; i<this.state.ListaVentasDia.length;i++) {
-      if(this.state.ListaVentasDia[i].sucursal === 0){
-        tot0 = tot0 + this.state.ListaVentasDia[i].total;
-      }
-      else if(this.state.ListaVentasDia[i].sucursal === 1){
-        tot1 = tot1 + this.state.ListaVentasDia[i].total;
-      }
-      else if(this.state.ListaVentasDia[i].sucursal === 2){
-        tot2 = tot2 + this.state.ListaVentasDia[i].total;
-      }
-    }
-    this.setState({total0:tot0})
-    this.setState({total1:tot1})
-    this.setState({total2:tot2})
-  }
-  
+
   EliminarVenta(oldData) {
     console.log(oldData._id)
     fetch('/eliminar_venta/' + oldData._id, {
@@ -174,14 +168,38 @@ export default class Ventas extends React.Component {
   handleChange(event, newValue) {
     this.setState({tabIndex: newValue});
   }
+  onChange(date, dateString) {
+    this.setState({desde: dateString});
+    console.log(dateString)
+  }
+  onChange2(date, dateString) {
+    this.setState({hasta: dateString});
+    console.log(dateString)
+  }
 
-  componentDidMount() {
-    this.ActualizarVentasDia()
+  CalcularTotal(){
+    let tot0 = 0;
+    let tot1 = 0;
+    let tot2 = 0;
+    for(let i = 0; i<this.state.ListaVentasPeriodo.length;i++) {
+      if(this.state.ListaVentasPeriodo[i].sucursal === 0){
+        tot0 = tot0 + this.state.ListaVentasPeriodo[i].total;
+      }
+      else if(this.state.ListaVentasPeriodo[i].sucursal === 1){
+        tot1 = tot1 + this.state.ListaVentasPeriodo[i].total;
+      }
+      else if(this.state.ListaVentasPeriodo[i].sucursal === 2){
+        tot2 = tot2 + this.state.ListaVentasPeriodo[i].total;
+      }
+    }
+    this.setState({total0:tot0})
+    this.setState({total1:tot1})
+    this.setState({total2:tot2})
   }
 
   render() {
     if(this.state.ready === true) {
-      console.log(this.state.ListaVentasDia)
+      console.log(this.state.ListaVentasPeriodo)
       return (
         <div style={styles.root}>
           <Card>
@@ -193,6 +211,13 @@ export default class Ventas extends React.Component {
               </Tabs>
             </AppBar>
               <CardBody>
+                <h4>Desde</h4>
+                <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
+                <h4>Hasta</h4>
+                <DatePicker onChange={this.onChange2} format={"YYYY-MM-DD"} />
+                <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
+                  Listo
+                </Button>
               <TabPanel value={this.state.tabIndex} index={0}>
                 <MaterialTable
                     title='Lo Castillo'
@@ -202,13 +227,13 @@ export default class Ventas extends React.Component {
                               { title: 'Pago', field: 'metodo_pago' },
                               { title: 'Total', field: 'total' ,type: 'numeric'},
                               { title: 'Vendedor', field: 'vendedor'} ]}
-                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 0)}
+                    data={this.state.ListaVentasPeriodo.filter(({sucursal}) => sucursal === 0)}
                     editable={{
                         onRowDelete: (oldData) =>
                           new Promise((resolve) => {
                             setTimeout(() => {
                               resolve();
-                              this.ActualizarVentasDia();
+                              this.ActualizarVentasPeriodo();
                             }, 2000)
                             this.EliminarVenta(oldData)
                           }),
@@ -225,13 +250,13 @@ export default class Ventas extends React.Component {
                               { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
                               { title: 'Total', field: 'total' ,type: 'numeric'},
                               { title: 'Vendedor', field: 'vendedor'} ]}
-                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 1)}
+                    data={this.state.ListaVentasPeriodo.filter(({sucursal}) => sucursal === 1)}
                     editable={{
                         onRowDelete: (oldData) =>
                         new Promise((resolve) => {
                           setTimeout(() => {
                             resolve();
-                            this.ActualizarVentasDia();
+                            this.ActualizarVentasPeriodo();
                           }, 2000)
                           this.EliminarVenta(oldData)
                         }),
@@ -248,13 +273,13 @@ export default class Ventas extends React.Component {
                               { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
                               { title: 'Total', field: 'total' ,type: 'numeric'},
                               { title: 'Vendedor', field: 'vendedor'} ]}
-                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 2)}
+                    data={this.state.ListaVentasPeriodo.filter(({sucursal}) => sucursal === 2)}
                     editable={{
                       onRowDelete: (oldData) =>
                       new Promise((resolve) => {
                         setTimeout(() => {
                           resolve();
-                          this.ActualizarVentasDia();
+                          this.ActualizarVentasPeriodo();
                         }, 2000)
                         this.EliminarVenta(oldData)
                       }),
@@ -278,9 +303,32 @@ export default class Ventas extends React.Component {
         </div>
       );
     } else if(this.state.ready === false) {
-      return(
+      return (
         <div style={styles.root}>
-          <p></p>
+          <Card>
+            <AppBar position="static" color="primary" style={styles.Barrita}>
+              <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example">
+                <Tab label="Lo Castillo" {...a11yProps(0)} />
+                <Tab label="Apumanque" {...a11yProps(1)} />
+                <Tab label="Vitacura" {...a11yProps(2)} />
+              </Tabs>
+            </AppBar>
+              <CardBody>
+                <h4>Desde</h4>
+                <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
+                <h4>Hasta</h4>
+                <DatePicker onChange={this.onChange2} format={"YYYY-MM-DD"} />
+                <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
+                  Listo
+                </Button>
+              <TabPanel value={this.state.tabIndex} index={0}>
+              </TabPanel>
+              <TabPanel value={this.state.tabIndex} index={1}>
+              </TabPanel>
+              <TabPanel value={this.state.tabIndex} index={2}>
+              </TabPanel>
+            </CardBody>
+          </Card>
         </div>
       )
     }
