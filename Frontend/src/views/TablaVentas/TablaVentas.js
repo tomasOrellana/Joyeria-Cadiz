@@ -113,6 +113,7 @@ export default class Ventas extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.ActualizarVentasDia = this.ActualizarVentasDia.bind(this)
+    this.CalcularTotal = this.CalcularTotal.bind(this)
 
   }
 
@@ -135,12 +136,17 @@ export default class Ventas extends React.Component {
       if(this.state.ListaVentasDia.sucursal === 0){
         tot0 = tot0 + this.state.ListaVentasDia[i].total;
       }
-      if(this.state.ListaVentasDia.sucursal === 1){
+
+      else if(this.state.ListaVentasDia.sucursal === 1){
         tot1 = tot1 + this.state.ListaVentasDia[i].total;
       }
-      if(this.state.ListaVentasDia.sucursal === 2){
+
+      else if(this.state.ListaVentasDia.sucursal === 2){
         tot2 = tot2 + this.state.ListaVentasDia[i].total;
+        console.log(this.state.ListaVentasDia[i].sucursal)
       }
+
+      console.log(this.state.ListaVentasDia[i].sucursal)
     }
     this.setState({total0:tot0})
     this.setState({total1:tot1})
@@ -271,8 +277,10 @@ export default class Ventas extends React.Component {
           justify="center"
           alignItems="center"
           spacing={3}>
-            <Grid item xs={6}>
-              Total en Lo Castillo: ${this.state.total0}  Total en Apumanque: ${this.state.total1}  Total en Vitacura: ${this.state.total2}
+            <Grid item xs={6} text-align= "center">
+              <h4>
+              -Total en Lo Castillo: ${this.state.total0} <br/> -Total en Apumanque: ${this.state.total1} <br/> -Total en Vitacura: ${this.state.total2}
+              </h4>
             </Grid>
           </Grid>
         </div>

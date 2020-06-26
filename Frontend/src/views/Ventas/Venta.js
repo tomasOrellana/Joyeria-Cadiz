@@ -86,7 +86,7 @@ const leftTableColumns = [
   },
   {
     dataIndex: 'piedra',
-    title: 'piedra',
+    title: 'Piedra',
     render: piedra => <Tag color="green">{piedra}</Tag>,
   },
   {
@@ -114,7 +114,7 @@ const rightTableColumns = [
   },
   {
     dataIndex: 'piedra',
-    title: 'piedra',
+    title: 'Piedra',
     render: piedra => <Tag color="green">{piedra}</Tag>,
   },
   {
@@ -361,8 +361,10 @@ export default class Ventas extends React.Component {
             alignItems="center"
             spacing={3}>
               <Grid item xs={6}>
-                Precio (sin dcto): ${this.state.suma}{"\n"}
+                <h3>
+                Precio (sin dcto): ${this.state.suma}{"\n"} <br />
                 Precio final: ${this.state.total}
+                </h3>
               </Grid>
               <Grid item xs={6}>
                 <Grid
@@ -382,9 +384,9 @@ export default class Ventas extends React.Component {
                       onChange={this.handleInputChange('metodo_pago')}
                       helperText="Selecciona la forma de pagar"
                     >
-                      <MenuItem key={'efectivo'} value={'efectivo'}>{'efectivo'}</MenuItem>
-                      <MenuItem key={'credito'} value={'credito'}>{'credito'}</MenuItem>
-                      <MenuItem key={'debito'} value={'debito'}>{'debito'}</MenuItem>
+                      <MenuItem key={'efectivo'} value={'efectivo'}>{'Efectivo'}</MenuItem>
+                      <MenuItem key={'credito'} value={'credito'}>{'Credito'}</MenuItem>
+                      <MenuItem key={'debito'} value={'debito'}>{'Debito'}</MenuItem>
                     </TextField>
                   </Grid>
                 </Grid>
