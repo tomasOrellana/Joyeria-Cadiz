@@ -9,7 +9,7 @@ import TableListPedidos from "views/TablaPedidos/TableListPedidos.js";
 import Maps from "views/Maps/Maps.js";
 import ListaDeVentas from "views/TablaVentas/TablaVentas.js";
 import Venta from "views/Ventas/Venta.js";
-import ListaDeVentasPeriodo from "views/TablaVentasPeriodo/TablaVentasPeriodo.js"
+import ListaDeVentasPeriodo from "views/TablaVentasPeriodo/TablaVentasPeriodoCalendario.js"
 
 const dashboardRoutes = [
   {
