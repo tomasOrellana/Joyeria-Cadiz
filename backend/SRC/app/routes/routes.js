@@ -15,15 +15,15 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 	// index routes
-	router.get('/inicio', (req, res) => {
-		let dia = dia()
-		let semana = semama();
-		res.json({
-			dia: dia,
-			semana: semana
-		})
+router.get('/inicio', (req, res) => {
+	let dia = dia()
+	let semana = semama();
+	res.json({
+		dia: dia,
+		semana: semana
+	})
 
-	});
+});
 
 	function dia(){
 		let fecha = Date.now();
