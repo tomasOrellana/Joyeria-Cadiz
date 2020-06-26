@@ -15,9 +15,45 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 	// index routes
-	router.get('/', (req, res) => {
-		res.render('index');
-	});
+router.get('/inicio', isLoggedIn, (req, res) => {
+	let dia = dia()
+	let semana = semama();
+	res.json({
+		dia: dia,
+		semana: semana
+	})
+});
+
+	function dia(){
+		let fecha = Date.now();
+		let dias = fecha/ (24*60*60*1000); //paso a dias
+		let dia_actual = dias%1;
+		let aux = dia_actual*(24*60*60*1000);
+		dias = dias*(24*60*60*1000);// paso a milisegundos
+		let dia_inicio = dias - aux;
+		venta.find({$and: [{fecha: {$gte: new Date(dia_inicio)}},{fecha: {$lt: new Date(dias)}}]}, (err, venta) => {
+			if(err) {
+				return 0;
+			}
+			else{
+				return venta.length;
+			}
+		});
+	}
+
+	function semana(){
+		let fecha = Date.now();
+		let semana = 7*(24*60*60*1000);
+		let dia_inicio = dias - semana;
+		venta.find({$and: [{fecha: {$gte: new Date(dia_inicio)}},{fecha: {$lt: new Date(fecha)}}]}, (err, venta) => {
+			if(err) {
+				return 0;
+			}
+			else{
+				return venta.length;
+			}
+		});
+	}
 
 	//login view
 	router.get('/login', (req, res) => {
@@ -69,9 +105,7 @@ router.use(passport.session());
 		res.sendStatus(201);
 	});
 
-	router.get('/inicio', isLoggedIn, (req, res) =>{
-		res.render('inicio', {user: req.user});
-	});
+
 
 function isLoggedIn (req, res, next) {
 	if (req.isAuthenticated()) {
@@ -516,7 +550,7 @@ router.post('/crear_venta', async (req,res) => {
 	console.log(total)
 
 	await venta.find({} , async (err, venta) => {
-		if( venta.length == null && venta.length == 0 ){
+		if( venta.length == null || venta.length == 0 ){
 			let aux = await new Venta({numero_venta: 1, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento, sucursal: sucursal, vendedor: vendedor, total: total})
 			await aux.save( (err, aux)=> {
 				for(i = 0; i < prods.length; i++){
@@ -527,7 +561,7 @@ router.post('/crear_venta', async (req,res) => {
 				res.sendStatus(201)
 			});
 		}else{
-			let aux = await new Venta({numero_venta: 1, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento, sucursal: sucursal, vendedor: vendedor, total: total})
+			let aux = await new Venta({numero_venta: venta.length, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento, sucursal: sucursal, vendedor: vendedor, total: total})
 			await aux.save( (err, aux)=> {
 				for(i = 0; i < prods.length; i++){
 					detalle_venta.create({numero_venta: aux.numero_venta, cod_prod: prods[i]}, (err) => {
