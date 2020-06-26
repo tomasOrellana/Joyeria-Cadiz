@@ -108,8 +108,7 @@ export default class Ventas extends React.Component {
       total0: 0,
       total1: 0,
       total2: 0,
-      ListaVentasDia: null,
-      ListaVentasPeriodo: null
+      ListaVentasDia: null
     }
     this.handleChange = this.handleChange.bind(this)
     this.ActualizarVentasDia = this.ActualizarVentasDia.bind(this)
@@ -133,25 +132,21 @@ export default class Ventas extends React.Component {
     let tot1 = 0;
     let tot2 = 0;
     for(let i = 0; i<this.state.ListaVentasDia.length;i++) {
-      if(this.state.ListaVentasDia.sucursal === 0){
+      if(this.state.ListaVentasDia[i].sucursal === 0){
         tot0 = tot0 + this.state.ListaVentasDia[i].total;
       }
-
-      else if(this.state.ListaVentasDia.sucursal === 1){
+      else if(this.state.ListaVentasDia[i].sucursal === 1){
         tot1 = tot1 + this.state.ListaVentasDia[i].total;
       }
-
-      else if(this.state.ListaVentasDia.sucursal === 2){
+      else if(this.state.ListaVentasDia[i].sucursal === 2){
         tot2 = tot2 + this.state.ListaVentasDia[i].total;
-        console.log(this.state.ListaVentasDia[i].sucursal)
       }
-
-      console.log(this.state.ListaVentasDia[i].sucursal)
     }
     this.setState({total0:tot0})
     this.setState({total1:tot1})
     this.setState({total2:tot2})
   }
+  
   EliminarVenta(oldData) {
     console.log(oldData._id)
     fetch('/eliminar_venta/' + oldData._id, {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TextField } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
+import { Grid } from '@material-ui/core';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
@@ -105,6 +106,9 @@ export default class TablaVentasPeriodo extends React.Component {
       tabIndex: 0,
       ready: false,
       ListaVentasPeriodo: null,
+      total0: 0,
+      total1: 0,
+      total2: 0,
       desde : "",
       hasta : ""
     }
@@ -112,6 +116,7 @@ export default class TablaVentasPeriodo extends React.Component {
     this.onChange = this.onChange.bind(this)
     this.onChange2 = this.onChange2.bind(this)
     this.ActualizarVentasPeriodo = this.ActualizarVentasPeriodo.bind(this)
+    this.CalcularTotal = this.CalcularTotal.bind(this)
   }
 
     ActualizarVentasPeriodo() {
@@ -132,6 +137,7 @@ export default class TablaVentasPeriodo extends React.Component {
       .then(users => {
           this.setState({ListaVentasPeriodo: users, ready: true})
           console.log(this.state.ListaVentasPeriodo);
+          this.CalcularTotal()
       });
     }
 
@@ -171,6 +177,25 @@ export default class TablaVentasPeriodo extends React.Component {
     console.log(dateString)
   }
 
+  CalcularTotal(){
+    let tot0 = 0;
+    let tot1 = 0;
+    let tot2 = 0;
+    for(let i = 0; i<this.state.ListaVentasPeriodo.length;i++) {
+      if(this.state.ListaVentasPeriodo[i].sucursal === 0){
+        tot0 = tot0 + this.state.ListaVentasPeriodo[i].total;
+      }
+      else if(this.state.ListaVentasPeriodo[i].sucursal === 1){
+        tot1 = tot1 + this.state.ListaVentasPeriodo[i].total;
+      }
+      else if(this.state.ListaVentasPeriodo[i].sucursal === 2){
+        tot2 = tot2 + this.state.ListaVentasPeriodo[i].total;
+      }
+    }
+    this.setState({total0:tot0})
+    this.setState({total1:tot1})
+    this.setState({total2:tot2})
+  }
 
   render() {
     if(this.state.ready === true) {
@@ -263,6 +288,18 @@ export default class TablaVentasPeriodo extends React.Component {
                 </TabPanel>
               </CardBody>
           </Card>
+          <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+          spacing={3}>
+            <Grid item xs={6} text-align= "center">
+              <h4>
+              -Total en Lo Castillo: ${this.state.total0} <br/> -Total en Apumanque: ${this.state.total1} <br/> -Total en Vitacura: ${this.state.total2}
+              </h4>
+            </Grid>
+          </Grid>
         </div>
       );
     } else if(this.state.ready === false) {
