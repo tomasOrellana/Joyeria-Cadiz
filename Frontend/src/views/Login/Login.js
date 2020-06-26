@@ -11,6 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+import Alert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
@@ -78,7 +79,8 @@ export default class Login extends React.Component {
       user: null,
       password: null,
       usuario: null,
-      estado: null
+      estado: null,
+      isAutentificado: false
     }
     this.EnviarDatos = this.EnviarDatos.bind(this)
   }
@@ -100,20 +102,25 @@ export default class Login extends React.Component {
     })
     .then( (response) => {
       
-      if(response.status === 404) {
+      if(response.status != 404) {
+        this.setState({isAutentificado: true})
+        return response.json()
+        
+      } else {
         console.log('FALLO EL INGRESO');
-        return (
-          this.setState({estado: 'Fallo el inicio de sesion!'})
-        );
+        this.setState({estado: 2, isAutentificado: false})
       }
-      return response.json()
+      
     })
     .then(users => {
-      console.log("LOGEADO")
-      console.log(users)
-      this.setState({estado: 'Logeado Correctamente!'})
-      localStorage.setItem('usuario', JSON.stringify(users));
-      ReactDOM.render(<Inicio/>, document.getElementById('root'))
+      if(this.state.isAutentificado === true) {
+        console.log("LOGEADO")
+        console.log(users)
+        localStorage.setItem('usuario', JSON.stringify(users));
+        this.setState({estado: 1})
+        ReactDOM.render(<Inicio/>, document.getElementById('root'))
+      }
+      
     })
     .catch((error) => {
       console.log(error)
@@ -121,6 +128,15 @@ export default class Login extends React.Component {
   }
 
   render(){
+
+    let mensajito;
+    if(this.state.estado === 1) {
+      mensajito = <Alert severity="success">Se ha iniciado sesion correctamente</Alert>
+    } else if(this.state.estado === 2) {
+      mensajito = <Alert severity="error">Hubo un error con las credenciales/conexion</Alert>
+    }
+
+
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -177,7 +193,7 @@ export default class Login extends React.Component {
           </form>
         </div>
         <Box mt={8}>
-          <label style={{color: '#FF0000', fontWeight: 'bold'}}>{this.state.estado}</label>
+          {mensajito}
 
           <Copyright />
         </Box>
