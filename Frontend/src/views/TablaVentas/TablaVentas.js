@@ -146,7 +146,7 @@ export default class Ventas extends React.Component {
     this.setState({total1:tot1})
     this.setState({total2:tot2})
   }
-  
+
   EliminarVenta(oldData) {
     console.log(oldData._id)
     fetch('/eliminar_venta/' + oldData._id, {
@@ -181,30 +181,54 @@ export default class Ventas extends React.Component {
 
   render() {
     if(this.state.ready === true) {
-      console.log(this.state.ListaVentasDia)
-      return (
-        <div style={styles.root}>
-          <Card>
-            <AppBar position="static" color="primary" style={styles.Barrita}>
-              <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example">
-                <Tab label="Lo Castillo" {...a11yProps(0)} />
-                <Tab label="Apumanque" {...a11yProps(1)} />
-                <Tab label="Vitacura" {...a11yProps(2)} />
-              </Tabs>
-            </AppBar>
-              <CardBody>
-              <TabPanel value={this.state.tabIndex} index={0}>
-                <MaterialTable
-                    title='Lo Castillo'
-                    columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
-                              { title: 'Descuento', field: 'descuento',type: 'numeric' },
-                              { title: 'Fecha', field: 'fecha', type: 'date'},
-                              { title: 'Pago', field: 'metodo_pago' },
-                              { title: 'Total', field: 'total' ,type: 'numeric'},
-                              { title: 'Vendedor', field: 'vendedor'} ]}
-                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 0)}
-                    editable={{
-                        onRowDelete: (oldData) =>
+      if(this.state.perfil.rol === 'duena'){
+        console.log(this.state.ListaVentasDia)
+        return (
+          <div style={styles.root}>
+            <Card>
+              <AppBar position="static" color="primary" style={styles.Barrita}>
+                <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example">
+                  <Tab label="Lo Castillo" {...a11yProps(0)} />
+                  <Tab label="Apumanque" {...a11yProps(1)} />
+                  <Tab label="Vitacura" {...a11yProps(2)} />
+                </Tabs>
+              </AppBar>
+                <CardBody>
+                <TabPanel value={this.state.tabIndex} index={0}>
+                  <MaterialTable
+                      title='Lo Castillo'
+                      columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
+                                { title: 'Descuento', field: 'descuento',type: 'numeric' },
+                                { title: 'Fecha', field: 'fecha', type: 'date'},
+                                { title: 'Pago', field: 'metodo_pago' },
+                                { title: 'Total', field: 'total' ,type: 'numeric'},
+                                { title: 'Vendedor', field: 'vendedor'} ]}
+                      data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 0)}
+                      editable={{
+                          onRowDelete: (oldData) =>
+                            new Promise((resolve) => {
+                              setTimeout(() => {
+                                resolve();
+                                this.ActualizarVentasDia();
+                              }, 2000)
+                              this.EliminarVenta(oldData)
+                            }),
+                      }}
+                    />
+                  </TabPanel>
+
+                  <TabPanel value={this.state.tabIndex} index={1}>
+                  <MaterialTable
+                      title='Apumanque'
+                      columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
+                                { title: 'Descuento', field: 'descuento',type: 'numeric' },
+                                { title: 'Fecha', field: 'fecha', type: 'date'},
+                                { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
+                                { title: 'Total', field: 'total' ,type: 'numeric'},
+                                { title: 'Vendedor', field: 'vendedor'} ]}
+                      data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 1)}
+                      editable={{
+                          onRowDelete: (oldData) =>
                           new Promise((resolve) => {
                             setTimeout(() => {
                               resolve();
@@ -212,21 +236,21 @@ export default class Ventas extends React.Component {
                             }, 2000)
                             this.EliminarVenta(oldData)
                           }),
-                    }}
-                  />
-                </TabPanel>
+                        }}
+                    />
+                  </TabPanel>
 
-                <TabPanel value={this.state.tabIndex} index={1}>
-                <MaterialTable
-                    title='Apumanque'
-                    columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
-                              { title: 'Descuento', field: 'descuento',type: 'numeric' },
-                              { title: 'Fecha', field: 'fecha', type: 'date'},
-                              { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
-                              { title: 'Total', field: 'total' ,type: 'numeric'},
-                              { title: 'Vendedor', field: 'vendedor'} ]}
-                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 1)}
-                    editable={{
+                  <TabPanel value={this.state.tabIndex} index={2}>
+                  <MaterialTable
+                      title='Vitacura'
+                      columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
+                                { title: 'Descuento', field: 'descuento',type: 'numeric' },
+                                { title: 'Fecha', field: 'fecha', type: 'date'},
+                                { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
+                                { title: 'Total', field: 'total' ,type: 'numeric'},
+                                { title: 'Vendedor', field: 'vendedor'} ]}
+                      data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 2)}
+                      editable={{
                         onRowDelete: (oldData) =>
                         new Promise((resolve) => {
                           setTimeout(() => {
@@ -236,47 +260,98 @@ export default class Ventas extends React.Component {
                           this.EliminarVenta(oldData)
                         }),
                       }}
-                  />
-                </TabPanel>
-
-                <TabPanel value={this.state.tabIndex} index={2}>
-                <MaterialTable
-                    title='Vitacura'
-                    columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
-                              { title: 'Descuento', field: 'descuento',type: 'numeric' },
-                              { title: 'Fecha', field: 'fecha', type: 'date'},
-                              { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
-                              { title: 'Total', field: 'total' ,type: 'numeric'},
-                              { title: 'Vendedor', field: 'vendedor'} ]}
-                    data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 2)}
-                    editable={{
-                      onRowDelete: (oldData) =>
-                      new Promise((resolve) => {
-                        setTimeout(() => {
-                          resolve();
-                          this.ActualizarVentasDia();
-                        }, 2000)
-                        this.EliminarVenta(oldData)
-                      }),
-                    }}
-                  />
-                </TabPanel>
-              </CardBody>
-          </Card>
-          <Grid
-          container
-          direction="row"
-          justify="center"
-          alignItems="center"
-          spacing={3}>
-            <Grid item xs={6} text-align= "center">
-              <h4>
-              -Total en Lo Castillo: ${this.state.total0} <br/> -Total en Apumanque: ${this.state.total1} <br/> -Total en Vitacura: ${this.state.total2}
-              </h4>
+                    />
+                  </TabPanel>
+                </CardBody>
+            </Card>
+            <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="center"
+            spacing={3}>
+              <Grid item xs={6} text-align= "center">
+                <h4>
+                -Total en Lo Castillo: ${this.state.total0} <br/> -Total en Apumanque: ${this.state.total1} <br/> -Total en Vitacura: ${this.state.total2}
+                </h4>
+              </Grid>
             </Grid>
-          </Grid>
-        </div>
-      );
+          </div>
+        );
+      } else if(this.state.perfil.rol === 'jefe'){
+        return (
+          <div style={styles.root}>
+            <Card>
+                <CardBody>
+                  <MaterialTable
+                      title='Tu sucursal'
+                      columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
+                                { title: 'Descuento', field: 'descuento',type: 'numeric' },
+                                { title: 'Fecha', field: 'fecha', type: 'date'},
+                                { title: 'Pago', field: 'metodo_pago' },
+                                { title: 'Total', field: 'total' ,type: 'numeric'},
+                                { title: 'Vendedor', field: 'vendedor'} ]}
+                      data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === this.state.perfil.sucursal)}
+                      editable={{
+                          onRowDelete: (oldData) =>
+                            new Promise((resolve) => {
+                              setTimeout(() => {
+                                resolve();
+                                this.ActualizarVentasDia();
+                              }, 2000)
+                              this.EliminarVenta(oldData)
+                            }),
+                      }}
+                    />
+                </CardBody>
+            </Card>
+            <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="center"
+            spacing={3}>
+              <Grid item xs={6} text-align= "center">
+                <h4>
+                -Total en Lo Castillo: ${this.state.total0} <br/> -Total en Apumanque: ${this.state.total1} <br/> -Total en Vitacura: ${this.state.total2}
+                </h4>
+              </Grid>
+            </Grid>
+          </div>
+        );
+      } else if(this.state.perfil.rol === 'vendedor'){
+        return (
+          <div style={styles.root}>
+            <Card>
+                <CardBody>
+                  <MaterialTable
+                      title='Tu sucursal'
+                      columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
+                                { title: 'Descuento', field: 'descuento',type: 'numeric' },
+                                { title: 'Fecha', field: 'fecha', type: 'date'},
+                                { title: 'Pago', field: 'metodo_pago' },
+                                { title: 'Total', field: 'total' ,type: 'numeric'},
+                                { title: 'Vendedor', field: 'vendedor'} ]}
+                      data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === this.state.perfil.sucursal)}
+                      editable={{ }}
+                    />
+                </CardBody>
+            </Card>
+            <Grid
+            container
+            direction="row"
+            justify="center"
+            alignItems="center"
+            spacing={3}>
+              <Grid item xs={6} text-align= "center">
+                <h4>
+                -Total en Lo Castillo: ${this.state.total0} <br/> -Total en Apumanque: ${this.state.total1} <br/> -Total en Vitacura: ${this.state.total2}
+                </h4>
+              </Grid>
+            </Grid>
+          </div>
+        );
+      }
     } else if(this.state.ready === false) {
       return(
         <div style={styles.root}>

@@ -128,7 +128,6 @@ export default class InventarioTableList extends React.Component {
         isReady: true
       })
     })
-
   }
 
   ActualizarInventario() {
@@ -342,7 +341,7 @@ export default class InventarioTableList extends React.Component {
 
                 <TabPanel value={this.state.tabIndex} index={2}>
                 <MaterialTable
-                    title='Vitacura'
+                    title={this.state.sucursal}
                     columns={ [{ title: 'Codigo', field: 'codigo' },
                               { title: 'Material', field: 'material' },
                               { title: 'Tipo', field: 'tipo'},
@@ -383,13 +382,13 @@ export default class InventarioTableList extends React.Component {
               </Card>
           </div>
         )
-      } else if(this.state.perfil.rol === 'jefe'){
+      } else if(this.state.perfil.rol === 'vendedor'){
         return (
           <div style={styles.root}>
               <Card>
                 <CardBody>
                 <MaterialTable
-                    title='Vitacura'
+                    title='Tu sucursal'
                     columns={ [{ title: 'Codigo', field: 'codigo' },
                               { title: 'Material', field: 'material' },
                               { title: 'Tipo', field: 'tipo'},
@@ -397,28 +396,19 @@ export default class InventarioTableList extends React.Component {
                               { title: 'Precio', field: 'precio' ,type: 'numeric'},
                               { title: 'Descripcion', field: 'descripcion' }]}
                     data={this.state.ListaProductos.filter(({sucursal}) => sucursal === this.state.perfil.sucursal)}
-                    editable={{
-                      onRowAdd: (newData) =>
-                        new Promise((resolve) => {
-                          setTimeout(() => {
-                            resolve();
-                            this.ActualizarInventario();
-                          }, 2000);
-                          this.AgregarProducto(newData);
-                        })
-                    }}
+                    editable={{ }}
                   />
                 </CardBody>
               </Card>
           </div>
         )
-      } else if(this.state.perfil.rol === 'vendedor'){
+      } else if(this.state.perfil.rol === 'jefe'){
         return (
           <div style={styles.root}>
               <Card>
                 <CardBody>
                 <MaterialTable
-                    title='Vitacura'
+                    title='Tu sucursal'
                     columns={ [{ title: 'Codigo', field: 'codigo' },
                               { title: 'Material', field: 'material' },
                               { title: 'Tipo', field: 'tipo'},
