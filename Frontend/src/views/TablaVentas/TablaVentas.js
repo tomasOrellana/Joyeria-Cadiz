@@ -107,6 +107,7 @@ export default class Ventas extends React.Component {
       ready: false,
       total0: 0,
       total1: 0,
+      perfil: null,
       total2: 0,
       ListaVentasDia: null
     }
@@ -114,6 +115,20 @@ export default class Ventas extends React.Component {
     this.ActualizarVentasDia = this.ActualizarVentasDia.bind(this)
     this.CalcularTotal = this.CalcularTotal.bind(this)
 
+  }
+
+  getUsuario = () => {
+    new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+        console.log(this.state.perfil)
+        console.log(this.state.perfil.nombre)
+      }, 100)
+      this.setState({
+        perfil: JSON.parse(localStorage.getItem('usuario')),
+        isReady: true
+      })
+    })
   }
 
   ActualizarVentasDia() {
@@ -176,6 +191,7 @@ export default class Ventas extends React.Component {
   }
 
   componentDidMount() {
+    this.getUsuario();
     this.ActualizarVentasDia()
   }
 
@@ -203,7 +219,7 @@ export default class Ventas extends React.Component {
                                 { title: 'Pago', field: 'metodo_pago' },
                                 { title: 'Total', field: 'total' ,type: 'numeric'},
                                 { title: 'Vendedor', field: 'vendedor'} ]}
-                      data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 0)}
+                      data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === '0')}
                       editable={{
                           onRowDelete: (oldData) =>
                             new Promise((resolve) => {
@@ -226,7 +242,7 @@ export default class Ventas extends React.Component {
                                 { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
                                 { title: 'Total', field: 'total' ,type: 'numeric'},
                                 { title: 'Vendedor', field: 'vendedor'} ]}
-                      data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 1)}
+                      data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === '1')}
                       editable={{
                           onRowDelete: (oldData) =>
                           new Promise((resolve) => {
@@ -249,7 +265,7 @@ export default class Ventas extends React.Component {
                                 { title: 'Pago', field: 'metodo_pago' ,type: 'numeric'},
                                 { title: 'Total', field: 'total' ,type: 'numeric'},
                                 { title: 'Vendedor', field: 'vendedor'} ]}
-                      data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === 2)}
+                      data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === '2')}
                       editable={{
                         onRowDelete: (oldData) =>
                         new Promise((resolve) => {
@@ -271,9 +287,9 @@ export default class Ventas extends React.Component {
             alignItems="center"
             spacing={3}>
               <Grid item xs={6} text-align= "center">
-                <h4>
-                -Total en Lo Castillo: ${this.state.total0} <br/> -Total en Apumanque: ${this.state.total1} <br/> -Total en Vitacura: ${this.state.total2}
-                </h4>
+              <h4>
+              -Total en Lo Castillo: ${this.state.total0} <br/> -Total en Apumanque: ${this.state.total1} <br/> -Total en Vitacura: ${this.state.total2}
+              </h4>
               </Grid>
             </Grid>
           </div>
@@ -312,9 +328,21 @@ export default class Ventas extends React.Component {
             alignItems="center"
             spacing={3}>
               <Grid item xs={6} text-align= "center">
-                <h4>
-                -Total en Lo Castillo: ${this.state.total0} <br/> -Total en Apumanque: ${this.state.total1} <br/> -Total en Vitacura: ${this.state.total2}
-                </h4>
+              {this.state.perfil.sucursal === '0' &&
+              <h4>
+              -Total en Ventas: ${this.state.total0}
+              </h4>
+              }
+              {this.state.perfil.sucursal === '1' &&
+              <h4>
+              -Total en Ventas: ${this.state.total1}
+              </h4>
+              }
+              {this.state.perfil.sucursal === '2' &&
+              <h4>
+              -Total en Ventas: ${this.state.total2}
+              </h4>
+              }
               </Grid>
             </Grid>
           </div>
@@ -344,9 +372,21 @@ export default class Ventas extends React.Component {
             alignItems="center"
             spacing={3}>
               <Grid item xs={6} text-align= "center">
-                <h4>
-                -Total en Lo Castillo: ${this.state.total0} <br/> -Total en Apumanque: ${this.state.total1} <br/> -Total en Vitacura: ${this.state.total2}
-                </h4>
+              {this.state.perfil.sucursal === '0' &&
+              <h4>
+              -Total en Ventas: ${this.state.total0}
+              </h4>
+              }
+              {this.state.perfil.sucursal === '1' &&
+              <h4>
+              -Total en Ventas: ${this.state.total1}
+              </h4>
+              }
+              {this.state.perfil.sucursal === '2' &&
+              <h4>
+              -Total en Ventas: ${this.state.total2}
+              </h4>
+              }
               </Grid>
             </Grid>
           </div>
