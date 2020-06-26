@@ -42,10 +42,10 @@ export default class UserProfile extends React.Component {
     this.state = {
       perfil: null,
       isReady: false
-      
+
     }
   }
-  
+
   getUsuario = () => {
     new Promise((resolve) => {
       setTimeout(() => {
@@ -58,12 +58,12 @@ export default class UserProfile extends React.Component {
         isReady: true
       })
     })
-    
+
   }
 
   componentDidMount() {
     this.getUsuario();
-    
+
   }
 
   render() {
@@ -182,9 +182,9 @@ export default class UserProfile extends React.Component {
                 </CardAvatar>
                 <CardBody profile>
                   <h3 style={styles.cardTitle}>{this.state.perfil.nombre}</h3>
-                  <h6 >{this.state.perfil.rol} - {this.state.perfil.sucursal}</h6>
+                  <h6 >Rol: {this.state.perfil.rol} - Sucursal: {this.state.perfil.sucursal}</h6>
                   <p>
-                    {this.state.perfil.telefono} - {this.state.perfil.nacimiento} - {this.state.perfil.email}
+                    Telefono: {this.state.perfil.telefono} - Fecha de Nacimiento: {this.state.perfil.nacimiento} - Correo: {this.state.perfil.email}
                   </p>
                 </CardBody>
               </Card>
