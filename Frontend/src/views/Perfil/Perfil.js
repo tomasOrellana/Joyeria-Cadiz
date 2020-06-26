@@ -35,28 +35,20 @@ export default class UserProfile extends React.Component {
     this.state = {
       perfil: null,
       isReady: false
-      
+
     }
   }
-  
+
   getUsuario = () => {
-    new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-        console.log(this.state.perfil)
-        console.log(this.state.perfil.nombre)
-      }, 100)
-      this.setState({
-        perfil: JSON.parse(localStorage.getItem('usuario')),
-        isReady: true
-      })
+    this.setState({
+      perfil: JSON.parse(localStorage.getItem('usuario')),
+      isReady: true
     })
-    
   }
 
   componentDidMount() {
     this.getUsuario();
-    
+
   }
 
   render() {
@@ -174,20 +166,30 @@ export default class UserProfile extends React.Component {
               </CardAvatar>
               <CardBody profile>
                 <h1 style={{fontWeight: 'bold'}}>{this.state.perfil.nombre}</h1>
-                {this.state.perfil.sucursal == '0' &&
+                {this.state.perfil.sucursal === '0' &&
                   <h4 style={{fontWeight: 'bold'}}>{this.state.perfil.rol} de Lo castillo</h4>
                 }
-                {this.state.perfil.sucursal == '1' &&
+                {this.state.perfil.sucursal === '1' &&
                   <h4 style={{fontWeight: 'bold'}}>{this.state.perfil.rol} Apumanque</h4>
                 }
-                {this.state.perfil.sucursal == '2' &&
+                {this.state.perfil.sucursal === '2' &&
                   <h4 style={{fontWeight: 'bold'}}>{this.state.perfil.rol} de Vitacura</h4>
                 }
-                
+
                 <div style={{textAlign: 'left'}}>
                   <p>RUT: {this.state.perfil.rut}</p>
                   <p>Fecha nacimiento: {this.state.perfil.nacimiento}</p>
                   <p>Telefono: {this.state.perfil.telefono}</p>
+                  <p>Email: {this.state.perfil.email}</p>
+                  {this.state.perfil.sucursal === '0' &&
+                    <p>Sucursal: Lo Castillo</p>
+                  }
+                  {this.state.perfil.sucursal === '1' &&
+                    <p>Sucursal: Apumanque</p>
+                  }
+                  {this.state.perfil.sucursal === '2' &&
+                    <p>Sucursal: Vitacura</p>
+                  }
                 </div>
               </CardBody>
             </Card>
