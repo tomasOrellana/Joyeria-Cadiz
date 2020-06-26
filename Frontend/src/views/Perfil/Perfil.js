@@ -174,13 +174,13 @@ export default class UserProfile extends React.Component {
               </CardAvatar>
               <CardBody profile>
                 <h1 style={{fontWeight: 'bold'}}>{this.state.perfil.nombre}</h1>
-                {this.state.sucursal === '0' &&
+                {this.state.perfil.sucursal == '0' &&
                   <h4 style={{fontWeight: 'bold'}}>{this.state.perfil.rol} de Lo castillo</h4>
                 }
-                {this.state.sucursal === '1' &&
+                {this.state.perfil.sucursal == '1' &&
                   <h4 style={{fontWeight: 'bold'}}>{this.state.perfil.rol} Apumanque</h4>
                 }
-                {this.state.sucursal === '2' &&
+                {this.state.perfil.sucursal == '2' &&
                   <h4 style={{fontWeight: 'bold'}}>{this.state.perfil.rol} de Vitacura</h4>
                 }
                 
@@ -188,8 +188,6 @@ export default class UserProfile extends React.Component {
                   <p>RUT: {this.state.perfil.rut}</p>
                   <p>Fecha nacimiento: {this.state.perfil.nacimiento}</p>
                   <p>Telefono: {this.state.perfil.telefono}</p>
-                  <p>Email: {this.state.perfil.email}</p>
-                  <p>Sucursal: {this.state.perfil.sucursal}</p>
                 </div>
               </CardBody>
             </Card>
