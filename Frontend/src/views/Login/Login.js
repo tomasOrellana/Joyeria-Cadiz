@@ -104,7 +104,7 @@ export default class Login extends React.Component {
       
       if(response.status != 404) {
         this.setState({isAutentificado: true})
-        response.json()
+        return response.json()
         
       } else {
         console.log('FALLO EL INGRESO');
@@ -116,8 +116,8 @@ export default class Login extends React.Component {
       if(this.state.isAutentificado === true) {
         console.log("LOGEADO")
         console.log(users)
-        this.setState({estado: 1})
         localStorage.setItem('usuario', JSON.stringify(users));
+        this.setState({estado: 1})
         ReactDOM.render(<Inicio/>, document.getElementById('root'))
       }
       
