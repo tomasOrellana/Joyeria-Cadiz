@@ -99,15 +99,21 @@ export default class Login extends React.Component {
     })
     })
     .then( (response) => {
-      console.log(response)
-      if(response.status === 201) {
-        console.log("LOGEADO")
-        this.setState({estado: 'Logeado Correctamente!'})
-        ReactDOM.render(<Inicio/>, document.getElementById('root'))
-      } else {
-        console.log('FALLO EL INGRESO')
-        this.setState({estado: 'Fallo el inicio de sesion!'})
+      
+      if(response.status === 404) {
+        console.log('FALLO EL INGRESO');
+        return (
+          this.setState({estado: 'Fallo el inicio de sesion!'})
+        );
       }
+      return response.json()
+    })
+    .then(users => {
+      console.log("LOGEADO")
+      console.log(users)
+      this.setState({estado: 'Logeado Correctamente!'})
+      localStorage.setItem('usuario', JSON.stringify(users));
+      ReactDOM.render(<Inicio/>, document.getElementById('root'))
     })
     .catch((error) => {
       console.log(error)
