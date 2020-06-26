@@ -167,30 +167,6 @@ router.post('/agregar_prod', (req,res) => {
   });
 });
 
-router.get('/delete_producto/:id', isLoggedIn, (req,res) =>{
-    let id = req.params.id;
-    producto.remove({_id: id}, (err, task) =>{
-			if(!err){
-     		res.sendStatus(201);
-			}
-			else{
-     		res.sendStatus(404);
-			}
-    });
-});
-
-router.get('/editar_prod/:id', (req,res) =>{
-    producto.findById(req.params.id, (err,producto) => {
-			if(!err){
-     		res.sendStatus(201);
-			}
-			else{
-     		res.sendStatus(404);
-			}
-
-    });
-});
-
 router.post('/editar_prod/:id', function(req, res) {
 	let id = req.params.id;
 	let codigo = req.body.codigo.toUpperCase();
@@ -247,13 +223,6 @@ router.get('/pedidos', async function(req, res){  //lista de productos, tiene bu
     }
 });
 
-router.get('/agregar_pedido', isLoggedIn, (req,res) =>{
-    res.render('agregar_pedido',{
-        title: 'Agregar pedido'
-    });
-
-});
-
 router.post('/agregar_pedido', (req,res) => {
 	let fecha = req.body.fecha;
 	let cliente = req.body.cliente.toUpperCase();
@@ -285,17 +254,6 @@ router.get('/delete_pedido/:id', (req,res) =>{
     });
 });
 
-router.get('/editar_pedido/:id', (req,res) =>{
-    pedido.findById(req.params.id, (err,pedido) => {
-        if(!err){
-					res.sendStatus(201)
-        }
-				else{
-					res.sendStatus(404)
-				}
-
-    });
-});
 
 router.post('/eliminar_pedido/:id', (req,res) =>{
     let id = req.params.id;
@@ -373,35 +331,6 @@ router.get('/lista_venta', isLoggedIn, (req,res) =>{
 					}
     });
 });
-/*
-router.get('/ventasdia', async function(req,res) {
-	if (req.query.search){
-		const fecha1 = new Date().getDay(); // ejemplo: '2019/03/26'
-		const fecha2 = new Date().getDay();
-		const fi = fecha1.concat("T00:00:00-04:00");
-		const ff = fecha2.concat("T23:59:00-04:00");
-		console.log("1")
-		await venta.find({$and: [{fecha: {$gte: new Date(fi)}},{fecha: {$lt: new Date(ff)}}]}, (err, venta) => {
-			if(err) {
-				res.sendStatus(404);
-			}
-			else{
-				res.json(venta);
-			}
-		});
-	}
-	else{
-		console.log("1")
-		await venta.find({}, function(err,venta){
-			if (err){
-				res.sendStatus(404);
-			}
-			else{
-				res.json(venta);
-			}
-		});
-	}
-});*/
 
 
 router.get('/ventasdia', async function(req,res) {
@@ -440,97 +369,6 @@ router.post('/ventasperiodo', async function(req,res) {
 
 });
 
-
-
-router.get('/lista_productos', isLoggedIn, (req,res) => {
-     producto.find(function (err,producto) {
-			 if(!err){
-				 lista.find((err, lista) => {
-		        res.render('lista_productos',{
-								user: req.user,
-		            producto: producto,
-								lista: lista
-		        });
-	    	});
-			};
-		});
-
-});
-
-/*router.get('/crear_venta', isLoggedIn, async (req,res) => {
-	await venta.find({} , async (err, venta) => {
-
-		if( venta.length == null && venta.length == 0 ){
-			/*let num_venta = 1;
-			let aux = req.body.fecha;
-			let fecha = aux.concat("T00:00:00-04:00");
-			let metodo_pago = req.body.metodo_pago.toUpperCase();
-			let descuento = req.body.descuento;
-			let total = req.body.total;
-			let id_vendedor = req.body.id_vendedor.toUpperCase();
-			let cliente = req.body.cliente.toUpperCase();
-
-			venta.create({num_venta: num_venta, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento,total: total, id_vendedor: id_vendedor, cliente: cliente}, (err) =>{
-				if (err){
-					res.sendStatus(404);
-				}
-				else{
-					producto.find((err, producto) => {
-				 	res.render('productos_venta',{
-						 user: req.user,
-						 producto: producto,
-						 numero_venta: aux.numero_venta
-					 });
-				}
-			});
-			let aux = await new Venta({numero_venta: 1})
-			await aux.save( (err, aux)=> {
-			producto.find((err, producto) => {
-				 res.render('productos_venta',{
-						 user: req.user,
-						 producto: producto,
-						 numero_venta: aux.numero_venta
-					 });
-			 	});
-			});
-	}else{
-		/*let num_venta = venta.length;
-			let aux = req.body.fecha;
-			let fecha = aux.concat("T00:00:00-04:00");
-			let metodo_pago = req.body.metodo_pago.toUpperCase();
-			let descuento = req.body.descuento;
-			let total = req.body.total;
-			let id_vendedor = req.body.id_vendedor.toUpperCase();
-			let cliente = req.body.cliente.toUpperCase();
-
-			venta.create({num_venta: num_venta, fecha: fecha, metodo_pago: metodo_pago, descuento: descuento,total: total, id_vendedor: id_vendedor, cliente: cliente}, (err) =>{
-				if (err){
-					res.sendStatus(404);
-				}
-				else{
-					producto.find((err, producto) => {
-				 	res.render('productos_venta',{
-						 user: req.user,
-						 producto: producto,
-						 numero_venta: aux.numero_venta
-					 });
-				}
-			});
-
-
-let aux = await new Venta({numero_venta: venta.length});
-		await aux.save( (err, aux)=> {
-			producto.find((err, producto) => {
-				 res.render('productos_venta',{
-						 user: req.user,
-						 producto: producto,
-						 numero_venta: aux.numero_venta
-				 });
-		 	});
-		});
-	};
-});
-});*/
 
 
 router.post('/crear_venta', async (req,res) => {
