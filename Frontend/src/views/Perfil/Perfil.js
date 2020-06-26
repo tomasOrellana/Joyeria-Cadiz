@@ -40,18 +40,10 @@ export default class UserProfile extends React.Component {
   }
 
   getUsuario = () => {
-    new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-        console.log(this.state.perfil)
-        console.log(this.state.perfil.nombre)
-      }, 100)
-      this.setState({
-        perfil: JSON.parse(localStorage.getItem('usuario')),
-        isReady: true
-      })
+    this.setState({
+      perfil: JSON.parse(localStorage.getItem('usuario')),
+      isReady: true
     })
-
   }
 
   componentDidMount() {
