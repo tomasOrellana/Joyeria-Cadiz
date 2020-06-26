@@ -44,14 +44,14 @@ const dashboardRoutes = [
     component: ListaDeVentasPeriodo,
     layout: "/admin"
   },
-  /*{
-    path: "/usuario",
-    name: "Perfil de usuario",
-    rtlName: "ملف تعريفي للمستخدم",
-    icon: Person,
-    component: UserProfile,
+  {
+    path: "/empleados",
+    name: "Empleados",
+    rtlName: "لوحة القيادة",
+    icon: "list_alt",
+    component: TableListEmpleados,
     layout: "/admin"
-  },*/
+  },
   {
     path: "/pedidos",
     name: "Pedidos",
@@ -67,15 +67,15 @@ const dashboardRoutes = [
     icon: "content_paste",
     component: InventarioTableList,
     layout: "/admin"
-  },/*
+  },
   {
-    path: "/empleados",
-    name: "Empleados",
-    rtlName: "لوحة القيادة",
-    icon: "person_pin",
-    component: TableListEmpleados,
+    path: "/usuario",
+    name: "Perfil de usuario",
+    rtlName: "ملف تعريفي للمستخدم",
+    icon: Person,
+    component: UserProfile,
     layout: "/admin"
-  },*/
+  },
   {
     path: "/tiendas",
     name: "Tiendas",
