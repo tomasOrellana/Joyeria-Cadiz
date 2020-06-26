@@ -15,14 +15,13 @@ router.use(passport.initialize());
 router.use(passport.session());
 
 	// index routes
-router.get('/inicio', (req, res) => {
+router.get('/inicio', isLoggedIn, (req, res) => {
 	let dia = dia()
 	let semana = semama();
 	res.json({
 		dia: dia,
 		semana: semana
 	})
-
 });
 
 	function dia(){
@@ -106,9 +105,7 @@ router.get('/inicio', (req, res) => {
 		res.sendStatus(201);
 	});
 
-	router.get('/inicio', isLoggedIn, (req, res) =>{
-		res.render('inicio', {user: req.user});
-	});
+
 
 function isLoggedIn (req, res, next) {
 	if (req.isAuthenticated()) {
