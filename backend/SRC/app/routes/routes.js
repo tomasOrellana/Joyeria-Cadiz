@@ -91,6 +91,19 @@ router.get('/inicio', isLoggedIn, (req, res) => {
 		failureFlash: true // allow flash messages
 	}));
 
+	router.post('/crear_empleado', function (req,res) {
+				passport.authenticate('local-signup', function(err, user) {
+				if (err) { return res.sendStatus(404); }
+				if (!user) { return res.sendStatus(404); }
+				console.log("Usuario recibido")
+
+
+				return res.sendStatus(201); //res.sendStatus(201) para mandar 201 y res.json(user) para mandar usuario
+
+
+			}) (req, res);
+	});
+
 
 	//profile view
 	router.get('/profile', isLoggedIn, (req, res) => {
