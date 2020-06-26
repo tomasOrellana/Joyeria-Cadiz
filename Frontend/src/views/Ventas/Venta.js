@@ -6,18 +6,9 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import {  Transfer,
-          Form,
-          Input,
           Button,
           Tag,
-          Table,
-          Radio,
-          Select,
-          Cascader,
-          DatePicker,
-          InputNumber,
-          TreeSelect,
-          Switch  } from 'antd';
+          Table } from 'antd';
 import difference from 'lodash/difference';
 import { Grid } from '@material-ui/core';
 
