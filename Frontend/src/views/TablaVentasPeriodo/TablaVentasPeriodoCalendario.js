@@ -185,9 +185,6 @@ export default class TablaVentasPeriodo extends React.Component {
                 <Tab label="Vitacura" {...a11yProps(2)} />
               </Tabs>
             </AppBar>
-            <CardHeader color="primary" style={{marginTop:20}}>
-              <h4 style={styles.cardTitleWhite}>Ventas por Periodo</h4>
-            </CardHeader>
               <CardBody>
                 <h4>Desde</h4>
                 <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
@@ -279,9 +276,6 @@ export default class TablaVentasPeriodo extends React.Component {
                 <Tab label="Vitacura" {...a11yProps(2)} />
               </Tabs>
             </AppBar>
-            <CardHeader color="primary" style={{marginTop:20}}>
-              <h4 style={styles.cardTitleWhite}>Ventas por Periodo</h4>
-            </CardHeader>
               <CardBody>
                 <h4>Desde</h4>
                 <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
