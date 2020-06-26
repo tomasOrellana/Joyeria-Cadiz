@@ -331,7 +331,7 @@ export default class Ventas extends React.Component {
               alignItems="center"
               spacing={1}>
               <Grid item xs={2}>
-                <h4 style={{ color: "#FFFFFF",marginTop: "0px",minHeight: "auto",fontWeight: "300",fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",marginBottom: "3px",textDecoration: "none"}}>Crear venta</h4>
+                <h4 style={{ color: "#FFFFFF",marginTop: "0px",minHeight: "auto",fontWeight: "300",fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",marginBottom: "3px",textDecoration: "none"}}>Seleccione los articulos</h4>
               </Grid>
               <Grid item xs={2}>
 
@@ -361,10 +361,10 @@ export default class Ventas extends React.Component {
             alignItems="center"
             spacing={3}>
               <Grid item xs={6}>
-                <h3>
+                <h4>
                 Precio (sin dcto): ${this.state.suma}{"\n"} <br />
                 Precio final: ${this.state.total}
-                </h3>
+                </h4>
               </Grid>
               <Grid item xs={6}>
                 <Grid
