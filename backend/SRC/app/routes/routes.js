@@ -31,7 +31,7 @@ router.get('/inicio', isLoggedIn, (req, res) => {
 		let aux = dia_actual*(24*60*60*1000);
 		dias = dias*(24*60*60*1000);// paso a milisegundos
 		let dia_inicio = dias - aux;
-		await venta.find({$and: [{fecha: {$gte: new Date(dia_inicio)}},{fecha: {$lt: new Date(dias)}}]}, (err, venta) => {
+		venta.find({$and: [{fecha: {$gte: new Date(dia_inicio)}},{fecha: {$lt: new Date(dias)}}]}, (err, venta) => {
 			if(err) {
 				return 0;
 			}
@@ -45,7 +45,7 @@ router.get('/inicio', isLoggedIn, (req, res) => {
 		let fecha = Date.now();
 		let semana = 7*(24*60*60*1000);
 		let dia_inicio = dias - semana;
-		await venta.find({$and: [{fecha: {$gte: new Date(dia_inicio)}},{fecha: {$lt: new Date(fecha)}}]}, (err, venta) => {
+		venta.find({$and: [{fecha: {$gte: new Date(dia_inicio)}},{fecha: {$lt: new Date(fecha)}}]}, (err, venta) => {
 			if(err) {
 				return 0;
 			}
