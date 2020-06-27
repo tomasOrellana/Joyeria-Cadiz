@@ -7,6 +7,9 @@ import Box from '@material-ui/core/Box';
 import MaterialTable from 'material-table';
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
+import Alert from '@material-ui/lab/Alert';
+import { Grid } from '@material-ui/core';
+import Link from '@material-ui/core/Link';
 
 const styles = {
   cardCategoryWhite: {
@@ -87,6 +90,18 @@ function TabPanel(props) {
   );
 }
 
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" target="_blank" href="https://cadisjoyas.cl/">
+        Joyeía Cadis
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 function a11yProps(index) {
   return {
@@ -102,14 +117,14 @@ export default class InventarioTableList extends React.Component {
     super(props);
     this.state = {
       tabIndex: 0,
-      estado: 0,
+      estado:null,
+      estadosucursal:2,
       perfil: null,
       ListaProductos: null,
       sucursal : null,
       ready: false,
     }
     this.handleChange = this.handleChange.bind(this)
-    this.MostrarNuevoMenu = this.MostrarNuevoMenu.bind(this)
     this.AgregarProducto = this.AgregarProducto.bind(this)
     this.ActualizarInventario = this.ActualizarInventario.bind(this)
     this.EditarProducto = this.EditarProducto.bind(this)
@@ -121,7 +136,7 @@ export default class InventarioTableList extends React.Component {
     this.setState({
       perfil: info,
       isReady: true,
-      tabIndex: info.sucursal
+      tabIndex: Number(info.sucursal)
     })
   }
 
@@ -135,6 +150,31 @@ export default class InventarioTableList extends React.Component {
           this.setState({ListaProductos: users, ready: true})
           console.log(this.state.ListaProductos)
       });
+  }
+
+  RealizarMensajes(){
+    for(let i = 0; i<this.state.ListaProductos.length;i++){
+      if(this.state.ListaProductos[i].sucursal === '0'){
+        if(this.state.perfil.sucursal=== '0'){
+          this.setState({estadosucursal:1})
+        }
+      }
+      else if(this.state.ListaProductos[i].sucursal === '1'){
+        if(this.state.perfil.sucursal=== '0'){
+          this.setState({estadosucursal:1})
+        }
+      }
+      else if(this.state.ListaProductos[i].sucursal === '2'){
+        if(this.state.perfil.sucursal=== '0'){
+          this.setState({estadosucursal:1})
+        }
+      }
+    }
+    if(this.state.ListaVentasDia.length === 0){
+      this.setState({estado: 2})
+    }else{
+      this.setState({estado: 1})
+    }
   }
 
   componentDidMount() {
@@ -151,11 +191,6 @@ export default class InventarioTableList extends React.Component {
     this.setState({id: value});
   }
 
-  MostrarNuevoMenu() {
-    if(this.state.estado === 0) this.setState({estado: 1})
-    if(this.state.estado === 1) this.setState({estado: 0})
-  }
-
   AgregarProducto(newData) {
     fetch('/agregar_prod', {
     method: 'POST',
@@ -170,7 +205,7 @@ export default class InventarioTableList extends React.Component {
       piedra: newData.piedra,
       precio: newData.precio,
       descripcion: newData.descripcion,
-      sucursal: this.state.tabIndex
+      sucursal: this.state.tabIndex.toString()
     })
     })
     .then( (response) => {
@@ -240,8 +275,20 @@ export default class InventarioTableList extends React.Component {
     });
   }
 
-  render() {
-
+  render(){
+    //this.RealizarMensajes();
+    let mensajito;
+    if(this.state.estado === 1) {
+      mensajito = <Alert severity="success">Hay productos en el inventario!</Alert>
+    } else if(this.state.estado === 2) {
+      mensajito = <Alert severity="error">No se encontraron productos en el inventario :(</Alert>
+    }
+    let mensajitosucursal;
+    if(this.state.estadosucursal === 1) {
+      mensajitosucursal = <Alert severity="success">Hay productos en el inventario!</Alert>
+    } else if(this.state.estadosucursal === 2) {
+      mensajitosucursal = <Alert severity="error">No se encontraron productos en el inventario :(</Alert>
+    }
 
     if(this.state.ready === true) {
 
@@ -379,9 +426,21 @@ export default class InventarioTableList extends React.Component {
                     }}
                   />
                 </TabPanel>
-
                 </CardBody>
               </Card>
+              <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+              spacing={3}>
+                <Grid item xs={6} text-align= "center">
+                <Box mt={8}>
+                  {mensajito}
+                  <Copyright />
+                </Box>
+                </Grid>
+              </Grid>
           </div>
         )
       } else if(this.state.perfil.rol === 'vendedor'){
@@ -402,6 +461,19 @@ export default class InventarioTableList extends React.Component {
                   />
                 </CardBody>
               </Card>
+              <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+              spacing={3}>
+                <Grid item xs={6} text-align= "center">
+                <Box mt={8}>
+                  {mensajitosucursal}
+                  <Copyright />
+                </Box>
+                </Grid>
+              </Grid>
           </div>
         )
       } else if(this.state.perfil.rol === 'jefe'){
@@ -447,6 +519,19 @@ export default class InventarioTableList extends React.Component {
                   />
                 </CardBody>
               </Card>
+              <Grid
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+              spacing={3}>
+                <Grid item xs={6} text-align= "center">
+                <Box mt={8}>
+                  {mensajitosucursal}
+                  <Copyright />
+                </Box>
+                </Grid>
+              </Grid>
           </div>
         )
       }

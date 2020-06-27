@@ -142,7 +142,7 @@ export default class InventarioTableList extends React.Component {
       descripcion: newData.descripcion,
       estado: estados,
       total: newData.total,
-      sucursal: this.state.tabIndex
+      sucursal: this.state.tabIndex.toString()
     })
     })
     .then( (response) => {
@@ -172,7 +172,7 @@ export default class InventarioTableList extends React.Component {
       descripcion: newData.descripcion,
       estado: newData.estado,
       total: newData.total,
-      sucursal: this.state.tabIndex
+      sucursal: this.state.tabIndex.toString()
     })
     })
     .then( (response) => {
@@ -216,8 +216,8 @@ export default class InventarioTableList extends React.Component {
     this.setState({
       perfil: info,
       isReady: true,
-      tabIndex: info.sucursal
-    }) 
+      tabIndex: Number(info.sucursal)
+    })
   }
 
   componentDidMount() {
@@ -248,7 +248,7 @@ export default class InventarioTableList extends React.Component {
         if(this.state.tabIndex === '0') { nombresucursal = 'Lo Castillo'}
         if(this.state.tabIndex === '1') { nombresucursal = 'Apumanque'}
         if(this.state.tabIndex === '2') { nombresucursal = 'Vitacura'}
-        
+
       if(this.state.perfil.rol === 'duena') {
         return (
           <div style={styles.root}>
@@ -261,7 +261,7 @@ export default class InventarioTableList extends React.Component {
                     <Tab label="Vitacura" {...a11yProps(2)}/>
                   </Tabs>
                 </AppBar>
-  
+
                 <CardBody>
                   <TabPanel value={this.state.tabIndex} index={0}>
                   <MaterialTable
@@ -280,7 +280,7 @@ export default class InventarioTableList extends React.Component {
                               this.ActualizarPedidos();
                             }, 2000)
                             this.AgregarPedido(newData);
-      
+
                           }),
                         onRowUpdate: (newData, oldData) =>
                           new Promise((resolve) => {
@@ -301,7 +301,7 @@ export default class InventarioTableList extends React.Component {
                       }}
                     />
                   </TabPanel>
-  
+
                   <TabPanel value={this.state.tabIndex} index={1}>
                   <MaterialTable
                       title='Apumanque'
@@ -339,7 +339,7 @@ export default class InventarioTableList extends React.Component {
                       }}
                     />
                   </TabPanel>
-  
+
                   <TabPanel value={this.state.tabIndex} index={2}>
                   <MaterialTable
                       title='Vitacura'
@@ -403,7 +403,7 @@ export default class InventarioTableList extends React.Component {
                               this.ActualizarPedidos();
                             }, 2000)
                             this.AgregarPedido(newData);
-      
+
                           }),
                         onRowUpdate: (newData, oldData) =>
                           new Promise((resolve) => {

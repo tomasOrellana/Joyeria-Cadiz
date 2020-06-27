@@ -10,6 +10,8 @@ import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import TextField from '@material-ui/core/TextField';
 import { Grid } from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
+import Link from '@material-ui/core/Link';
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -97,6 +99,19 @@ function a11yProps(index) {
   };
 }
 
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" target="_blank" href="https://cadisjoyas.cl/">
+        Joyeía Cadis
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+
 export default class Ventas extends React.Component {
 
 
@@ -108,6 +123,8 @@ export default class Ventas extends React.Component {
       total0: 0,
       total1: 0,
       perfil: null,
+      estado:null,
+      estadosucursal:2,
       total2: 0,
       ListaVentasDia: null
     }
@@ -122,10 +139,10 @@ export default class Ventas extends React.Component {
     this.setState({
       perfil: info,
       isReady: true,
-      tabIndex: info.sucursal
+      tabIndex: Number(info.sucursal)
     })
   }
-  
+
   ActualizarVentasDia() {
     fetch('/ventasdia')
       .then(res => {
@@ -144,13 +161,27 @@ export default class Ventas extends React.Component {
     for(let i = 0; i<this.state.ListaVentasDia.length;i++) {
       if(this.state.ListaVentasDia[i].sucursal === '0'){
         tot0 = tot0 + this.state.ListaVentasDia[i].total;
+        if(this.state.perfil.sucursal=== '0'){
+          this.setState({estadosucursal:1})
+        }
       }
       else if(this.state.ListaVentasDia[i].sucursal === '1'){
         tot1 = tot1 + this.state.ListaVentasDia[i].total;
+        if(this.state.perfil.sucursal=== '0'){
+          this.setState({estadosucursal:1})
+        }
       }
       else if(this.state.ListaVentasDia[i].sucursal === '2'){
         tot2 = tot2 + this.state.ListaVentasDia[i].total;
+        if(this.state.perfil.sucursal=== '0'){
+          this.setState({estadosucursal:1})
+        }
       }
+    }
+    if(this.state.ListaVentasDia.length === 0){
+      this.setState({estado: 2})
+    }else{
+      this.setState({estado: 1})
     }
     this.setState({total0:tot0})
     this.setState({total1:tot1})
@@ -191,6 +222,18 @@ export default class Ventas extends React.Component {
   }
 
   render() {
+    let mensajito;
+    if(this.state.estado === 1) {
+      mensajito = <Alert severity="success">Hay ventas!</Alert>
+    } else if(this.state.estado === 2) {
+      mensajito = <Alert severity="error">No se encontraron ventas :(</Alert>
+    }
+    let mensajitosucursal;
+    if(this.state.estadosucursal === 1) {
+      mensajitosucursal = <Alert severity="success">Hay ventas!</Alert>
+    } else if(this.state.estadosucursal === 2) {
+      mensajitosucursal = <Alert severity="error">No se encontraron ventas :(</Alert>
+    }
     if(this.state.ready === true) {
       if(this.state.perfil.rol === 'duena'){
         console.log(this.state.ListaVentasDia)
@@ -211,7 +254,7 @@ export default class Ventas extends React.Component {
                       columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
                                 { title: 'Descuento', field: 'descuento',type: 'numeric' },
                                 { title: 'Fecha', field: 'fecha', type: 'date'},
-                                { title: 'Pago', field: 'metodo_pago' },
+                                { title: 'Pago', field: 'metodo_pago', type :'numeric'},
                                 { title: 'Total', field: 'total' ,type: 'numeric'},
                                 { title: 'Vendedor', field: 'vendedor'} ]}
                       data={this.state.ListaVentasDia.filter(({sucursal}) => sucursal === '0')}
@@ -285,8 +328,13 @@ export default class Ventas extends React.Component {
               <h4>
               -Total en Lo Castillo: ${this.state.total0} <br/> -Total en Apumanque: ${this.state.total1} <br/> -Total en Vitacura: ${this.state.total2}
               </h4>
+              <Box mt={8}>
+                {mensajito}
+                <Copyright />
+              </Box>
               </Grid>
             </Grid>
+
           </div>
         );
       } else if(this.state.perfil.rol === 'jefe'){
@@ -338,6 +386,11 @@ export default class Ventas extends React.Component {
               -Total en Ventas: ${this.state.total2}
               </h4>
               }
+              <Box mt={8}>
+                {mensajitosucursal}
+
+                <Copyright />
+              </Box>
               </Grid>
             </Grid>
           </div>
@@ -382,6 +435,11 @@ export default class Ventas extends React.Component {
               -Total en Ventas: ${this.state.total2}
               </h4>
               }
+              <Box mt={8}>
+                {mensajitosucursal}
+
+                <Copyright />
+              </Box>
               </Grid>
             </Grid>
           </div>

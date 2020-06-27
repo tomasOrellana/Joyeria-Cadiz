@@ -11,6 +11,8 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import {Button, DatePicker } from 'antd';
+import Alert from '@material-ui/lab/Alert';
+import Link from '@material-ui/core/Link';
 const styles = {
   cardCategoryWhite: {
     "&,& a,& a:hover,& a:focus": {
@@ -97,6 +99,19 @@ function a11yProps(index) {
   };
 }
 
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" target="_blank" href="https://cadisjoyas.cl/">
+        Joyeía Cadis
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
+
 
 export default class TablaVentasPeriodo extends React.Component {
 
@@ -111,7 +126,8 @@ export default class TablaVentasPeriodo extends React.Component {
       perfil: null,
       total2: 0,
       desde : "",
-      hasta : ""
+      hasta : "",
+      estado:null
     }
     this.handleChange = this.handleChange.bind(this)
     this.onChange = this.onChange.bind(this)
@@ -206,12 +222,23 @@ export default class TablaVentasPeriodo extends React.Component {
         tot2 = tot2 + this.state.ListaVentasPeriodo[i].total;
       }
     }
+    if(this.state.ListaVentasDia.length === 0){
+      this.setState({estado: 2})
+    }else{
+      this.setState({estado: 1})
+    }
     this.setState({total0:tot0})
     this.setState({total1:tot1})
     this.setState({total2:tot2})
   }
 
   render() {
+    let mensajito;
+    if(this.state.estado === 1) {
+      mensajito = <Alert severity="success">Hay ventas!</Alert>
+    } else if(this.state.estado === 2) {
+      mensajito = <Alert severity="error">No se encontraron ventas :(</Alert>
+    }
     if(this.state.ready === true) {
       if(this.state.perfil.rol === 'duena'){
         console.log(this.state.ListaVentasPeriodo)
@@ -313,6 +340,10 @@ export default class TablaVentasPeriodo extends React.Component {
                 <h4>
                 -Total en Lo Castillo: ${this.state.total0} <br/> -Total en Apumanque: ${this.state.total1} <br/> -Total en Vitacura: ${this.state.total2}
                 </h4>
+                <Box mt={8}>
+                  {mensajito}
+                  <Copyright />
+                </Box>
               </Grid>
             </Grid>
           </div>
@@ -373,6 +404,10 @@ export default class TablaVentasPeriodo extends React.Component {
                 -Total en Ventas: ${this.state.total2}
                 </h4>
                 }
+                <Box mt={8}>
+                  {mensajito}
+                  <Copyright />
+                </Box>
               </Grid>
             </Grid>
           </div>
