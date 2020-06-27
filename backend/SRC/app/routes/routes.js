@@ -503,22 +503,6 @@ router.get('/delete_empleado/:id', isLoggedIn, (req,res) =>{
 	});
 });
 
-router.get('/editar_empleado/:id', (req,res) =>{
-    empleado.findById(req.params.id, (err,empleado) => {
-        if(!err){
-            res.render('editar_empleado',{
-                title: 'Actualizar datos del Empleado',
-                empleado: empleado
-            });
-        }
-				else{
-					res.redirect('/inicio');
-				}
-
-    });
-});
-
-
 
 router.post('/editar_empleado/:id', function(req, res) {
 	let telefono= req.body.telefono;
