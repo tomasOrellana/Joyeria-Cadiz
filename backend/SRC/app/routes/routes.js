@@ -491,7 +491,7 @@ router.post('/crear_empleado', function (req,res) {
 		}) (req, res);
 });
 
-router.get('/delete_empleado/:id', isLoggedIn, (req,res) =>{
+router.post('/delete_empleado/:id', isLoggedIn, (req,res) =>{
     let id = req.params.id;
     empleado.remove({_id: id}, (err) =>{
 			if(!err){
