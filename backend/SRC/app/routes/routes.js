@@ -91,18 +91,7 @@ router.get('/inicio', isLoggedIn, (req, res) => {
 		failureFlash: true // allow flash messages
 	}));
 
-	router.post('/crear_empleado', function (req,res) {
-				passport.authenticate('local-signup', function(err, user) {
-				if (err) { return res.sendStatus(404); }
-				if (!user) { return res.sendStatus(404); }
-				console.log("Usuario recibido")
 
-
-				return res.sendStatus(201); //res.sendStatus(201) para mandar 201 y res.json(user) para mandar usuario
-
-
-			}) (req, res);
-	});
 
 
 	//profile view
@@ -481,23 +470,36 @@ router.post('/agregar_venta/:id', function(req, res) {
 //Gestionar empleados
 router.get('/empleados', isLoggedIn, (req,res) =>{
     empleado.find(function (err,empleado) {
-        res.render('empleados',{
-						user: req.user,
-            empleado: empleado
-        });
+			if (!err){
+				res.json(empleado);
+			}else{
+				res.sendStatus(404);
+			}
     });
+});
 
+router.post('/crear_empleado', function (req,res) {
+			passport.authenticate('local-signup', function(err, user) {
+			if (err) { return res.sendStatus(404); }
+			if (!user) { return res.sendStatus(404); }
+			console.log("Usuario recibido")
+
+
+			return res.sendStatus(201); //res.sendStatus(201) para mandar 201 y res.json(user) para mandar usuario
+
+
+		}) (req, res);
 });
 
 router.get('/delete_empleado/:id', isLoggedIn, (req,res) =>{
     let id = req.params.id;
-    empleado.remove({_id: id}, (err, task) =>{
+    empleado.remove({_id: id}, (err) =>{
 			if(!err){
-        res.redirect('/empleados');
-    }
-		else{
-			res.redirect('/inicio');
-		}
+     		res.sendStatus(201);
+			}
+			else{
+     		res.sendStatus(404);
+			}
 	});
 });
 
@@ -516,18 +518,21 @@ router.get('/editar_empleado/:id', (req,res) =>{
     });
 });
 
+
+
 router.post('/editar_empleado/:id', function(req, res) {
-    empleado.findByIdAndUpdate(req.params.id, req.body, function (err) {
-      if(err){
-        res.redirect('editar_empleado/'+req.params.id);
-    } else {
-
-      res.redirect('../empleados');
-    }
-    });
+	let telefono= req.body.telefono;
+	let rol = req.body.rol.toUpperCase();
+	let sucursal = req.body.sucursal.toUpperCase();
+	empleado.findByIdAndUpdate(req.parmas.id,{telefono: telefono, rol: rol, sucursal: sucursal}, function (err) {
+		if(!err){
+			res.sendStatus(201)
+		}
+		else{
+			res.sendStatus(404)
+	}
+});
   });
-
-
 
 
 module.exports = router;
