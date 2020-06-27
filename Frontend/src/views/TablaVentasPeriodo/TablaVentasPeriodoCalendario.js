@@ -378,53 +378,22 @@ export default class TablaVentasPeriodo extends React.Component {
           </div>
         );
       }
-    } else if(this.state.ready === false) {
-      if(this.state.perfil.rol === 'duena'){
-        return (
-          <div style={styles.root}>
-            <Card>
-              <AppBar position="static" color="primary" style={styles.Barrita}>
-                <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example">
-                  <Tab label="Lo Castillo" {...a11yProps(0)} />
-                  <Tab label="Apumanque" {...a11yProps(1)} />
-                  <Tab label="Vitacura" {...a11yProps(2)} />
-                </Tabs>
-              </AppBar>
-                <CardBody>
-                  <h4>Desde</h4>
-                  <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
-                  <h4>Hasta</h4>
-                  <DatePicker onChange={this.onChange2} format={"YYYY-MM-DD"} />
-                  <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
-                    Listo
-                  </Button>
-                <TabPanel value={this.state.tabIndex} index={0}>
-                </TabPanel>
-                <TabPanel value={this.state.tabIndex} index={1}>
-                </TabPanel>
-                <TabPanel value={this.state.tabIndex} index={2}>
-                </TabPanel>
-              </CardBody>
-            </Card>
-          </div>
-        );
-      } else {
-        return (
-          <div style={styles.root}>
-            <Card>
-                <CardBody>
-                  <h4>Desde</h4>
-                  <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
-                  <h4>Hasta</h4>
-                  <DatePicker onChange={this.onChange2} format={"YYYY-MM-DD"} />
-                  <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
-                    Listo
-                  </Button>
-              </CardBody>
-            </Card>
-          </div>
-        );
-      }
+    }else if(this.state.ready === false) {
+      return (
+        <div style={styles.root}>
+          <Card>
+            <CardBody>
+              <h4>Desde</h4>
+              <DatePicker onChange={this.onChange} format={"YYYY-MM-DD"} />
+              <h4>Hasta</h4>
+              <DatePicker onChange={this.onChange2} format={"YYYY-MM-DD"} />
+              <Button style={{margin: 5 }} onClick={this.ActualizarVentasPeriodo}>
+                Listo
+              </Button>
+            </CardBody>
+          </Card>
+        </div>
+      )
     }
   }
 }
