@@ -166,14 +166,20 @@ export default class UserProfile extends React.Component {
               </CardAvatar>
               <CardBody profile>
                 <h1 style={{fontWeight: 'bold'}}>{this.state.perfil.nombre}</h1>
-                {this.state.perfil.sucursal === '0' &&
-                  <h4 style={{fontWeight: 'bold'}}>{this.state.perfil.rol} de Lo castillo</h4>
+                {this.state.perfil.rol === 'duena' &&
+                  <h4 style={{fontWeight: 'bold'}}>Dueña</h4>
                 }
-                {this.state.perfil.sucursal === '1' &&
-                  <h4 style={{fontWeight: 'bold'}}>{this.state.perfil.rol} Apumanque</h4>
+                {this.state.perfil.sucursal === '1' && this.state.perfil.rol === 'jefe' &&
+                  <h4 style={{fontWeight: 'bold'}}>Jefe de Tienda Apumanque</h4>
                 }
-                {this.state.perfil.sucursal === '2' &&
-                  <h4 style={{fontWeight: 'bold'}}>{this.state.perfil.rol} de Vitacura</h4>
+                {this.state.perfil.sucursal === '2' && this.state.perfil.rol === 'jefe' &&
+                  <h4 style={{fontWeight: 'bold'}}>Jefe de Tienda Vitacura</h4>
+                }
+                {this.state.perfil.sucursal === '1' && this.state.perfil.rol === 'vendedor' &&
+                  <h4 style={{fontWeight: 'bold'}}>Vendedor de Apumanque</h4>
+                }
+                {this.state.perfil.sucursal === '2' && this.state.perfil.rol === 'vendedor' &&
+                  <h4 style={{fontWeight: 'bold'}}>Vendedor de Vitacura</h4>
                 }
 
                 <div style={{textAlign: 'left'}}>

@@ -101,16 +101,16 @@ export default class Login extends React.Component {
     })
     })
     .then( (response) => {
-      
+
       if(response.status != 404) {
         this.setState({isAutentificado: true})
         return response.json()
-        
+
       } else {
         console.log('FALLO EL INGRESO');
         this.setState({estado: 2, isAutentificado: false})
       }
-      
+
     })
     .then(users => {
       if(this.state.isAutentificado === true) {
@@ -120,7 +120,7 @@ export default class Login extends React.Component {
         this.setState({estado: 1})
         ReactDOM.render(<Inicio/>, document.getElementById('root'))
       }
-      
+
     })
     .catch((error) => {
       console.log(error)
@@ -171,10 +171,6 @@ export default class Login extends React.Component {
               autoComplete="current-password"
               onChange={(event) => this.setState({password:event.target.value})}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Recordarme"
-            />
             <Button
               fullWidth
               variant="contained"
@@ -183,13 +179,6 @@ export default class Login extends React.Component {
             >
               Iniciar Sesión
             </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Olvide la contraseña
-                </Link>
-              </Grid>
-            </Grid>
           </form>
         </div>
         <Box mt={8}>
