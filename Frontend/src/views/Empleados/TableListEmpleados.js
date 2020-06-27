@@ -3,15 +3,10 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
+import MaterialTable from 'material-table';
 import Box from '@material-ui/core/Box';
-import Table from "components/Table/TableInv.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Button from "components/CustomButtons/Button.js";
-import AddIcon from '@material-ui/icons/Add';
-import { Input } from '@material-ui/core';
 
 const styles = {
   cardCategoryWhite: {
@@ -122,22 +117,122 @@ export default class InventarioTableList extends React.Component {
     this.MostrarNuevoMenu = this.MostrarNuevoMenu.bind(this)
     this.AgregarEmpleado = this.AgregarEmpleado.bind(this)
   }
-//
-  componentDidMount() {
+
+  getUsuario = () => {
+    let info = JSON.parse(localStorage.getItem('usuario'));
+    this.setState({
+      perfil: info,
+      isReady: true,
+      tabIndex: info.sucursal
+    }) 
+  }
+
+  ActualizarEmpleados() {
     fetch('/empleados')
       .then(res => {
-          console.log(res);
           return res.json()
       })
       .then(users => {
           this.setState({ListaEmpleados: users, ready: true})
+          console.log(this.state.ListaEmpleados);
       });
+    }
+
+  AgregarEmpleado(newData) {
+    let estados = null;
+    if(newData.estado === true) {
+      estados = 1;
+    } else {
+      estados = 0;
+    }
+
+    fetch('/agregar_empleado', {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      nombre: newData.nombre,
+      nacimiento: newData.nacimiento,
+      telefono: newData.telefono,
+      rol: newData.rol,
+      sucursal: this.state.tabIndex
+    })
+    })
+    .then( (response) => {
+        if(response.status === 201) {
+            console.log("Añadido correctamente")
+            
+        } else {
+            console.log('Hubo un error')
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+  }
+
+  EditarEmpleado(newData) {
+    console.log(newData._id)
+    fetch('/editar_empleado/' + newData._id, {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id: newData._id,
+      nombre: newData.nombre,
+      nacimiento: newData.nacimiento,
+      telefono: newData.telefono,
+      rol: newData.rol,
+      sucursal: this.state.tabIndex
+    })
+    })
+    .then( (response) => {
+        if(response.status === 201) {
+            console.log("Editado correctamente")
+        } else {
+            console.log('Hubo un error')
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+  }
+
+  EliminarEmpleado(oldData) {
+    console.log(oldData._id)
+    fetch('/eliminar_empleado/' + oldData._id, {
+    method: 'POST',
+    headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      id: oldData._id,
+    })
+    })
+    .then( (response) => {
+        if(response.status === 201) {
+            console.log("Eliminado correctamente")
+        } else {
+            console.log('Hubo un error')
+        }
+    })
+    .catch((error) => {
+        console.log(error)
+    });
+  }
+
+  componentDidMount() {
+    this.getUsuario()
+    this.ActualizarEmpleados()
   }
 
   handleChange(event, newValue) {
     this.setState({tabIndex: newValue});
-
-    console.log(this.state.tabIndex)
   }
 
   actualizarTexto(event, id, value) {
@@ -182,15 +277,18 @@ export default class InventarioTableList extends React.Component {
   render() {
 
     if(this.state.ready === true) {
-      let Lista = this.state.ListaEmpleados.map((val,) => {
+
+      let nombresucursal;
+      if(this.state.tabIndex === '0') { nombresucursal = 'Lo Castillo'}
+      if(this.state.tabIndex === '1') { nombresucursal = 'Apumanque'}
+      if(this.state.tabIndex === '2') { nombresucursal = 'Vitacura'}
+
+
+      if(this.state.perfil.rol === 'duena') {
+
         return (
-            [val.nombre, val.rut, val.sucursal, val.edad, val.rol, val.telefono, val.salario]
-        )
-      }
-      );
-      return (
-        <div style={styles.root}>
-            <Card>
+          <div style={styles.root}>
+              <Card>
                 <AppBar position="static" color="primary" >
                   <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example" >
                     <Tab label="Lo Castillo" {...a11yProps(0)}/>
@@ -198,63 +296,146 @@ export default class InventarioTableList extends React.Component {
                     <Tab label="Vitacura" {...a11yProps(2)}/>
                   </Tabs>
                 </AppBar>
-              <CardBody>
-                <div style={{ paddingLeft: 40, paddingTop: 20 }}>
-                  <Grid item={true} container direction='row' spacing={1} justify='center' alignItems='center'>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="nombre" label="Nombre" placeholder="nombre" /></Grid>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="rut" label="Rut" placeholder="rut"/></Grid>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="edad" label="Edad" placeholder="edad"/></Grid>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="rol" label="Rol" placeholder="rol"/></Grid>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="telefono" label="Telefono" placeholder="telefono"/></Grid>
-                    <Grid  xs={2} sm={2} md={2}><TextField id="salario" label="Salario" placeholder="salario"/></Grid>
-                    <Grid xs={2} sm={2} md={2}><Button className={styles.boton} color="primary">Buscar</Button></Grid>
-                  </Grid>
-                </div>
-
-                <TabPanel value={this.state.tabIndex} index={0}>
-                  <Table
-                      tableHeaderColor="primary"
-                      tableHead={["Nombre", "Rut", "Sucursal","Edad", "Rol","Telefono", "Salario"]}
-                      tableData={Lista}
-                  />
+  
+                <CardBody>
+                  <TabPanel value={this.state.tabIndex} index={0}>
+                  <MaterialTable
+                      title='Lo Castillo'
+                      columns={ [{ title: 'Nombre', field: 'nombre'},
+                                { title: 'Fecha', field: 'nacimiento'  },
+                                { title: 'Telefono', field: 'telefono'},
+                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'duena', 'jefe': 'jefe' ,'vendedor': 'vendedor'}},
+                                { title: 'sucursal', field: 'sucursal'}]}
+                      data={this.state.ListaEmpleados.filter(({sucursal}) => sucursal === '0')}
+                      editable={{
+                        onRowAdd: newData =>
+                          new Promise((resolve, reject) => {
+                            setTimeout(() => {
+                              resolve();
+                              this.ActualizarEmpleados();
+                            }, 2000)
+                            this.AgregarEmpleado(newData);
+      
+                          }),
+                        onRowUpdate: (newData, oldData) =>
+                          new Promise((resolve) => {
+                            setTimeout(() => {
+                              resolve();
+                              this.ActualizarEmpleados();
+                            }, 2000)
+                            this.EditarEmpleado(newData)
+                          }),
+                        onRowDelete: (oldData) =>
+                          new Promise((resolve) => {
+                            setTimeout(() => {
+                              resolve();
+                              this.ActualizarEmpleados();
+                            }, 2000)
+                            this.EliminarEmpleado(oldData)
+                          }),
+                      }}
+                    />
                   </TabPanel>
-                <TabPanel value={this.state.tabIndex} index={1}>
-                  <Table
-                      tableHeaderColor="primary"
-                      tableHead={["Nombre", "Rut", "Sucursal","Edad", "Rol","Telefono", "Salario"]}
-                      tableData={Lista}
-                  />
-                </TabPanel>
-
-                <TabPanel value={this.state.tabIndex} index={2}>
-                  <Table
-                      tableHeaderColor="primary"
-                      tableHead={["Nombre", "Rut", "Sucursal","Edad", "Rol","Telefono", "Salario"]}
-                      tableData={Lista}
-                  />
-                </TabPanel>
-              </CardBody>
-
-              <div style={styles.botonera}>
-                <Button style={styles.botonañadir} color="primary" onClick={this.MostrarNuevoMenu}><AddIcon/>Añadir</Button>
-              </div>
-            </Card>
-
-            {this.state.estado === 1 &&
-              <Card >
-                <div style={styles.añadirestilo}>
-                    <Input style={styles.formañadir} id="nombre" label="Nombre" placeholder="nombre" onChange={(event) => this.setState({nombre:event.target.value})}/>
-                    <Input style={styles.formañadir} id="rut" label="Rut" placeholder="rut" onChange={(event) => this.setState({rut:event.target.value})}/>
-                    <Input style={styles.formañadir} id="edad" label="Edad" placeholder="edad" onChange={(event) => this.setState({edad:event.target.value})}/>
-                    <Input style={styles.formañadir} id="rol" label="Rol" placeholder="rol" onChange={(event) => this.setState({rol:event.target.value})}/>
-                    <Input style={styles.formañadir} id="telefono" label="Telefono" placeholder="telefono" onChange={(event) => this.setState({telefono:event.target.value})}/>
-                    <Input style={styles.formañadir} id="salario" label="Salario" placeholder="salario" onChange={(event) => this.setState({salario:event.target.value})}/>
-                    <Button style={styles.boton} onClick={this.AgregarProducto} color="primary"><AddIcon/></Button>
-                  </div>
+  
+                  <TabPanel value={this.state.tabIndex} index={1}>
+                  <MaterialTable
+                      title='Apumanque'
+                      columns={ [{ title: 'Nombre', field: 'nombre'},
+                                { title: 'Fecha', field: 'nacimiento'  },
+                                { title: 'Telefono', field: 'telefono'},
+                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'duena', 'jefe': 'jefe' ,'vendedor': 'vendedor'}},
+                                { title: 'sucursal', field: 'sucursal'}]}
+                      data={this.state.ListaEmpleados.filter(({sucursal}) => sucursal === '1')}
+                      editable={{
+                        onRowAdd: (newData) =>
+                          new Promise((resolve) => {
+                            setTimeout(() => {
+                              resolve();
+                              this.ActualizarEmpleados();
+                            }, 2000);
+                            this.AgregarEmpleado(newData);
+                          }),
+                          onRowUpdate: (newData, oldData) =>
+                          new Promise((resolve) => {
+                            setTimeout(() => {
+                              resolve();
+                              this.ActualizarEmpleados();
+                            }, 2000)
+                            this.EditarEmpleado(newData)
+                          }),
+                        onRowDelete: (oldData) =>
+                          new Promise((resolve) => {
+                            setTimeout(() => {
+                              resolve();
+                              this.ActualizarEmpleados();
+                            }, 2000)
+                            this.EliminarEmpleado(oldData)
+                          }),
+                      }}
+                    />
+                  </TabPanel>
+  
+                  <TabPanel value={this.state.tabIndex} index={2}>
+                  <MaterialTable
+                      title='Vitacura'
+                      columns={ [{ title: 'Nombre', field: 'nombre'},
+                                { title: 'Fecha', field: 'nacimiento'  },
+                                { title: 'Telefono', field: 'telefono'},
+                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'duena', 'jefe': 'jefe' ,'vendedor': 'vendedor'}},
+                                { title: 'sucursal', field: 'sucursal'}]}
+                      data={this.state.ListaEmpleados.filter(({sucursal}) => sucursal === '2')}
+                      editable={{
+                        onRowAdd: (newData) =>
+                          new Promise((resolve) => {
+                            setTimeout(() => {
+                              resolve();
+                              this.ActualizarEmpleados();
+                            }, 2000);
+                            this.AgregarEmpleado(newData);
+                          }),
+                        onRowUpdate: (newData, oldData) =>
+                          new Promise((resolve) => {
+                            setTimeout(() => {
+                              resolve();
+                              this.ActualizarEmpleados();
+                            }, 2000)
+                            this.EditarEmpleado(newData)
+                          }),
+                        onRowDelete: (oldData) =>
+                          new Promise((resolve) => {
+                            setTimeout(() => {
+                              resolve();
+                              this.ActualizarEmpleados();
+                            }, 2000)
+                            this.EliminarEmpleado(oldData)
+                          }),
+                      }}
+                    />
+                  </TabPanel>
+                </CardBody>
               </Card>
-            }
-        </div>
-      )
+          </div>
+        )
+      } else if(this.state.perfil.rol === 'jefe') {
+        return (
+          <div style={styles.root}>
+              <Card>
+                <CardBody>
+                  <MaterialTable
+                      title= {nombresucursal}
+                      columns={ [{ title: 'Nombre', field: 'nombre'},
+                                { title: 'Fecha', field: 'nacimiento'  },
+                                { title: 'Telefono', field: 'telefono'},
+                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'duena', 'jefe': 'jefe' ,'vendedor': 'vendedor'}},
+                                { title: 'sucursal', field: 'sucursal'}]}
+                      data={this.state.ListaEmpleados.filter(({sucursal}) => sucursal === this.state.perfil.sucursal)}
+                      editable={{}} 
+                      />
+                </CardBody>
+              </Card>
+          </div>
+        )
+      }
     } else if(this.state.ready === false) {
       return(
         <div style={styles.root}>
