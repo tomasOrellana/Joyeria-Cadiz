@@ -242,7 +242,14 @@ export default class InventarioTableList extends React.Component {
 
   render() {
 
+
     if(this.state.ready === true) {
+
+      let nombresucursal;
+        if(this.state.tabIndex === '0') { nombresucursal = 'Lo Castillo'}
+        if(this.state.tabIndex === '1') { nombresucursal = 'Apumanque'}
+        if(this.state.tabIndex === '2') { nombresucursal = 'Vitacura'}
+
       if(this.state.perfil.rol === 'duena'){
         return (
           <div style={styles.root}>
@@ -383,7 +390,7 @@ export default class InventarioTableList extends React.Component {
               <Card>
                 <CardBody>
                 <MaterialTable
-                    title='Tu sucursal'
+                    title= {nombresucursal}
                     columns={ [{ title: 'Codigo', field: 'codigo' },
                               { title: 'Material', field: 'material' },
                               { title: 'Tipo', field: 'tipo'},
@@ -403,7 +410,7 @@ export default class InventarioTableList extends React.Component {
               <Card>
                 <CardBody>
                 <MaterialTable
-                    title='Tu sucursal'
+                    title= {nombresucursal}
                     columns={ [{ title: 'Codigo', field: 'codigo' },
                               { title: 'Material', field: 'material' },
                               { title: 'Tipo', field: 'tipo'},
