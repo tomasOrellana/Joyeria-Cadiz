@@ -117,16 +117,11 @@ export default class InventarioTableList extends React.Component {
   }
 
   getUsuario = () => {
-    new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-        console.log(this.state.perfil)
-        console.log(this.state.perfil.nombre)
-      }, 100)
-      this.setState({
-        perfil: JSON.parse(localStorage.getItem('usuario')),
-        isReady: true
-      })
+    let info = JSON.parse(localStorage.getItem('usuario'));
+    this.setState({
+      perfil: info,
+      isReady: true,
+      tabIndex: info.sucursal
     })
   }
 
@@ -247,7 +242,14 @@ export default class InventarioTableList extends React.Component {
 
   render() {
 
+
     if(this.state.ready === true) {
+
+      let nombresucursal;
+        if(this.state.tabIndex === '0') { nombresucursal = 'Lo Castillo'}
+        if(this.state.tabIndex === '1') { nombresucursal = 'Apumanque'}
+        if(this.state.tabIndex === '2') { nombresucursal = 'Vitacura'}
+
       if(this.state.perfil.rol === 'duena'){
         return (
           <div style={styles.root}>
@@ -388,7 +390,7 @@ export default class InventarioTableList extends React.Component {
               <Card>
                 <CardBody>
                 <MaterialTable
-                    title='Tu sucursal'
+                    title= {nombresucursal}
                     columns={ [{ title: 'Codigo', field: 'codigo' },
                               { title: 'Material', field: 'material' },
                               { title: 'Tipo', field: 'tipo'},
@@ -408,7 +410,7 @@ export default class InventarioTableList extends React.Component {
               <Card>
                 <CardBody>
                 <MaterialTable
-                    title='Tu sucursal'
+                    title= {nombresucursal}
                     columns={ [{ title: 'Codigo', field: 'codigo' },
                               { title: 'Material', field: 'material' },
                               { title: 'Tipo', field: 'tipo'},
