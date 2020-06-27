@@ -390,7 +390,7 @@ export default class InventarioTableList extends React.Component {
 
                 <TabPanel value={this.state.tabIndex} index={2}>
                 <MaterialTable
-                    title={this.state.sucursal}
+                    title='Vitacura'
                     columns={ [{ title: 'Codigo', field: 'codigo' },
                               { title: 'Material', field: 'material' },
                               { title: 'Tipo', field: 'tipo'},

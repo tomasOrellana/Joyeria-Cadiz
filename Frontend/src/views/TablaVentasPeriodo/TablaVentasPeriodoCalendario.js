@@ -127,7 +127,8 @@ export default class TablaVentasPeriodo extends React.Component {
       total2: 0,
       desde : "",
       hasta : "",
-      estado:null
+      estado:null,
+      estadosucursal:2
     }
     this.handleChange = this.handleChange.bind(this)
     this.onChange = this.onChange.bind(this)
@@ -141,7 +142,7 @@ export default class TablaVentasPeriodo extends React.Component {
     this.setState({
       perfil: info,
       isReady: true,
-      tabIndex: info.sucursal
+      tabIndex: Number(info.sucursal)
     })
   }
 
@@ -162,7 +163,6 @@ export default class TablaVentasPeriodo extends React.Component {
     })
     .then(users => {
         this.setState({ListaVentasPeriodo: users, ready: true})
-        console.log(this.state.ListaVentasPeriodo);
         this.CalcularTotal()
     });
   }
@@ -214,15 +214,24 @@ export default class TablaVentasPeriodo extends React.Component {
     for(let i = 0; i<this.state.ListaVentasPeriodo.length;i++) {
       if(this.state.ListaVentasPeriodo[i].sucursal === '0'){
         tot0 = tot0 + this.state.ListaVentasPeriodo[i].total;
+        if(this.state.perfil.sucursal=== '0'){
+          this.setState({estadosucursal:1})
+        }
       }
       else if(this.state.ListaVentasPeriodo[i].sucursal === '1'){
         tot1 = tot1 + this.state.ListaVentasPeriodo[i].total;
+        if(this.state.perfil.sucursal=== '0'){
+          this.setState({estadosucursal:1})
+        }
       }
       else if(this.state.ListaVentasPeriodo[i].sucursal === '2'){
         tot2 = tot2 + this.state.ListaVentasPeriodo[i].total;
+        if(this.state.perfil.sucursal=== '0'){
+          this.setState({estadosucursal:1})
+        }
       }
     }
-    if(this.state.ListaVentasDia.length === 0){
+    if(this.state.ListaVentasPeriodo.length === 0){
       this.setState({estado: 2})
     }else{
       this.setState({estado: 1})
@@ -238,6 +247,12 @@ export default class TablaVentasPeriodo extends React.Component {
       mensajito = <Alert severity="success">Hay ventas!</Alert>
     } else if(this.state.estado === 2) {
       mensajito = <Alert severity="error">No se encontraron ventas :(</Alert>
+    }
+    let mensajitosucursal;
+    if(this.state.estadosucursal === 1) {
+      mensajitosucursal = <Alert severity="success">Hay ventas!</Alert>
+    } else if(this.state.estadosucursal === 2) {
+      mensajitosucursal = <Alert severity="error">No se encontraron ventas :(</Alert>
     }
     if(this.state.ready === true) {
       if(this.state.perfil.rol === 'duena'){
@@ -405,7 +420,7 @@ export default class TablaVentasPeriodo extends React.Component {
                 </h4>
                 }
                 <Box mt={8}>
-                  {mensajito}
+                  {mensajitosucursal}
                   <Copyright />
                 </Box>
               </Grid>

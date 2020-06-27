@@ -21,6 +21,14 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
+    path: "/usuario",
+    name: "Perfil de usuario",
+    rtlName: "ملف تعريفي للمستخدم",
+    icon: Person,
+    component: UserProfile,
+    layout: "/admin"
+  },
+  {
     path: "/venta",
     name: "Crear Venta",
     rtlName: "لوحة القيادة",
@@ -66,14 +74,6 @@ const dashboardRoutes = [
     rtlName: "لوحة القيادة",
     icon: "content_paste",
     component: InventarioTableList,
-    layout: "/admin"
-  },
-  {
-    path: "/usuario",
-    name: "Perfil de usuario",
-    rtlName: "ملف تعريفي للمستخدم",
-    icon: Person,
-    component: UserProfile,
     layout: "/admin"
   },
   {

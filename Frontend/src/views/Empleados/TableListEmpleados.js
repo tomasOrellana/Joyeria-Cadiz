@@ -123,8 +123,8 @@ export default class InventarioTableList extends React.Component {
     this.setState({
       perfil: info,
       isReady: true,
-      tabIndex: info.sucursal
-    }) 
+      tabIndex: Number(info.sucursal)
+    })
   }
 
   ActualizarEmpleados() {
@@ -157,13 +157,13 @@ export default class InventarioTableList extends React.Component {
       nacimiento: newData.nacimiento,
       telefono: newData.telefono,
       rol: newData.rol,
-      sucursal: this.state.tabIndex
+      sucursal: this.state.tabIndex.toString()
     })
     })
     .then( (response) => {
         if(response.status === 201) {
             console.log("Añadido correctamente")
-            
+
         } else {
             console.log('Hubo un error')
         }
@@ -187,7 +187,7 @@ export default class InventarioTableList extends React.Component {
       nacimiento: newData.nacimiento,
       telefono: newData.telefono,
       rol: newData.rol,
-      sucursal: this.state.tabIndex
+      sucursal: this.state.tabIndex.toString()
     })
     })
     .then( (response) => {
@@ -296,15 +296,15 @@ export default class InventarioTableList extends React.Component {
                     <Tab label="Vitacura" {...a11yProps(2)}/>
                   </Tabs>
                 </AppBar>
-  
+
                 <CardBody>
                   <TabPanel value={this.state.tabIndex} index={0}>
                   <MaterialTable
                       title='Lo Castillo'
                       columns={ [{ title: 'Nombre', field: 'nombre'},
-                                { title: 'Fecha', field: 'nacimiento'  },
+                                { title: 'Fecha', field: 'nacimiento'},
                                 { title: 'Telefono', field: 'telefono'},
-                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'duena', 'jefe': 'jefe' ,'vendedor': 'vendedor'}},
+                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'DUEÑA', 'jefe': 'JEFE' ,'vendedor': 'VENDEDOR'}},
                                 { title: 'sucursal', field: 'sucursal'}]}
                       data={this.state.ListaEmpleados.filter(({sucursal}) => sucursal === '0')}
                       editable={{
@@ -315,7 +315,7 @@ export default class InventarioTableList extends React.Component {
                               this.ActualizarEmpleados();
                             }, 2000)
                             this.AgregarEmpleado(newData);
-      
+
                           }),
                         onRowUpdate: (newData, oldData) =>
                           new Promise((resolve) => {
@@ -336,14 +336,14 @@ export default class InventarioTableList extends React.Component {
                       }}
                     />
                   </TabPanel>
-  
+
                   <TabPanel value={this.state.tabIndex} index={1}>
                   <MaterialTable
                       title='Apumanque'
                       columns={ [{ title: 'Nombre', field: 'nombre'},
-                                { title: 'Fecha', field: 'nacimiento'  },
+                                { title: 'Fecha', field: 'nacimiento'},
                                 { title: 'Telefono', field: 'telefono'},
-                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'duena', 'jefe': 'jefe' ,'vendedor': 'vendedor'}},
+                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'DUEÑA', 'jefe': 'JEFE' ,'vendedor': 'VENDEDOR'}},
                                 { title: 'sucursal', field: 'sucursal'}]}
                       data={this.state.ListaEmpleados.filter(({sucursal}) => sucursal === '1')}
                       editable={{
@@ -374,14 +374,14 @@ export default class InventarioTableList extends React.Component {
                       }}
                     />
                   </TabPanel>
-  
+
                   <TabPanel value={this.state.tabIndex} index={2}>
                   <MaterialTable
                       title='Vitacura'
                       columns={ [{ title: 'Nombre', field: 'nombre'},
-                                { title: 'Fecha', field: 'nacimiento'  },
+                                { title: 'Fecha', field: 'nacimiento'},
                                 { title: 'Telefono', field: 'telefono'},
-                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'duena', 'jefe': 'jefe' ,'vendedor': 'vendedor'}},
+                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'DUEÑA', 'jefe': 'JEFE' ,'vendedor': 'VENDEDOR'}},
                                 { title: 'sucursal', field: 'sucursal'}]}
                       data={this.state.ListaEmpleados.filter(({sucursal}) => sucursal === '2')}
                       editable={{
@@ -424,12 +424,12 @@ export default class InventarioTableList extends React.Component {
                   <MaterialTable
                       title= {nombresucursal}
                       columns={ [{ title: 'Nombre', field: 'nombre'},
-                                { title: 'Fecha', field: 'nacimiento'  },
+                                { title: 'Fecha', field: 'nacimiento', type:'date'},
                                 { title: 'Telefono', field: 'telefono'},
-                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'duena', 'jefe': 'jefe' ,'vendedor': 'vendedor'}},
+                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'DUEÑA', 'jefe': 'JEFE' ,'vendedor': 'VENDEDOR'}},
                                 { title: 'sucursal', field: 'sucursal'}]}
                       data={this.state.ListaEmpleados.filter(({sucursal}) => sucursal === this.state.perfil.sucursal)}
-                      editable={{}} 
+                      editable={{}}
                       />
                 </CardBody>
               </Card>
