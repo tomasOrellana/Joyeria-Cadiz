@@ -489,6 +489,39 @@ router.get('/empleados', isLoggedIn, (req,res) =>{
 
 });
 
+router.post('/empleados', (req,res) =>{
+    empleado.find(function (err,empleado) {
+        res.render('empleados',{
+						user: req.user,
+            empleado: empleado
+        });
+    });
+
+});
+
+router.get('/pedidos', async function(req, res){  //lista de productos, tiene buscador
+    if(req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        await pedido.find({codigo: regex}, function(err, pedido){
+           if(err){
+               res.sendStatus(404)
+           } else {
+							res.json(pedido)
+					 }
+        });
+    } else {
+        await pedido.find({}, function(err, pedido){
+           if(err){
+               res.sendStatus(404)
+           } else {
+              //res.render("productos",{user: req.user, pedido: pedido});
+							res.json(pedido);
+           }
+        });
+    }
+});
+
+
 router.get('/delete_empleado/:id', isLoggedIn, (req,res) =>{
     let id = req.params.id;
     empleado.remove({_id: id}, (err, task) =>{
