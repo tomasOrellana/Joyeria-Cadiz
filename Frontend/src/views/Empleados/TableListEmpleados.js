@@ -7,6 +7,8 @@ import MaterialTable from 'material-table';
 import Box from '@material-ui/core/Box';
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
+import GridItem from "components/Grid/GridItem.js";
+import GridContainer from "components/Grid/GridContainer.js";
 
 const styles = {
   cardCategoryWhite: {
@@ -435,6 +437,20 @@ export default class InventarioTableList extends React.Component {
               </Card>
           </div>
         )
+      } else{
+        return (
+          <GridContainer>
+            <GridItem xs={12} sm={12} md={12} style={{display: 'flex',  justifyContent:'center', height: '100vh'}}>
+              <Card profile style = {{width: 580, height: 400}}>
+                <CardBody profile>
+                  <div style={{textAlign: 'center'}}>
+                    <p>No tienes autorización sapo qlo</p>
+                  </div>
+                </CardBody>
+              </Card>
+            </GridItem>
+          </GridContainer>
+        );
       }
     } else if(this.state.ready === false) {
       return(
