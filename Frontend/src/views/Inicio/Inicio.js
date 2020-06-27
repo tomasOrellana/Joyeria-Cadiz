@@ -106,173 +106,38 @@ const styles = {
 
 
 export default class Inicio extends React.Component {
-  render() {
-    return (
-      <div>
-        <GridContainer>
-  
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="success" stats icon>
-                <CardIcon color="success">
-                  <Icon>done</Icon>
-                </CardIcon>
-                <p style={styles.cardCategory}>Entregas</p>
-                <h3 style={styles.cardTitle}>
-                  3 <small>listas</small>
-                </h3>
-              </CardHeader>
-              
-              <CardFooter stats>
-                <div style={styles.stats}>
-                  <Update />
-                  Mas info en seccion taller
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-  
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="warning" stats icon>
-                <CardIcon color="warning">
-                  <Icon>palette</Icon>
-                </CardIcon>
-                <p style={styles.cardCategory}>Taller</p>
-                <h3 style={styles.cardTitle}>
-                  4 <small>pedidos</small>
-                </h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div style={styles.stats}>
-                  <Update />
-                  Mas info en seccion Taller
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-          
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="info" stats icon>
-                <CardIcon color="info">
-                  <Icon>shopping_basket</Icon>
-                </CardIcon>
-                <p style={styles.cardCategory}>Ventas diarias</p>
-                <h3 style={styles.cardTitle}>32</h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div style={styles.stats}>
-                  <LocalOffer />
-                  Mas info en seccion ventas
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-  
-          <GridItem xs={12} sm={6} md={3}>
-            <Card>
-              <CardHeader color="danger" stats icon>
-                <CardIcon color="danger">
-                  <Icon>person_pin</Icon>
-                </CardIcon>
-                <p style={styles.cardCategory}>Empleados</p>
-                <h3 style={styles.cardTitle}>
-                  103 <small>totales</small>
-                </h3>
-              </CardHeader>
-              <CardFooter stats>
-                <div style={styles.stats}>
-                  <LocalOffer />
-                  Mas info en seccion empleados
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-  
-  
-        </GridContainer>
-  
-  
-        <GridContainer>
-  
-          <GridItem xs={12} sm={12} md={4}>
-            <Card chart>
-              <CardHeader color="success">
-                <ChartistGraph
-                  
-                  data={dailySalesChart.data}
-                  type="Line"
-                  options={dailySalesChart.options}
-                  listener={dailySalesChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 style={styles.cardTitle}>Ventas semanales</h4>
-                <p style={styles.cardCategory}>
-                  <span style={styles.successText}>
-                    <ArrowUpward style={styles.upArrowCardCategory} /> 55%
-                  </span>{" "}
-                  Incremento de hoy.
-                </p>
-              </CardBody>
-              <CardFooter chart>
-                <div style={styles.stats}>
-                  <AccessTime /> Actualizado hace 17 minutos
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-  
-          <GridItem xs={12} sm={12} md={4}>
-            <Card chart>
-              <CardHeader color="warning">
-                <ChartistGraph
-                  
-                  data={emailsSubscriptionChart.data}
-                  type="Bar"
-                  options={emailsSubscriptionChart.options}
-                  responsiveOptions={emailsSubscriptionChart.responsiveOptions}
-                  listener={emailsSubscriptionChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 style={styles.cardTitle}>Ventas mensuales</h4>
-                <p style={styles.cardCategory}>asd</p>
-              </CardBody>
-              <CardFooter chart>
-                <div style={styles.stats}>
-                  <AccessTime /> Actualizado hace 2 dias
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-  
-          <GridItem xs={12} sm={12} md={4}>
-            <Card chart>
-              <CardHeader color="danger">
-                <ChartistGraph
-                  
-                  data={completedTasksChart.data}
-                  type="Line"
-                  options={completedTasksChart.options}
-                  listener={completedTasksChart.animation}
-                />
-              </CardHeader>
-              <CardBody>
-                <h4 style={styles.cardTitle}>Ventas diarias</h4>
-                <p style={styles.cardCategory}>asd</p>
-              </CardBody>
-              <CardFooter chart>
-                <div style={styles.stats}>
-                  <AccessTime />Actualizado hace 5 minutos
-                </div>
-              </CardFooter>
-            </Card>
-          </GridItem>
-  
-        </GridContainer>
-      </div>
-    );
+  constructor(props) {
+    super(props);
+    this.state = {
+      nombre : null
+    }
+  }
+
+  componentDidMount() {
+    this.getUsuario()
+  }
+
+  getUsuario = () => {
+    let info = JSON.parse(localStorage.getItem('usuario'));
+    this.setState({
+      nombre : info.nombre
+    })
+  }
+
+  render() {return (
+    <GridContainer>
+      <GridItem xs={12} sm={12} md={12} style={{display: 'flex',  justifyContent:'center', height: '100vh'}}>
+        <Card profile style = {{width: 580, height: 400}}>
+          <CardBody profile>
+            <div style={{textAlign: 'center'}}>
+              <h1>¡Bienvenido {this.state.nombre}!</h1>
+              <h2>Ten un excelente día</h2>
+              <h3>Recuerda entregar un buen servicio</h3>
+            </div>
+          </CardBody>
+        </Card>
+      </GridItem>
+    </GridContainer>
+  );
   }
 }

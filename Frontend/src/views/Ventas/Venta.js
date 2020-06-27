@@ -181,7 +181,7 @@ export default class Ventas extends React.Component {
   }
 
   componentDidMount() {
-    this.ActualizarInventario()
+    this.ActualizarInventario();
   }
 
   getMock = () => {
