@@ -265,6 +265,8 @@ export default class InventarioTableList extends React.Component {
       mensajito = <Alert severity="success">El pedido se editó correctamente</Alert>
     }else if(this.state.mensaje === 4) {
       mensajito = <Alert severity="success">El pedido se eliminó correctamente</Alert>
+    }else if(this.state.mensaje === 5) {
+      mensajito = <Alert severity="success">Usted solo puede editar el estado y descripción</Alert>
     }
 
     if(this.state.ready === true) {
@@ -506,10 +508,9 @@ export default class InventarioTableList extends React.Component {
                                 this.ActualizarPedidos();
                               }, 2000)
                               this.EditarPedido(newData)
-                              this.setState({mensaje: 1})
                             } else {
                               resolve();
-                              this.setState({mensaje: 2})
+                              this.setState({mensaje: 5})
                             }
                           }),
                         onRowDelete: (oldData) =>
