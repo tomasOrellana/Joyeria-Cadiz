@@ -165,6 +165,7 @@ export default class Login extends React.Component {
               margin="normal"
               required
               fullWidth
+              type="password"
               name="contraseña"
               label="Contraseña"
               id="contraseña"

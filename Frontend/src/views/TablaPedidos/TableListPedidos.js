@@ -8,6 +8,8 @@ import MaterialTable from 'material-table';
 import Box from '@material-ui/core/Box';
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
+import { Grid } from '@material-ui/core';
+import Link from '@material-ui/core/Link';
 
 const styles = {
   cardCategoryWhite: {
@@ -68,6 +70,19 @@ const styles = {
     marginRight: 5
   }
 };
+
+function Copyright() {
+  return (
+    <Typography variant="body2" color="textSecondary" align="center">
+      {'Copyright © '}
+      <Link color="inherit" target="_blank" href="https://cadisjoyas.cl/">
+        Joyeía Cadis
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+}
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -386,6 +401,19 @@ export default class InventarioTableList extends React.Component {
                       }}
                     />
                   </TabPanel>
+                  <Grid
+                  container
+                  direction="row"
+                  justify="center"
+                  alignItems="center"
+                  spacing={3}>
+                    <Grid item xs={6} text-align= "center">
+                    <Box mt={8}>
+                      {mensajito}
+                      <Copyright />
+                    </Box>
+                    </Grid>
+                  </Grid>
                 </CardBody>
               </Card>
           </div>
@@ -431,6 +459,19 @@ export default class InventarioTableList extends React.Component {
                             this.EliminarPedido(oldData)
                           }),
                       }}  />
+                      <Grid
+                      container
+                      direction="row"
+                      justify="center"
+                      alignItems="center"
+                      spacing={3}>
+                        <Grid item xs={6} text-align= "center">
+                        <Box mt={8}>
+                          {mensajito}
+                          <Copyright />
+                        </Box>
+                        </Grid>
+                      </Grid>
                 </CardBody>
               </Card>
           </div>
@@ -482,6 +523,19 @@ export default class InventarioTableList extends React.Component {
                             this.EliminarPedido(oldData)
                           }),
                       }}  />
+                      <Grid
+                      container
+                      direction="row"
+                      justify="center"
+                      alignItems="center"
+                      spacing={3}>
+                        <Grid item xs={6} text-align= "center">
+                        <Box mt={8}>
+                          {mensajito}
+                          <Copyright />
+                        </Box>
+                        </Grid>
+                      </Grid>
                 </CardBody>
               </Card>
           </div>
