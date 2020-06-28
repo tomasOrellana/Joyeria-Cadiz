@@ -277,7 +277,7 @@ router.post('/editar_pedido/:id', function(req, res) {
 	let descripcion = req.body.descripcion.toUpperCase();
 	let estado = req.body.estado.toUpperCase();
 	let total = req.body.total;
-	pedido.findByIdAndUpdate(id,{fecha: fecha, cliente: cliente, sucursal: sucursal, descripción: descripcion, estado: estado, total: total}, function (err) {
+	pedido.findByIdAndUpdate(id,{fecha: fecha, cliente: cliente, sucursal: sucursal, descripcion: descripcion, estado: estado, total: total}, function (err) {
 		if(!err){
 			res.sendStatus(201)
 		}
@@ -505,7 +505,7 @@ router.post('/delete_empleado/:id', isLoggedIn, (req,res) =>{
 
 
 router.post('/editar_empleado/:id', function(req, res) {
-	let telefono= req.body.telefono.toUpperCase();
+	let telefono= req.body.telefonotoUpperCase();
 	let rol = req.body.rol.toUpperCase();
 	let sucursal = req.body.sucursal.toUpperCase();
 	empleado.findByIdAndUpdate(req.parmas.id,{telefono: telefono, rol: rol, sucursal: sucursal}, function (err) {
