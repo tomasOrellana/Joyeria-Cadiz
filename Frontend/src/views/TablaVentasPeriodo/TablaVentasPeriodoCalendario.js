@@ -253,7 +253,7 @@ export default class TablaVentasPeriodo extends React.Component {
     } else if(this.state.estado === 2) {
       mensajito = <Alert severity="error">No se encontraron ventas :(</Alert>
     }else if(this.state.estado === 3) {
-      mensajito = <Alert severity="success">La venta se elimino correctamente</Alert>
+      mensajito = <Alert severity="success">La venta se eliminó correctamente</Alert>
     }else if(this.state.estado === 4) {
       mensajito = <Alert severity="error">Lo sentimos, hubo un error, vuelva a intentarlo</Alert>
     }
@@ -265,7 +265,7 @@ export default class TablaVentasPeriodo extends React.Component {
     } else if(this.state.estadosucursal === 2) {
       mensajitosucursal = <Alert severity="error">No se encontraron ventas :(</Alert>
     }else if(this.state.estadosucursal === 3) {
-      mensajito = <Alert severity="success">La venta se elimino correctamente</Alert>
+      mensajito = <Alert severity="success">La venta se eliminó correctamente</Alert>
     }else if(this.state.estadosucursal === 4) {
       mensajito = <Alert severity="error">Lo sentimos, hubo un error, vuelva a intentarlo</Alert>
     }

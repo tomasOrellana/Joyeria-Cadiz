@@ -247,9 +247,9 @@ export default class InventarioTableList extends React.Component {
     }else if(this.state.mensaje === 2) {
       mensajito = <Alert severity="error">Lo sentimos, hubo un error, vuelva a intentarlo nuevamente</Alert>
     }else if(this.state.mensaje === 3) {
-      mensajito = <Alert severity="success">El pedido se edito correctamente</Alert>
+      mensajito = <Alert severity="success">El pedido se editó correctamente</Alert>
     }else if(this.state.mensaje === 4) {
-      mensajito = <Alert severity="success">El pedido se elimino correctamente</Alert>
+      mensajito = <Alert severity="success">El pedido se eliminó correctamente</Alert>
     }
 
     if(this.state.ready === true) {
