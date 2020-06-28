@@ -220,13 +220,13 @@ export default class TablaVentasPeriodo extends React.Component {
       }
       else if(this.state.ListaVentasPeriodo[i].sucursal === '1'){
         tot1 = tot1 + this.state.ListaVentasPeriodo[i].total;
-        if(this.state.perfil.sucursal=== '0'){
+        if(this.state.perfil.sucursal=== '1'){
           this.setState({estadosucursal:1})
         }
       }
       else if(this.state.ListaVentasPeriodo[i].sucursal === '2'){
         tot2 = tot2 + this.state.ListaVentasPeriodo[i].total;
-        if(this.state.perfil.sucursal=== '0'){
+        if(this.state.perfil.sucursal=== '2'){
           this.setState({estadosucursal:1})
         }
       }
@@ -244,13 +244,13 @@ export default class TablaVentasPeriodo extends React.Component {
   render() {
     let mensajito;
     if(this.state.estado === 1) {
-      mensajito = <Alert severity="success">Hay ventas!</Alert>
+      mensajito = <Alert severity="success">¡Hay ventas!</Alert>
     } else if(this.state.estado === 2) {
       mensajito = <Alert severity="error">No se encontraron ventas :(</Alert>
     }
     let mensajitosucursal;
     if(this.state.estadosucursal === 1) {
-      mensajitosucursal = <Alert severity="success">Hay ventas!</Alert>
+      mensajitosucursal = <Alert severity="success">¡Hay ventas!</Alert>
     } else if(this.state.estadosucursal === 2) {
       mensajitosucursal = <Alert severity="error">No se encontraron ventas :(</Alert>
     }
@@ -363,7 +363,7 @@ export default class TablaVentasPeriodo extends React.Component {
             </Grid>
           </div>
         );
-      } else if(this.state.perfil.rol === 'jefe'){
+      } else {
         return (
           <div style={styles.root}>
             <Card>
