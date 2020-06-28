@@ -131,10 +131,19 @@ export default class Ventas extends React.Component {
       suma: 0,
       indexMetodo: 0,
       indexSucursal: 0,
-      completado: 0
+      completado: 0,
+      perfil: null
     }
     this.handleChange = this.handleChange.bind(this)
     this.ActualizarInventario = this.ActualizarInventario.bind(this)
+  }
+  getUsuario = () => {
+    let info = JSON.parse(localStorage.getItem('usuario'));
+    this.setState({
+      perfil: info,
+      vendedor: info.nombre,
+      sucursal: info.sucursal
+    })
   }
 
   ActualizarInventario() {
@@ -181,6 +190,7 @@ export default class Ventas extends React.Component {
   }
 
   componentDidMount() {
+    this.getUsuario();
     this.ActualizarInventario();
   }
 
@@ -301,8 +311,6 @@ export default class Ventas extends React.Component {
 
 
   }
-
-
   render() {
 
     let mensajito;
@@ -311,98 +319,203 @@ export default class Ventas extends React.Component {
     } else if(this.state.completado === 2) {
       mensajito = <Alert severity="error">Hubo un error con la venta</Alert>
     }
+    if(this.state.ready === true){
+      if(this.state.perfil.rol === 'duena'){
+        return (
+          <div>
+            <Card>
+              <CardHeader color="primary">
+                <Grid
+                  container
+                  direction="row"
+                  alignItems="center"
+                  spacing={1}>
+                  <Grid item xs={2}>
+                    <h4 style={{ color: "#FFFFFF",marginTop: "0px",minHeight: "auto",fontWeight: "300",fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",marginBottom: "3px",textDecoration: "none"}}>Seleccione los articulos</h4>
+                  </Grid>
+                  <Grid item xs={2}>
 
-    return (
-      <div>
-        <Card>
-          <CardHeader color="primary">
-            <Grid
-              container
-              direction="row"
-              alignItems="center"
-              spacing={1}>
-              <Grid item xs={2}>
-                <h4 style={{ color: "#FFFFFF",marginTop: "0px",minHeight: "auto",fontWeight: "300",fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",marginBottom: "3px",textDecoration: "none"}}>Seleccione los articulos</h4>
-              </Grid>
-              <Grid item xs={2}>
+                  </Grid>
+                </Grid>
+              </CardHeader>
+              <CardBody>
+                <TableTransfer
+                  dataSource={this.state.filterMock}
+                  showSearch
 
-              </Grid>
-            </Grid>
-          </CardHeader>
-          <CardBody>
-            <TableTransfer
-              dataSource={this.state.filterMock}
-              showSearch
+                  operations={['Incluir', 'Descartar']}
+                  targetKeys={this.state.targetKeys}
+                  onChange={this.handleChange} // codigo tipo, material, piedra, precio
+                  filterOption={(inputValue, item) =>
+                    item.codigo.indexOf(inputValue) !== -1 || item.tipo.indexOf(inputValue.toUpperCase()) !== -1 || item.material.indexOf(inputValue.toUpperCase()) !== -1 || item.piedra.indexOf(inputValue.toUpperCase()) !== -1 || item.precio.indexOf(inputValue) !== -1
+                  }
+                  leftColumns={leftTableColumns}
+                  rightColumns={rightTableColumns}
+                  footer={this.renderFooter}
 
-              operations={['Incluir', 'Descartar']}
-              targetKeys={this.state.targetKeys}
-              onChange={this.handleChange} // codigo tipo, material, piedra, precio
-              filterOption={(inputValue, item) =>
-                item.codigo.indexOf(inputValue) !== -1 || item.tipo.indexOf(inputValue.toUpperCase()) !== -1 || item.material.indexOf(inputValue.toUpperCase()) !== -1 || item.piedra.indexOf(inputValue.toUpperCase()) !== -1 || item.precio.indexOf(inputValue) !== -1
-              }
-              leftColumns={leftTableColumns}
-              rightColumns={rightTableColumns}
-              footer={this.renderFooter}
-
-            />
-            <Grid
-            container
-            direction="row"
-            justify="center"
-            alignItems="center"
-            spacing={3}>
-              <Grid item xs={6}>
-                <h4>
-                Precio (sin dcto): ${this.state.suma}{"\n"} <br />
-                Precio final: ${this.state.total}
-                </h4>
-              </Grid>
-              <Grid item xs={6}>
+                />
                 <Grid
                 container
                 direction="row"
                 justify="center"
                 alignItems="center"
-                spacing={1}>
+                spacing={3}>
                   <Grid item xs={6}>
-                    <TextField id="standard-basic" value={this.state.descuento} label="Descuento %" onChange={this.handleInputChange('descuento')}/>
+                    <h4>
+                    Precio (sin dcto): ${this.state.suma}{"\n"} <br />
+                    Precio final: ${this.state.total}
+                    </h4>
                   </Grid>
                   <Grid item xs={6}>
-                    <TextField
-                      select
-                      label="Metodo de pago"
-                      value={this.state.metodo_pago}
-                      onChange={this.handleInputChange('metodo_pago')}
-                      helperText="Selecciona la forma de pagar"
-                    >
-                      <MenuItem key={'efectivo'} value={'efectivo'}>{'Efectivo'}</MenuItem>
-                      <MenuItem key={'credito'} value={'credito'}>{'Credito'}</MenuItem>
-                      <MenuItem key={'debito'} value={'debito'}>{'Debito'}</MenuItem>
-                    </TextField>
+                    <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                    spacing={1}>
+                      <Grid item xs={6}>
+                        <TextField id="standard-basic" value={this.state.descuento} label="Descuento %" onChange={this.handleInputChange('descuento')}/>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          select
+                          label="Metodo de pago"
+                          value={this.state.metodo_pago}
+                          onChange={this.handleInputChange('metodo_pago')}
+                          helperText="Selecciona la forma de pagar"
+                        >
+                          <MenuItem key={'efectivo'} value={'efectivo'}>{'Efectivo'}</MenuItem>
+                          <MenuItem key={'credito'} value={'credito'}>{'Credito'}</MenuItem>
+                          <MenuItem key={'debito'} value={'debito'}>{'Debito'}</MenuItem>
+                        </TextField>
+                      </Grid>
+                    </Grid>
+                    <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                    spacing={1}>
+                      <Grid item xs={6}>
+                        <TextField id="standard-basic" value={this.state.vendedor} label="Vendedor" defaultValue={this.state.perfil.nombre} onChange={this.handleInputChange('vendedor')}/>
+                      </Grid>
+                      <Grid item xs={6}>
+
+                      </Grid>
+                    </Grid>
+                    <Button style={{ float: 'right', margin: 5 }} onClick={this.imprimir}>
+                      Finalizar venta
+                    </Button>
+                    {mensajito}
                   </Grid>
                 </Grid>
+              </CardBody>
+            </Card>
+          </div>
+        );
+      }else{
+        return (
+          <div>
+            <Card>
+              <CardHeader color="primary">
+                <Grid
+                  container
+                  direction="row"
+                  alignItems="center"
+                  spacing={1}>
+                  <Grid item xs={2}>
+                    <h4 style={{ color: "#FFFFFF",marginTop: "0px",minHeight: "auto",fontWeight: "300",fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",marginBottom: "3px",textDecoration: "none"}}>Seleccione los articulos</h4>
+                  </Grid>
+                  <Grid item xs={2}>
+
+                  </Grid>
+                </Grid>
+              </CardHeader>
+              <CardBody>
+                <TableTransfer
+                  dataSource={this.state.filterMock}
+                  showSearch
+
+                  operations={['Incluir', 'Descartar']}
+                  targetKeys={this.state.targetKeys}
+                  onChange={this.handleChange} // codigo tipo, material, piedra, precio
+                  filterOption={(inputValue, item) =>
+                    item.codigo.indexOf(inputValue) !== -1 || item.tipo.indexOf(inputValue.toUpperCase()) !== -1 || item.material.indexOf(inputValue.toUpperCase()) !== -1 || item.piedra.indexOf(inputValue.toUpperCase()) !== -1 || item.precio.indexOf(inputValue) !== -1
+                  }
+                  leftColumns={leftTableColumns}
+                  rightColumns={rightTableColumns}
+
+                />
                 <Grid
                 container
                 direction="row"
                 justify="center"
                 alignItems="center"
-                spacing={1}>
+                spacing={3}>
                   <Grid item xs={6}>
-                    <TextField id="standard-basic" value={this.state.vendedor} label="Vendedor" onChange={this.handleInputChange('vendedor')}/>
+                    <h4>
+                    Precio (sin dcto): ${this.state.suma}{"\n"} <br />
+                    Precio final: ${this.state.total}
+                    </h4>
                   </Grid>
                   <Grid item xs={6}>
+                    <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                    spacing={1}>
+                      <Grid item xs={6}>
+                        <TextField id="standard-basic" value={this.state.descuento} label="Descuento %" onChange={this.handleInputChange('descuento')}/>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <TextField
+                          select
+                          label="Metodo de pago"
+                          value={this.state.metodo_pago}
+                          onChange={this.handleInputChange('metodo_pago')}
+                          helperText="Selecciona la forma de pagar"
+                        >
+                          <MenuItem key={'efectivo'} value={'efectivo'}>{'Efectivo'}</MenuItem>
+                          <MenuItem key={'credito'} value={'credito'}>{'Credito'}</MenuItem>
+                          <MenuItem key={'debito'} value={'debito'}>{'Debito'}</MenuItem>
+                        </TextField>
+                      </Grid>
+                    </Grid>
+                    <Grid
+                    container
+                    direction="row"
+                    justify="center"
+                    alignItems="center"
+                    spacing={1}>
+                      <Grid item xs={6}>
+                        <TextField id="standard-basic" value={this.state.vendedor} defaultvalue={this.state.perfil.nombre} label="Vendedor" onChange={this.handleInputChange('vendedor')}/>
+                      </Grid>
+                      <Grid item xs={6}>
 
+                      </Grid>
+                    </Grid>
+                    <Button style={{ float: 'right', margin: 5 }} onClick={this.imprimir}>
+                      Finalizar venta
+                    </Button>
+                    {mensajito}
                   </Grid>
                 </Grid>
-                <Button style={{ float: 'right', margin: 5 }} onClick={this.imprimir}>
-                  Finalizar venta
-                </Button>
-                {mensajito}
-              </Grid>
-            </Grid>
-          </CardBody>
-        </Card>
-      </div>
-    );
+              </CardBody>
+            </Card>
+          </div>
+        );
+      }
+    }else if(this.state.ready === false) {
+      return (
+        <div>
+          <Card>
+            <CardBody>
+              <p> Espera por favor.</p>
+            </CardBody>
+          </Card>
+        </div>
+      )
+    }
   }
 }

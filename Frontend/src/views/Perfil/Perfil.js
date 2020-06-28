@@ -192,7 +192,6 @@ export default class UserProfile extends React.Component {
                   <p>RUT: {this.state.perfil.rut}</p>
                   <p>Fecha nacimiento: {this.state.perfil.nacimiento}</p>
                   <p>Telefono: {this.state.perfil.telefono}</p>
-                  <p>Email: {this.state.perfil.email}</p>
                   {this.state.perfil.sucursal === '0' &&
                     <p>Sucursal: Lo Castillo</p>
                   }
