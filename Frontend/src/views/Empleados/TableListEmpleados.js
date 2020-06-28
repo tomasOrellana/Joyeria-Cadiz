@@ -306,8 +306,7 @@ export default class InventarioTableList extends React.Component {
                       columns={ [{ title: 'Nombre', field: 'nombre'},
                                 { title: 'Fecha', field: 'nacimiento'},
                                 { title: 'Telefono', field: 'telefono'},
-                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'DUEÑA', 'jefe': 'JEFE' ,'vendedor': 'VENDEDOR'}},
-                                { title: 'sucursal', field: 'sucursal'}]}
+                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'DUEÑA', 'jefe': 'JEFE' ,'vendedor': 'VENDEDOR'}}]}
                       data={this.state.ListaEmpleados.filter(({sucursal}) => sucursal === '0')}
                       editable={{
                         onRowAdd: newData =>
@@ -345,8 +344,7 @@ export default class InventarioTableList extends React.Component {
                       columns={ [{ title: 'Nombre', field: 'nombre'},
                                 { title: 'Fecha', field: 'nacimiento'},
                                 { title: 'Telefono', field: 'telefono'},
-                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'DUEÑA', 'jefe': 'JEFE' ,'vendedor': 'VENDEDOR'}},
-                                { title: 'sucursal', field: 'sucursal'}]}
+                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'DUEÑA', 'jefe': 'JEFE' ,'vendedor': 'VENDEDOR'}}]}
                       data={this.state.ListaEmpleados.filter(({sucursal}) => sucursal === '1')}
                       editable={{
                         onRowAdd: (newData) =>
@@ -383,8 +381,7 @@ export default class InventarioTableList extends React.Component {
                       columns={ [{ title: 'Nombre', field: 'nombre'},
                                 { title: 'Fecha', field: 'nacimiento'},
                                 { title: 'Telefono', field: 'telefono'},
-                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'DUEÑA', 'jefe': 'JEFE' ,'vendedor': 'VENDEDOR'}},
-                                { title: 'sucursal', field: 'sucursal'}]}
+                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'DUEÑA', 'jefe': 'JEFE' ,'vendedor': 'VENDEDOR'}}]}
                       data={this.state.ListaEmpleados.filter(({sucursal}) => sucursal === '2')}
                       editable={{
                         onRowAdd: (newData) =>
@@ -428,8 +425,7 @@ export default class InventarioTableList extends React.Component {
                       columns={ [{ title: 'Nombre', field: 'nombre'},
                                 { title: 'Fecha', field: 'nacimiento', type:'date'},
                                 { title: 'Telefono', field: 'telefono'},
-                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'DUEÑA', 'jefe': 'JEFE' ,'vendedor': 'VENDEDOR'}},
-                                { title: 'sucursal', field: 'sucursal'}]}
+                                { title: 'Rol', field: 'rol', lookup: { 'duena': 'DUEÑA', 'jefe': 'JEFE' ,'vendedor': 'VENDEDOR'}}]}
                       data={this.state.ListaEmpleados.filter(({sucursal}) => sucursal === this.state.perfil.sucursal)}
                       editable={{}}
                       />

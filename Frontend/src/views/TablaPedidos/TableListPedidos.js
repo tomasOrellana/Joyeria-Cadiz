@@ -245,9 +245,9 @@ export default class InventarioTableList extends React.Component {
     if(this.state.ready === true) {
 
       let nombresucursal;
-        if(this.state.tabIndex === '0') { nombresucursal = 'Lo Castillo'}
-        if(this.state.tabIndex === '1') { nombresucursal = 'Apumanque'}
-        if(this.state.tabIndex === '2') { nombresucursal = 'Vitacura'}
+        if(this.state.perfil.sucursal === '0') { nombresucursal = 'Lo Castillo'}
+        if(this.state.perfil.sucursal === '1') { nombresucursal = 'Apumanque'}
+        if(this.state.perfil.sucursal === '2') { nombresucursal = 'Vitacura'}
 
       if(this.state.perfil.rol === 'duena') {
         return (
@@ -449,6 +449,7 @@ export default class InventarioTableList extends React.Component {
                                 this.ActualizarPedidos();
                               }, 2000)
                               this.EditarPedido(newData)
+                              this.setState({mensaje: 1})
                             } else {
                               resolve();
                               this.setState({mensaje: 2})

@@ -376,7 +376,7 @@ export default class TablaVentasPeriodo extends React.Component {
                     Listo
                   </Button>
                   <MaterialTable
-                      title='Lo Castillo'
+                      title='Tu sucursal'
                       columns={ [{ title: 'Numero', field: 'numero_venta', type: 'numeric' },
                                 { title: 'Descuento', field: 'descuento',type: 'numeric' },
                                 { title: 'Fecha', field: 'fecha', type: 'date'},
