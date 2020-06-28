@@ -451,7 +451,11 @@ export default class InventarioTableList extends React.Component {
     } else if(this.state.ready === false) {
       return(
         <div style={styles.root}>
-          <p></p>
+        <Card>
+          <CardBody>
+            <p> Espera por favor.</p>
+          </CardBody>
+        </Card>
         </div>
       )
     }

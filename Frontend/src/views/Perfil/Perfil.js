@@ -209,9 +209,11 @@ export default class UserProfile extends React.Component {
       );
     } else if(this.state.isReady == false) {
       return (
-        <div>
-           cargando
-        </div>
+        <Card>
+          <CardBody>
+            <p> Espera por favor.</p>
+          </CardBody>
+        </Card>
       )
     }
   }
