@@ -117,7 +117,7 @@ export default class InventarioTableList extends React.Component {
     super(props);
     this.state = {
       tabIndex: 0,
-      estado:null,
+      estado:2,
       estadosucursal:2,
       perfil: null,
       ListaProductos: null,
@@ -152,34 +152,10 @@ export default class InventarioTableList extends React.Component {
       });
   }
 
-  RealizarMensajes(){
-    for(let i = 0; i<this.state.ListaProductos.length;i++){
-      if(this.state.ListaProductos[i].sucursal === '0'){
-        if(this.state.perfil.sucursal=== '0'){
-          this.setState({estadosucursal:1})
-        }
-      }
-      else if(this.state.ListaProductos[i].sucursal === '1'){
-        if(this.state.perfil.sucursal=== '0'){
-          this.setState({estadosucursal:1})
-        }
-      }
-      else if(this.state.ListaProductos[i].sucursal === '2'){
-        if(this.state.perfil.sucursal=== '0'){
-          this.setState({estadosucursal:1})
-        }
-      }
-    }
-    if(this.state.ListaVentasDia.length === 0){
-      this.setState({estado: 2})
-    }else{
-      this.setState({estado: 1})
-    }
-  }
-
   componentDidMount() {
     this.getUsuario();
     this.ActualizarInventario();
+
   }
 
   handleChange(event, newValue) {
@@ -293,9 +269,9 @@ export default class InventarioTableList extends React.Component {
     if(this.state.ready === true) {
 
       let nombresucursal;
-        if(this.state.tabIndex === '0') { nombresucursal = 'Lo Castillo'}
-        if(this.state.tabIndex === '1') { nombresucursal = 'Apumanque'}
-        if(this.state.tabIndex === '2') { nombresucursal = 'Vitacura'}
+        if(this.state.perfil.sucursal === '0') { nombresucursal = 'Lo Castillo'}
+        if(this.state.perfil.sucursal === '1') { nombresucursal = 'Apumanque'}
+        if(this.state.perfil.sucursal === '2') { nombresucursal = 'Vitacura'}
 
       if(this.state.perfil.rol === 'duena'){
         return (
