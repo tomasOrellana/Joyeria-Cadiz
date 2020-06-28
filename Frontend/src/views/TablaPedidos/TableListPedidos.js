@@ -104,7 +104,7 @@ export default class InventarioTableList extends React.Component {
       tabIndex: 0,
       ready: false,
       ListaPedidos: null,
-      mensaje: 0
+      mensaje: null
     }
     this.handleChange = this.handleChange.bind(this)
     this.AgregarPedido = this.AgregarPedido.bind(this)
@@ -148,8 +148,10 @@ export default class InventarioTableList extends React.Component {
     .then( (response) => {
         if(response.status === 201) {
             console.log("Añadido correctamente")
+            this.setState({mensaje: 1})
         } else {
             console.log('Hubo un error')
+            this.setState({mensaje: 2})
         }
     })
     .catch((error) => {
@@ -178,8 +180,10 @@ export default class InventarioTableList extends React.Component {
     .then( (response) => {
         if(response.status === 201) {
             console.log("Editado correctamente")
+            this.setState({mensaje: 3})
         } else {
             console.log('Hubo un error')
+            this.setState({mensaje: 2})
         }
     })
     .catch((error) => {
@@ -202,8 +206,10 @@ export default class InventarioTableList extends React.Component {
     .then( (response) => {
         if(response.status === 201) {
             console.log("Eliminado correctamente")
+            this.setState({mensaje: 4})
         } else {
             console.log('Hubo un error')
+            this.setState({mensaje: 2})
         }
     })
     .catch((error) => {
@@ -238,8 +244,12 @@ export default class InventarioTableList extends React.Component {
     let mensajito;
     if(this.state.mensaje === 1) {
       mensajito = <Alert severity="success">Pedido agregado correctamente</Alert>
-    } else if(this.state.mensaje === 2) {
-      mensajito = <Alert severity="error">Lo siento, no tienes permiso. Solo puedes editar descripcion y estado de pedido.</Alert>
+    }else if(this.state.mensaje === 2) {
+      mensajito = <Alert severity="error">Lo sentimos, hubo un error, vuelva a intentarlo nuevamente.</Alert>
+    }else if(this.state.mensaje === 3) {
+      mensajito = <Alert severity="success">El pedido se edito correctamente.</Alert>
+    }else if(this.state.mensaje === 4) {
+      mensajito = <Alert severity="success">El pedido se elimino correctamente.</Alert>
     }
 
     if(this.state.ready === true) {
@@ -252,7 +262,6 @@ export default class InventarioTableList extends React.Component {
       if(this.state.perfil.rol === 'duena') {
         return (
           <div style={styles.root}>
-              {mensajito}
               <Card>
                 <AppBar position="static" color="primary" >
                   <Tabs value={this.state.tabIndex} onChange={this.handleChange} aria-label="simple tabs example" >
@@ -377,6 +386,7 @@ export default class InventarioTableList extends React.Component {
                       }}
                     />
                   </TabPanel>
+                  {mensajito}
                 </CardBody>
               </Card>
           </div>
@@ -422,6 +432,7 @@ export default class InventarioTableList extends React.Component {
                             this.EliminarPedido(oldData)
                           }),
                       }}  />
+                      {mensajito}
                 </CardBody>
               </Card>
           </div>
@@ -429,7 +440,6 @@ export default class InventarioTableList extends React.Component {
       } else if(this.state.perfil.rol === 'vendedor') {
         return (
           <div style={styles.root}>
-              {mensajito}
               <Card>
                 <CardBody>
                   <MaterialTable
@@ -441,6 +451,15 @@ export default class InventarioTableList extends React.Component {
                                 { title: 'Total', field: 'total' ,type: 'numeric'}]}
                       data={this.state.ListaPedidos.filter(({sucursal}) => sucursal === this.state.perfil.sucursal)}
                       editable={{
+                        onRowAdd: newData =>
+                          new Promise((resolve, reject) => {
+                            setTimeout(() => {
+                              resolve();
+                              this.ActualizarPedidos();
+                            }, 2000)
+                            this.AgregarPedido(newData);
+
+                          }),
                         onRowUpdate: (newData, oldData) =>
                           new Promise((resolve) => {
                             if(newData.fecha === oldData.fecha && newData.cliente === oldData.cliente && newData.total === oldData.total) {
@@ -464,6 +483,7 @@ export default class InventarioTableList extends React.Component {
                             this.EliminarPedido(oldData)
                           }),
                       }}  />
+                      {mensajito}
                 </CardBody>
               </Card>
           </div>

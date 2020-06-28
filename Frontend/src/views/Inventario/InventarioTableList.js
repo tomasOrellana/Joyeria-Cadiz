@@ -254,10 +254,10 @@ export default class InventarioTableList extends React.Component {
   render(){
     //this.RealizarMensajes();
     let mensajito;
-    if(this.state.estado === 1) {
-      mensajito = <Alert severity="success">Hay productos en el inventario!</Alert>
-    } else if(this.state.estado === 2) {
-      mensajito = <Alert severity="error">No se encontraron productos en el inventario :(</Alert>
+    if(this.state.mensaje === 1) {
+      mensajito = <Alert severity="success">Pedido agregado correctamente</Alert>
+    } else if(this.state.mensaje === 2) {
+      mensajito = <Alert severity="error">Lo siento, no tienes permiso. Solo puedes editar descripcion y estado de pedido.</Alert>
     }
     let mensajitosucursal;
     if(this.state.estadosucursal === 1) {
