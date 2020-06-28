@@ -386,7 +386,6 @@ export default class InventarioTableList extends React.Component {
                       }}
                     />
                   </TabPanel>
-                  {mensajito}
                 </CardBody>
               </Card>
           </div>
@@ -432,7 +431,6 @@ export default class InventarioTableList extends React.Component {
                             this.EliminarPedido(oldData)
                           }),
                       }}  />
-                      {mensajito}
                 </CardBody>
               </Card>
           </div>
@@ -440,6 +438,7 @@ export default class InventarioTableList extends React.Component {
       } else if(this.state.perfil.rol === 'vendedor') {
         return (
           <div style={styles.root}>
+          {mensajito}
               <Card>
                 <CardBody>
                   <MaterialTable
@@ -483,7 +482,6 @@ export default class InventarioTableList extends React.Component {
                             this.EliminarPedido(oldData)
                           }),
                       }}  />
-                      {mensajito}
                 </CardBody>
               </Card>
           </div>

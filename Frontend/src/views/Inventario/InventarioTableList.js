@@ -117,8 +117,8 @@ export default class InventarioTableList extends React.Component {
     super(props);
     this.state = {
       tabIndex: 0,
-      estado:2,
-      estadosucursal:2,
+      estado:null,
+      estadosucursal:null,
       perfil: null,
       ListaProductos: null,
       sucursal : null,
@@ -187,8 +187,12 @@ export default class InventarioTableList extends React.Component {
     .then( (response) => {
         if(response.status === 201) {
             console.log("Añadido correctamente")
+            this.setState({estado:1})
+            this.setState({estadosucursal:1})
         } else {
             console.log('Hubo un error')
+            this.setState({estado:2})
+            this.setState({estadosucursal:2})
         }
     })
     .catch((error) => {
@@ -218,8 +222,12 @@ export default class InventarioTableList extends React.Component {
     .then( (response) => {
         if(response.status === 201) {
             console.log("Editado correctamente")
+            this.setState({estado:3})
+            this.setState({estadosucursal:3})
         } else {
             console.log('Hubo un error')
+            this.setState({estado:2})
+            this.setState({estadosucursal:2})
         }
     })
     .catch((error) => {
@@ -242,8 +250,12 @@ export default class InventarioTableList extends React.Component {
     .then( (response) => {
         if(response.status === 201) {
             console.log("Eliminado correctamente")
+            this.setState({estado:4})
+            this.setState({estadosucursal:4})
         } else {
             console.log('Hubo un error')
+            this.setState({estado:4})
+            this.setState({estadosucursal:4})
         }
     })
     .catch((error) => {
@@ -252,22 +264,31 @@ export default class InventarioTableList extends React.Component {
   }
 
   render(){
-    //this.RealizarMensajes();
     let mensajito;
-    if(this.state.mensaje === 1) {
-      mensajito = <Alert severity="success">Pedido agregado correctamente</Alert>
-    } else if(this.state.mensaje === 2) {
-      mensajito = <Alert severity="error">Lo siento, no tienes permiso. Solo puedes editar descripcion y estado de pedido.</Alert>
+
+    if(this.state.estado === 1) {
+      mensajito = <Alert severity="success">Producto agregado correctamente</Alert>
+    }else if(this.state.estado === 2) {
+      mensajito = <Alert severity="error">Lo sentimos, hubo un error, vuelva a intentarlo nuevamente</Alert>
+    }else if(this.state.estado === 3) {
+      mensajito = <Alert severity="success">El Producto se editó correctamente</Alert>
+    }else if(this.state.estado === 4) {
+      mensajito = <Alert severity="success">El Producto se eliminó correctamente</Alert>
     }
+
     let mensajitosucursal;
+
     if(this.state.estadosucursal === 1) {
-      mensajitosucursal = <Alert severity="success">Hay productos en el inventario!</Alert>
-    } else if(this.state.estadosucursal === 2) {
-      mensajitosucursal = <Alert severity="error">No se encontraron productos en el inventario :(</Alert>
+      mensajitosucursal = <Alert severity="success">Producto agregado correctamente</Alert>
+    }else if(this.state.estadosucursal === 2) {
+      mensajitosucursal = <Alert severity="error">Lo sentimos, hubo un error, vuelva a intentarlo nuevamente</Alert>
+    }else if(this.state.estadosucursal === 3) {
+      mensajitosucursal = <Alert severity="success">El Producto se editó correctamente</Alert>
+    }else if(this.state.estadosucursal === 4) {
+      mensajitosucursal = <Alert severity="success">El Producto se eliminó correctamente</Alert>
     }
 
     if(this.state.ready === true) {
-
       let nombresucursal;
         if(this.state.perfil.sucursal === '0') { nombresucursal = 'Lo Castillo'}
         if(this.state.perfil.sucursal === '1') { nombresucursal = 'Apumanque'}

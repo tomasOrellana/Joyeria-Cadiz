@@ -333,6 +333,7 @@ export default class Ventas extends React.Component {
                       }}
                     />
                   </TabPanel>
+                  {mensajito}
                 </CardBody>
             </Card>
             <Grid
@@ -346,7 +347,6 @@ export default class Ventas extends React.Component {
               -Total en Lo Castillo: ${this.state.total0} <br/> -Total en Apumanque: ${this.state.total1} <br/> -Total en Vitacura: ${this.state.total2}
               </h4>
               <Box mt={8}>
-                {mensajito}
                 <Copyright />
               </Box>
               </Grid>
