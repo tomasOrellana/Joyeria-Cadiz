@@ -421,7 +421,6 @@ export default class InventarioTableList extends React.Component {
       } else if(this.state.perfil.rol === 'jefe') {
         return (
           <div style={styles.root}>
-              {mensajito}
               <Card>
                 <CardBody>
                   <MaterialTable
@@ -479,7 +478,6 @@ export default class InventarioTableList extends React.Component {
       } else if(this.state.perfil.rol === 'vendedor') {
         return (
           <div style={styles.root}>
-          {mensajito}
               <Card>
                 <CardBody>
                   <MaterialTable
