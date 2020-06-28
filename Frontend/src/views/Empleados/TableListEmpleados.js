@@ -440,7 +440,7 @@ export default class InventarioTableList extends React.Component {
               <Card profile style = {{width: 580, height: 400}}>
                 <CardBody profile>
                   <div style={{textAlign: 'center'}}>
-                    <h1>No tienes autorización acceder a este sitio.</h1>
+                    <h1>No tienes autorización para acceder a este sitio.</h1>
                   </div>
                 </CardBody>
               </Card>
